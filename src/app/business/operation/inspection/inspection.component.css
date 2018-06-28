@@ -1,0 +1,47 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.container-fluid{
+  background-color: rgba(69, 76, 84, 0.52);
+  margin-right: 5px;
+  border-radius: 6px;
+}
+.title{
+  position: absolute;
+  width: 180px;
+  background-color:#202833;
+  height: 42px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 10px 10px 30px 5px;
+  font-size: 15px;
+  padding-top: 10px;
+  z-index: 1;
+}
+.nav{
+  background-color: white;
+  height: 42px;
+  line-height: 42px;
+}
+.nav div{
+  display: inline-block;
+  float: left;
+  font-size: 18px;
+  color: rgba(88, 99, 99, 0.78);
+}
+.forms{
+  padding-left: 3%;
+}
+.forms select{
+  outline: none;
+}
+.button{
+  padding-left: 5%;
+}
+.button button{
+  width: 56px;
+  background-color: #48ad48;
+}
+.back a{
+  text-decoration: none;
+}

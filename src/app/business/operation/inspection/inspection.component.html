@@ -1,0 +1,50 @@
+<div class="container-fluid" style="margin:0 15px;">
+  <div class="row">
+    <div class="title">
+      <i style="margin-left: 15px;" class="glyphicon glyphicon-home"></i>
+      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">巡检</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="nav">
+      <div style="padding-left: 14%;"><p>请选择:</p></div>
+      <form>
+        <div class="forms">
+          <label for="s">省</label>
+          <select  id="s">
+            <option value ="Guiy">贵州省</option>
+            <option value ="hunan">湖南省</option>
+            <option value="sichuan">四川省</option>
+          </select>
+        </div>
+        <div class="forms">
+          <label for="s1">市</label>
+          <select  id="s1">
+            <option value ="Guiy">贵阳市</option>
+            <option value ="hunan">长沙市</option>
+            <option value="sichuan">成都市</option>
+          </select>
+        </div>
+        <div class="forms">
+          <label for="q">区/县</label>
+          <select  id="q">
+            <option value ="Guiy">南明区</option>
+            <option value ="hunan">花溪区</option>
+            <option value="sichuan">小河区</option>
+          </select>
+        </div>
+      </form>
+      <div class="button">
+        <button class="btn btn-success">确认</button>
+      </div>
+      <div class="back" style="float: right;padding-right: 14px;">
+        <div><a routerLink="/home">返回首页</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="padding-bottom: 2%;">
+    <div class="map">
+      <div echarts [options]="myoptions" class="chart" style="height: 612px;"></div>
+    </div>
+  </div>
+</div>

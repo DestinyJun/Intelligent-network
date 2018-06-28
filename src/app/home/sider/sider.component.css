@@ -1,0 +1,87 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.search{
+  width: 213px;
+  height: 35px;
+  background-color: rgba(69, 76, 84, 0.52);
+  border-radius: 2px;
+}
+.search i{
+  color: white;
+  padding-top: 8px;
+  padding-left: 30px;
+}
+.search input{
+  padding-left: 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 60%;
+  color: black;
+}
+input::-webkit-input-placeholder{
+  color: #ffffff;
+}
+
+.Mul{
+  width: 213px;
+  background-color: rgba(69, 76, 84, 0.52);
+  border-radius: 2px;
+  margin-top: 25px;
+}
+ul{
+  padding: 0;
+  transition: all 0.5s ease-out;
+  overflow: hidden;
+}
+ul>li ul{
+  height: 0;
+  overflow: hidden;
+}
+ul>li{
+  list-style: none;
+  line-height: 20px;
+}
+ul li a:hover{
+  color: #EEF5FD;
+  cursor: pointer;
+}
+.nav ul li{
+  list-style: none;
+}
+ul li a{
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+}
+.nav ul li a i{
+  padding-left: 20px;
+  padding-right: 15px;
+}
+.Fnav{
+  width: 100px;
+  background-color: rgba(2, 21, 49, 0.48);
+  border-radius: 18px;
+  display: block;
+}
+.Span{
+  display: inline-block;
+  float: none;
+  padding-left: 16px;
+}
+
+.sliding_box{
+  transition: all 0.2s ease-out;
+  position: absolute;
+  left: 0;
+  width: 5px;
+  background: #ffffff;
+}
+.menu-ul{
+  transition: all 0.5s ease-out;
+}

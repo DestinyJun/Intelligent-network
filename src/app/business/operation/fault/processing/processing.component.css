@@ -1,0 +1,64 @@
+.title{
+  position: absolute;
+  background-color:#202833;
+  width: 180px;
+  height: 42px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 1px 1px 1px 1px;
+  font-size: 15px;
+  padding-top: 10px;
+  z-index: 1;
+}
+.Body{
+  padding-top: 2%;
+  background-color: rgba(69, 76, 84, 0.52);
+  margin-right: 5px;
+  border-radius: 4px;
+  margin-top: 42px;
+}
+.table{
+  padding: 3% 0 0 0;
+  background-color: #202833;
+  height: 520px;
+  position: relative;
+}
+table{
+  width: 100%;
+  background-color:#2b333d;
+}
+table thead{
+  color: white;
+}
+table tbody{
+  color: rgba(255, 255, 255, 0.6);
+}
+table tr th,td{
+  padding: 1% 0 1% 1%;
+}
+table button{
+  width: 30%;
+  background-color: #34c779;
+  border-style: none;
+  color: white;
+  border-radius: 10px;
+}
+thead tr{
+  border-bottom: 1px dashed rgba(199, 191, 194, 0.75);
+}
+
+.pagination{
+  margin: 0;
+  padding: 0;
+}
+.pagination ul li a{
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.pagination input{
+  width: 38%;
+}
+.skip-input{
+  color: black;
+}

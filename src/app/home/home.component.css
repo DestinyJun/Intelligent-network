@@ -1,0 +1,22 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.container-fluid{
+  min-width:720px;
+  background: url("../../assets/bg.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.header{
+  padding-top: 10px;
+  padding-left: 15px;
+  position: relative;
+}
+.sider{
+  position: absolute;
+  padding-left: 10px;
+}
+.main{
+  margin-left: 223px;
+}

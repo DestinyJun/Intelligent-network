@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div [@flyIn]="'in'" class="row">
+    <div class="col-xs-1 col-sm-3 col-md-4"></div>
+    <div class="col-xs-10 col-sm-6 col-md-4">
+      <div class="panel">
+        <div class="panel-heading">
+          <div class="login-title">
+            <h2>智慧管网</h2>
+            <h5>管理系统</h5>
+          </div>
+        </div>
+        <div class="panel-body">
+            <div class="login-body">
+              <form [formGroup]="formModel" (submit)="Submit()">
+                <div class="form-inline">
+                  <label for="username" >用户名</label>
+                  <input type="text" id="username" class="form-control" formControlName="username"/>
+                </div>
+                <div class="form-inline">
+                  <label for="password" style="padding-top: 3%;">密码</label>
+                  <input type="password" id="password" class="form-control" formControlName="password"/>
+                </div>
+                <div class="form-inline" style="display: inline-block;float: right;padding: 10px 0;">
+                  <input style="width: 10px;outline: none;background: transparent;" type="checkbox" id="me" class="form-control"/>
+                  <label for="me" >记住我</label>
+                </div>
+                <div id="">
+                  <button class="btn btn-md btn-primary" style="width: 100%; height: 35px;outline: none;" type="submit" >登录</button>
+                </div>
+              </form>
+              <div style="color: red;text-align: center">{{tips}}</div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

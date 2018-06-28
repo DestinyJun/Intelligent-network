@@ -1,0 +1,39 @@
+.container-fluid{
+  background: url("../../assets/login.jpg") no-repeat;
+  background-size: 100% 100%;
+  height: 100vh;
+  padding-top: 200px;
+}
+.login{
+  color: white;
+  background-color: rgba(24,31,41,0.8);
+  border-radius: 6px;
+}
+h5, h2{
+  text-align: center;
+}
+.login-title{
+  background-color: rgba(24,31,41,0.9);
+  border-radius: 6px;
+  color: white;
+  padding: 4px 0;
+}
+.login-title p{
+  display: inline-block;
+}
+.login-title p span{
+  font-size: 25px;
+  font-weight: bold;
+}
+.login-body{
+  padding:8% 8% 15% 10%;
+}
+form input{
+  width: 100%;
+  outline: none;
+  vertical-align:middle;
+  text-align: center;
+}
+.form-inline label{
+  margin-bottom: 3px;
+}

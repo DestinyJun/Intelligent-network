@@ -1,0 +1,70 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.container-fluid{
+  background-color: rgba(69, 76, 84, 0.52);
+  margin:5px;
+  height: 565px;
+}
+.title{
+  position: absolute;
+  background-color:#202833;
+  width: 180px;
+  height: 42px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 1px 1px 1px 1px;
+  font-size: 12px;
+  padding-top: 10px;
+  z-index: 1;
+}
+.i-title{
+  display: inline;
+}
+.i-link{
+  display: inline;
+  float: right;
+  padding: 10px;
+  cursor: pointer;
+}
+.i-link a{
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+}
+.i-link i{
+  margin-left: 10px;
+}
+.chart{
+  width: 100%;
+  z-index: 0;
+}
+.information{
+  position: fixed;
+  top: 65px;
+  right: 0;
+  z-index: 10;
+}
+.information-title{
+  position: fixed;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(69, 76, 84, 0.52);
+  height: 600px;
+  width: 50px;
+}
+.information-title i,p{
+  font-size: 17px;
+}
+.information-body{
+  color: white;
+  background-color: rgba(69, 76, 84, 0.9);
+  position: fixed;
+  right: -480px;
+  padding-left: 5px;
+  width: 480px;
+  height: 600px;
+}
+table th,td{
+  padding: 4px 0 4px 0;
+}

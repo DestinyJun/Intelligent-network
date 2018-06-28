@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="title">
+      <i style="margin-left: 15px;" class="glyphicon glyphicon-home"></i>
+      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">管辖区域-实时视图</p>
+    </div>
+  </div>
+  <div  #baidumap style="height: 600px;width: 100%;"></div>
+  <div class="information" [@slide]="onlist">
+    <div class="information-title" (click)="toggleOnlist()">
+      <div class="i-title" >
+        <i class="glyphicon glyphicon-chevron-left"></i>
+      </div>
+    </div>
+    <div class="information-body">
+      <table style="width: 100%;">
+        <thead>
+        <tr style=" border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
+          <th>#</th>
+          <th>编号</th>
+          <th>水位高度</th>
+          <th>故障时间</th>
+          <th>故障详情</th>
+          <th>GPS位置</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index">
+          <td>{{i+1}}</td>
+          <td>{{f.id}}</td>
+          <td> </td>
+          <td>{{f.failureTime}}</td>
+          <td> </td>
+          <td>{{f.gpsPosition}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

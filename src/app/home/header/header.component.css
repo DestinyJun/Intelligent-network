@@ -1,0 +1,59 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.container-fluid{
+  height: 50px;
+}
+.title {
+  color: white;
+  position: absolute;
+  left: 10px;
+}
+.title p{
+  display: inline-block;
+  float: left;
+  padding-right: 25px;
+}
+.title span{
+  font-size: 25px;
+}
+.title .nav{
+  margin-top: 5px;
+  float: left;
+  width: 25px;
+  height: 25px;
+  background-color: #626870;
+  border-radius: 3px;
+}
+.title .nav i{
+  padding-top: 3px;
+  padding-left: 5px;
+}
+
+.information{
+  position: absolute;
+  right: 10px;
+  padding-right: 10px;
+}
+.information a{
+  text-decoration: none;
+}
+.information .user-image{
+  font-size: 28px;
+}
+.information  p{
+  color: white;
+}
+.information  ul li{
+  list-style: none;
+  float: left;
+  padding-top: 12px;
+  padding-left: 10px;
+}
+.line{
+  width: 1px;
+  height: 19px;
+  background-color: #fff;
+  margin: 12px 0 0 10px;
+}
