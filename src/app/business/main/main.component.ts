@@ -18,6 +18,7 @@ export class MainComponent implements OnInit {
   onlist = 'off';
   map: any;
   geolocation: any;
+  marker: Array<any> = [];
   // show loading spinner:
   public mapLoaded = false;
   // empty option before geoJSON loaded:
@@ -38,6 +39,16 @@ export class MainComponent implements OnInit {
     console.log(this.homepageMsg.faultRecordManholeCoverInfo);
   }
 
+  marker_blue_over(i) { // 切换标注蓝色
+    this.map.removeOverlay(this.marker[i]);
+    this.marker[i].z.uj.imageUrl = '/assets/marker_blue_sprite.png';
+    this.map.addOverlay(this.marker[i]);
+  }
+  marker_blue_leave(i) { // 切换标注红色
+    this.map.removeOverlay(this.marker[i]);
+    this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
+    this.map.addOverlay(this.marker[i]);
+  }
   addMarker() { // 标注点
     for (let i =  0; i < this.homepageMsg.faultRecordManholeCoverInfo.length; i++) {
       const gpsId = this.homepageMsg.faultRecordManholeCoverInfo[i].gpsId;
@@ -50,8 +61,9 @@ export class MainComponent implements OnInit {
       }
       const point = new BMap.Point(lng, lat);
       console.log(point);
-      const marker = new BMap.Marker(point);
-      this.map.addOverlay(marker);
+      this.marker[i] = (new BMap.Marker(point));
+      this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
+      this.map.addOverlay(this.marker[i]);
     }
   }
   ionViewWillEnter() { // 初始化百度地图元素

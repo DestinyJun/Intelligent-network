@@ -9,32 +9,46 @@
   <div class="information" [@slide]="onlist">
     <div class="information-title" (click)="toggleOnlist()">
       <div class="i-title" >
-        <i class="glyphicon glyphicon-chevron-left"></i>
+        <i class="glyphicon glyphicon-chevron-left" *ngIf="onlist=='off'"></i>
+        <i class="glyphicon glyphicon-chevron-right" *ngIf="onlist=='open'"></i>
       </div>
     </div>
     <div class="information-body">
-      <table style="width: 100%;">
-        <thead>
-        <tr style=" border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
-          <th>#</th>
-          <th>编号</th>
-          <th>水位高度</th>
-          <th>故障时间</th>
-          <th>故障详情</th>
-          <th>GPS位置</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index">
-          <td>{{i+1}}</td>
-          <td>{{f.id}}</td>
-          <td> </td>
-          <td>{{f.failureTime}}</td>
-          <td> </td>
-          <td>{{f.gpsPosition}}</td>
-        </tr>
-        </tbody>
-      </table>
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#abnormal" aria-controls="abnormal" role="tab"
+        data-toggle="tab">异常事件</a></li>
+        <li role="presentation"><a href="#inspection" aria-controls="inspection" role="tab"
+        data-toggle="tab">巡检事件</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="abnormal">
+          <table>
+            <thead>
+            <tr style=" border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
+              <th>#</th>
+              <th>编号</th>
+              <th>水位高度</th>
+              <th>故障时间</th>
+              <th>故障详情</th>
+              <th>GPS位置</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr (mouseover)="marker_blue_over(i)" (mouseleave)="marker_blue_leave(i)" *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index">
+              <td>{{i+1}}</td>
+              <td>{{f.id}}</td>
+              <td> </td>
+              <td>{{f.failureTime}}</td>
+              <td> </td>
+              <td>{{f.gpsPosition}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="inspection">
+          <h1>无数据</h1>
+        </div>
+      </div>
     </div>
   </div>
 </div>
