@@ -39,21 +39,25 @@ export class MainComponent implements OnInit {
     this.addMarker();
   }
   backgroundClick(i) {
-    if (this.index) {
-      this.marker_blue_leave(this.index);
+    if (this.index === i) {
+      this.index = undefined;
+    } else {
+      if (this.index) {
+        this.marker_blue_leave(this.index);
+      }
+      this.marker_blue_over(i);
+      this.index = i;
     }
-    this.marker_blue_over(i);
-    this.index = i;
   }
   marker_blue_over(i) { // 切换标注蓝色
     this.map.removeOverlay(this.marker[i]);
-    this.marker[i].z.uj.imageUrl = '/assets/marker_blue_sprite.png';
+    this.marker[i].z.uj.imageUrl = './assets/marker_blue_sprite.png';
     this.map.addOverlay(this.marker[i]);
   }
   marker_blue_leave(i) { // 切换标注红色
     if (this.index !== i) {
       this.map.removeOverlay(this.marker[i]);
-      this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
+      this.marker[i].z.uj.imageUrl = './assets/marker_red_sprite.png';
       this.map.addOverlay(this.marker[i]);
     }
   }
