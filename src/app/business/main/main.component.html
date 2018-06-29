@@ -34,7 +34,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr (mouseover)="marker_blue_over(i)" (mouseleave)="marker_blue_leave(i)" *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index">
+            <tr (mouseover)="marker_blue_over(i)" (mouseleave)="marker_blue_leave(i)" (click)="backgroundClick(i)"
+                *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index"
+            [ngStyle]="{'background-color': index===i?'cornflowerblue':''}">
               <td>{{i+1}}</td>
               <td>{{f.id}}</td>
               <td> </td>

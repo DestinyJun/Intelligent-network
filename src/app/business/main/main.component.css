@@ -80,4 +80,5 @@ table th,td{
 }
 tbody tr:hover{
   background-color: cornflowerblue;
+  cursor: pointer;
 }

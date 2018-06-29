@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   map: any;
   geolocation: any;
   marker: Array<any> = [];
+  index: number;
   // show loading spinner:
   public mapLoaded = false;
   // empty option before geoJSON loaded:
@@ -36,18 +37,25 @@ export class MainComponent implements OnInit {
     this.getData();
     this.ionViewWillEnter();
     this.addMarker();
-    console.log(this.homepageMsg.faultRecordManholeCoverInfo);
   }
-
+  backgroundClick(i) {
+    if (this.index) {
+      this.marker_blue_leave(this.index);
+    }
+    this.marker_blue_over(i);
+    this.index = i;
+  }
   marker_blue_over(i) { // 切换标注蓝色
     this.map.removeOverlay(this.marker[i]);
     this.marker[i].z.uj.imageUrl = '/assets/marker_blue_sprite.png';
     this.map.addOverlay(this.marker[i]);
   }
   marker_blue_leave(i) { // 切换标注红色
-    this.map.removeOverlay(this.marker[i]);
-    this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
-    this.map.addOverlay(this.marker[i]);
+    if (this.index !== i) {
+      this.map.removeOverlay(this.marker[i]);
+      this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
+      this.map.addOverlay(this.marker[i]);
+    }
   }
   addMarker() { // 标注点
     for (let i =  0; i < this.homepageMsg.faultRecordManholeCoverInfo.length; i++) {
@@ -60,7 +68,6 @@ export class MainComponent implements OnInit {
         lat = lat + gpsId[j];
       }
       const point = new BMap.Point(lng, lat);
-      console.log(point);
       this.marker[i] = (new BMap.Marker(point));
       this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
       this.map.addOverlay(this.marker[i]);
@@ -88,7 +95,6 @@ export class MainComponent implements OnInit {
 
   getData(): void { // 获取主页面元素
     const that = this;
-    console.log(that.globalService.get('accessToken'));
     $.ajax({
       url: 'http://120.78.137.182:8888/pipe-network/homepage',
       type: 'POST',
@@ -100,10 +106,10 @@ export class MainComponent implements OnInit {
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
         that.homepageMsg = data['homepageMsg'];
-        console.log(data);
       },
       error: function (err) {
         console.log(err);
+        console.log('请求出错');
       }
     });
   }
