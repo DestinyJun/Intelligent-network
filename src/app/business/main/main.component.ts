@@ -73,7 +73,7 @@ export class MainComponent implements OnInit {
       }
       const point = new BMap.Point(lng, lat);
       this.marker[i] = (new BMap.Marker(point));
-      this.marker[i].z.uj.imageUrl = '/assets/marker_red_sprite.png';
+      this.marker[i].z.uj.imageUrl = './assets/marker_red_sprite.png';
       this.map.addOverlay(this.marker[i]);
     }
   }

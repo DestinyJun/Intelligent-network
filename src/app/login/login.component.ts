@@ -39,20 +39,16 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.globalService.get('accessToken'));
   }
 
   public Submit(): void {
     if (this.formModel.valid) {
-      console.log(this.formModel.value);
+      console.log(this.parameterSerializationForm(this.formModel.value));
       this.req.submitForm(this.parameterSerializationForm(this.formModel.value))
         .subscribe(res => {
-          console.log(res.token);
-          console.log(res);
           this.tj = res.msg;
           if (this.tj === 14) {
             this.globalService.set('accessToken', res.token);
-            console.log(this.globalService.get('accessToken'));
             this.router.navigate(['/home']);
           } else if (this.tj === 10) {
             this.tips = '用户不存在';
