@@ -10,15 +10,16 @@ export class HttpServiceService {
   constructor(private http: HttpClient, private globalService: GlobalService) { }
 
   public fault1(obj: object) {
+    const that = this;
     let fault;
     $.ajax({
-      url: 'http://120.78.137.182:8888/pipe-network/fault1',
+      url: 'http://192.168.28.65:8080/pipe-network/fault1',
       type: 'POST',
       async: false,
       cache: false,
       data: this.parameterSerializationForm(obj),
-      headers: {
-        'accessToken': this.globalService.get('accessToken')
+      beforeSend: function(request) {
+        request.setRequestHeader('accessToken', that.globalService.get('accessToken'))
       },
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
@@ -33,7 +34,7 @@ export class HttpServiceService {
   public sendOut() {
     let WorkUser;
     $.ajax({
-      url: 'http://120.78.137.182:8888/pipe-network/sendOut',
+      url: 'http://192.168.28.65:8080/pipe-network/sendOut',
       type: 'POST',
       async: false,
       cache: false,

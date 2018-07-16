@@ -100,7 +100,7 @@ export class MainComponent implements OnInit {
   getData(): void { // 获取主页面元素
     const that = this;
     $.ajax({
-      url: 'http://120.78.137.182:8888/pipe-network/homepage',
+      url: 'http://192.168.28.65:8080/pipe-network/homepage',
       type: 'POST',
       async: false,
       cache: false,
@@ -110,6 +110,7 @@ export class MainComponent implements OnInit {
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
         that.homepageMsg = data['homepageMsg'];
+        console.log(data);
       },
       error: function (err) {
         console.log(err);

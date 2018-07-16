@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
       this.req.submitForm(this.parameterSerializationForm(this.formModel.value))
         .subscribe(res => {
           this.tj = res.msg;
+          console.log(res);
           if (this.tj === 14) {
             this.globalService.set('accessToken', res.token);
             this.router.navigate(['/home']);
