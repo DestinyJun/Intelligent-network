@@ -21,6 +21,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class LoginComponent implements OnInit {
 
+
   public formModel: FormGroup;
   public tj;
   public tips;

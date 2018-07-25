@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpServiceService} from '../../http-service.service';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {GlobalService} from '../../../../shared/global.service';
 
 @Component({
   selector: 'app-processing',
@@ -12,13 +13,15 @@ export class ProcessingComponent implements OnInit {
   fault: Fault;
   skpPage: number;
   workUser: WorkUser;
-  constructor(private httpService: HttpServiceService, private route: ActivatedRoute, private router: Router) {
+  constructor(private httpService: HttpServiceService, private route: ActivatedRoute, private router: Router,private global: GlobalService) {
+    console.log(this.global.sessionStorage);
     this.route.params.subscribe(() => {
       this.currentPage = this.route.snapshot.params['currentPage'];
       this.fault = this.httpService.fault1({
         start: this.route.snapshot.params['start'],
         currentPage: this.currentPage,
-        pageSize: this.route.snapshot.params['pageSize']
+        pageSize: this.route.snapshot.params['pageSize'],
+        regionId: this.global.get('regionId')
       });
       console.log(this.fault);
     });

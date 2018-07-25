@@ -4,6 +4,7 @@ import {NgxEchartsService} from 'ngx-echarts';
 import {ReqService} from '../../shared/req.service';
 import {GlobalService} from '../../shared/global.service';
 import {animation} from './right-sider-animation';
+import {FaultRecordManholeCover, HomepageMsg} from '../jinggailei';
 declare let $, BMap;
 
 @Component({
@@ -14,7 +15,11 @@ declare let $, BMap;
 })
 export class MainComponent implements OnInit {
 
+  private publicUrl = '120.78.137.182:8888';
+  private privateUrl = '192.168.28.65:8080';
   homepageMsg: HomepageMsg;
+  faultRecordManholeCover: Array<FaultRecordManholeCover>; // 井部分信息数组
+  gpsId: Array<string>; // GPS数组
   onlist = 'off';
   map: any;
   geolocation: any;
@@ -29,8 +34,9 @@ export class MainComponent implements OnInit {
     private req: ReqService,
     public http: HttpClient,
     private es: NgxEchartsService,
-    private globalService: GlobalService
-  ) {
+    private globalService: GlobalService) {
+    this.faultRecordManholeCover = [];
+    this.gpsId = [];
   }
 
   ngOnInit() {
@@ -51,31 +57,48 @@ export class MainComponent implements OnInit {
   }
   marker_blue_over(i) { // 切换标注蓝色
     this.map.removeOverlay(this.marker[i]);
-    this.marker[i].z.uj.imageUrl = './assets/marker_blue_sprite.png';
+    this.marker[i].z.rj.imageUrl = './assets/homeImages/red.png';
     this.map.addOverlay(this.marker[i]);
   }
   marker_blue_leave(i) { // 切换标注红色
     if (this.index !== i) {
       this.map.removeOverlay(this.marker[i]);
-      this.marker[i].z.uj.imageUrl = './assets/marker_red_sprite.png';
+      this.marker[i].z.rj.imageUrl = './assets/homeImages/red.png';
       this.map.addOverlay(this.marker[i]);
     }
   }
-  addMarker() { // 标注点
+  addMarker() { // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
     for (let i =  0; i < this.homepageMsg.faultRecordManholeCoverInfo.length; i++) {
-      const gpsId = this.homepageMsg.faultRecordManholeCoverInfo[i].gpsId;
+      let gpsId = this.homepageMsg.faultRecordManholeCoverInfo[i].initialManhole.gpsId;
+      this.gpsId.push(gpsId); // 拿出initialManhole里的gpsId
       let lng = '', lat = '', j;
+      for (j = 0; gpsId[j] !== ','; j++)  { // 拿出纬度
+        lng = lng + gpsId[j];
+      }
+      for (j = j + 1; j < gpsId.length; j++) { // 拿出经度
+        lat = lat + gpsId[j];
+      }
+      let point = new BMap.Point(lng, lat);
+      this.marker[i * 2] = (new BMap.Marker(point));
+      console.log(this.marker[i * 2]);
+      this.marker[i * 2].z.rj.imageUrl='./assets/homeImages/red.png'; // 换图片,下方同理
+      this.map.addOverlay(this.marker[i * 2]);
+      gpsId = this.homepageMsg.faultRecordManholeCoverInfo[i].flowOutManhole.gpsId; // 拿出flowOutManhole里的gpsId
+      this.gpsId.push(gpsId); // 拿出initialManhole里的gpsId
+      lng = lat = '';
       for (j = 0; gpsId[j] !== ','; j++)  {
         lng = lng + gpsId[j];
       }
       for (j = j + 1; j < gpsId.length; j++) {
         lat = lat + gpsId[j];
       }
-      const point = new BMap.Point(lng, lat);
-      this.marker[i] = (new BMap.Marker(point));
-      this.marker[i].z.uj.imageUrl = './assets/marker_red_sprite.png';
-      this.map.addOverlay(this.marker[i]);
+      point = new BMap.Point(lng, lat);
+      this.marker[i * 2 + 1] = (new BMap.Marker(point));
+      console.log(this.marker[i * 2 + 1]);
+      this.marker[i * 2 + 1].z.rj.imageUrl='./assets/homeImages/red.png';
+      this.map.addOverlay(this.marker[i * 2 + 1]);
     }
+    console.log(this.marker);
   }
   ionViewWillEnter() { // 初始化百度地图元素
     let that;
@@ -84,8 +107,9 @@ export class MainComponent implements OnInit {
     // 百度地图本身就具备通过ID寻找dom元素的，你又何必多此一举，
     // 记住了
     this.map = new BMap.Map(this.mapElement.nativeElement);
+    this.map.setMapStyle({style: 'dark'});
     const point = new BMap.Point(106.681659, 26.627171);
-    this.map.centerAndZoom(point, 12);
+    this.map.centerAndZoom(point, 13);
     this.map.enableScrollWheelZoom(true);
     this.geolocation = new BMap.Geolocation();
     this.geolocation.getCurrentPosition(function (r) {
@@ -100,7 +124,7 @@ export class MainComponent implements OnInit {
   getData(): void { // 获取主页面元素
     const that = this;
     $.ajax({
-      url: 'http://192.168.28.65:8080/pipe-network/homepage',
+      url: 'http://' + this.publicUrl + '/pipe-network/homepage',
       type: 'POST',
       async: false,
       cache: false,
@@ -110,6 +134,7 @@ export class MainComponent implements OnInit {
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
         that.homepageMsg = data['homepageMsg'];
+        that.globalService.set('regionId', data['homepageMsg'].regionId);
         console.log(data);
       },
       error: function (err) {
@@ -122,29 +147,4 @@ export class MainComponent implements OnInit {
     this.onlist = this.onlist === 'off' ? 'open' : 'off';
 }
 
-}
-class Menus  { // 菜单
-  id: string; // 权限的id
-  name: string; // 资源名称
-  type: string; // 资源类型：menu,button...
-  percode: string; // 权限代码字符串
-  available: string; // 是否可用,1：可用，0不可用
-}
-class FaultRecordManholeCover { // 异常井信息
-  id: string; // 井id
-  regionId: string; // 井的区域id
-  failureTime: string; // 发生故障时间
-  state: string; // 井的状态
-  repairFrequency: string; // 维修次数
-  gpsPosition: string; // 井的位置
-  gpsId: string; // 在地图中的坐标
-  repairState: string; // 修理状态
-  completeTime: string; // 维修时间
-}
-class HomepageMsg {
-  faultRecordManholeCoverInfo: Array<FaultRecordManholeCover>;
-  menus: Array<Menus>;
-  nickname: string; // 用户昵称
-  username: string; // 用户账号
-  userid: string; // 用户id
 }

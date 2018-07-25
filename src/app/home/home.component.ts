@@ -13,8 +13,9 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   createObservableSocket(url: string): Observable<any> {
-    this.ws = new WebSocket(url);
+    this.ws = new WebSocket(url, 'post');
     return new Observable<any>(observer => {
+      this.ws.onopen = (event) => observer.next(event);
       this.ws.onmessage = (event) => observer.next(event.data);
       this.ws.onerror = (event) => observer.error(event);
       this.ws.onclose = (event) => observer.complete();

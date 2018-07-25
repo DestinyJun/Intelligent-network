@@ -1,12 +1,27 @@
 <div class="container-fluid">
   <div class="row">
     <div class="title">
-      <i style="margin-left: 15px;" class="glyphicon glyphicon-home"></i>
-      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">管辖区域-实时视图</p>
+      <i class="glyphicon glyphicon-home"></i>
+      <span class="map-title">管辖区域-实时视图</span>
     </div>
   </div>
-  <div  #baidumap style="height: 700px;width: 100%;"></div>
-  <div class="information" [@slide]="onlist">
+  <div  #baidumap style="height: 500px;width: 100%;"></div>
+  <div class="white-title">
+    <ul>
+      <li><span></span>&nbsp;&nbsp;井盖丢失</li>
+      <li><span></span>&nbsp;&nbsp;水位过高</li>
+      <li><span></span>&nbsp;&nbsp;管道堵塞</li>
+      <li><span></span>&nbsp;&nbsp;井盖传感器异常</li>
+      <li><span></span>&nbsp;&nbsp;水位传感器异常</li>
+    </ul>
+  </div>
+  <div class="color-title">
+    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖丢失</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;水位过高</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;管道堵塞</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖传感器异常</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+  </div>
+  <!--<div class="information" [@slide]="onlist">
     <div class="information-title" (click)="toggleOnlist()">
       <div class="i-title" >
         <i class="glyphicon glyphicon-chevron-left" *ngIf="onlist=='off'"></i>
@@ -52,6 +67,30 @@
         </div>
       </div>
     </div>
+  </div>-->
+</div>
+<div class="header-table">
+  <div class="shuxian"></div>
+  <span class="glyphicon glyphicon-volume-up">&nbsp;维修反馈-预览</span>
+  <div class="weather"></div>
+  <div><span>收起&nbsp;</span><span class="glyphicon glyphicon-chevron-down"></span></div>
+</div>
+<div class="tableresponsive">
+  <div class="table">
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>编号</th>
+        <th>水位高度</th>
+        <th>故障时间</th>
+        <th>故障详情</th>
+        <th>GPS位置</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr></tr>
+      </tbody>
+    </table>
   </div>
 </div>
-

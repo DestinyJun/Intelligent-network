@@ -5,6 +5,8 @@ import {GlobalService} from './global.service';
 
 @Injectable()
 export class ReqService {
+  private publicUrl = '120.78.137.182:8888';
+  private privateUrl = '192.168.28.65:8080';
   constructor(
     private http: HttpClient,
     private globalService: GlobalService
@@ -18,22 +20,9 @@ export class ReqService {
 
   // 登陆验证
   public submitForm(body): Observable<any> {
-    return this.http.post('http://192.168.28.65:8080/pipe-network/login', body,
+    return this.http.post('http://' + this.publicUrl + '/pipe-network/login', body,
       {headers: this.header2});
    // return this.http.post('http://120.78.138.104:8080/pipe-network/login', body, this.headers);
-  }
-
-  // 首页的数据获取
-  public home(body): Observable<any> {
-    console.log(this.header2);
-    return this.http.post('http://192.168.28.65:8080/pipe-network/homepage',body, {headers:this.header2});
-    // return this.http.post('http://120.78.138.104:8080/pipe-network/homepage', body);
-  }
-
-  // 故障详情的数据获取
-  public Fault(body): Observable<any> {
-    return this.http.post('http://192.168.28.65:8080/pipe-network/fault1', body, {headers:this.header2});
-    // return this.http.post('http://120.78.138.104:8080/pipe-network/fault1', body, this.headers);
   }
 }
 

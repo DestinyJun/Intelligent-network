@@ -4,21 +4,168 @@
 }
 .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
-  margin:5px;
-  height: 700px;
+  margin:5px 15px;
+  height: 520px;
+  border-radius: 6px 6px 0 0;
+  padding-top: 20px;
+  position: relative;
+  margin-bottom: 0;
 }
+/*左上角黑色标题*/
 .title{
   position: absolute;
+  top: 0;
+  left: -10px;
   background-color:#202833;
   width: 180px;
-  height: 42px;
+  height: 48px;
   color: white;
-  box-shadow: rgba(27, 24, 24, 0.52) 1px 1px 1px 1px;
-  font-size: 12px;
-  padding-top: 10px;
+  box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
+  font-size: 16px;
+  padding: 11px;
   z-index: 1;
 }
-.i-title{
+/*左下角白块信息框*/
+.white-title{
+  background-color: rgba(255,255,255,.5);
+  position: absolute;
+  top: 350px;
+  left: 0;
+}
+.white-title ul{
+  list-style: none;
+  font-weight: bolder;
+}
+.white-title span{
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  padding-right: 4px;
+}
+.white-title li:nth-child(1) > span{
+  padding-top: 10px;
+  background-color: #f9523f;
+}
+.white-title li:nth-child(2) > span{
+  padding-top: 10px;
+  background-color: #0f93ff;
+}
+.white-title li:nth-child(3) > span{
+  padding-top: 10px;
+  background-color: #9400d3;
+}
+.white-title li:nth-child(4) > span{
+  padding-top: 10px;
+  background-color: #7cfc00;
+}
+.white-title li:nth-child(5) > span{
+  padding-top: 10px;
+  background-color: #ffd700;
+}
+.white-title li{
+  padding: 3px 5px;
+  font-size: 13px;
+}
+/*右侧彩色提示框*/
+.color-title{
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: transparent;
+  width: 210px;
+}
+.color-title div{
+  width: 160px;
+  height: 80px;
+  margin-bottom: 10px;
+  color: white;
+  padding: 8px;
+  float: right;
+}
+.color-title div:nth-child(n):hover{
+  width: 200px;
+  height: 100px;
+}
+.color-title div> span:nth-child(1){
+  display: block;
+  margin-bottom: 6px;
+}
+.color-title div > span:nth-child(n+2){
+  display: block;
+  font-size: 12px;
+}
+.color-title div:nth-child(1) {
+  background-color: rgba(249, 82, 63, .8);
+}
+.color-title div:nth-child(2)
+{
+  background-color: rgba(15, 147, 255, .8);
+}
+.color-title div:nth-child(3)
+{
+  background-color: rgba(148, 0, 211, .8);
+}
+.color-title div:nth-child(4)
+{
+  background-color: rgba(124, 252, 0, .8);
+}
+/*下方表格*/
+.header-table {
+  background-color: white;
+  margin-left: 15px;
+  margin-right: 15px;
+  position: relative;
+  font-size: 18px;
+  padding: 16px 20px;
+}
+.header-table > .shuxian{
+  height: 57px;
+  width: 191px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-right: 1px solid rgba(0,0,0,.2);
+}
+.header-table > .weather{
+  height: 31px;
+  width: 400px;
+  position: absolute;
+  left: 220px;
+  top: 13px;
+  border-radius: 15px;
+  background-color: #626870;
+}
+.header-table > span:nth-child(1){
+  margin-top: 0;
+  display: inline-block;
+}
+.header-table > div{
+  position: absolute;
+  right: 10px;
+  border: none;
+  top: 18px;
+}
+.header-table > .glyphicon-chevron-down{
+  color: #0f93ff;
+}
+.tableresponsive{
+  margin: 0 15px;
+}
+.table table{
+  width: 100%;
+  background-color: white;
+  padding-left: 50px;
+}
+.table thead{
+  border-top: 1px solid rgba(0,0,0,.2);
+  font-size: 16px;
+  background-color: #EEF5FD;
+}
+.table > table > thead > tr > th{
+  padding: 8px 20px;
+}
+/*.i-title{
   font-size: 25px;
   color: antiquewhite;
 }
@@ -81,4 +228,4 @@ table th,td{
 tbody tr:hover{
   background-color: cornflowerblue;
   cursor: pointer;
-}
+}*/
