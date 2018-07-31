@@ -8,8 +8,6 @@ const homeRoutes: Routes = [
       {path: '', redirectTo: 'main', pathMatch: 'full'},
       {path: 'main', loadChildren: 'app/business/main/main.module#MainModule'},
       {path: 'operation', loadChildren: 'app/business/operation/operation.module#OperationModule'},
-      {path: 'bigdata', loadChildren: 'app/business/big-data/big-data.module#BigDataModule'},
-      {path: 'information', loadChildren: 'app/business/information/information.module#InformationModule'},
     ]
   },
 ];

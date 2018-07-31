@@ -1,0 +1,5 @@
+<div class="burster">
+  <button type="button" class="btn btn-primary" (click)="last()">上一页</button>
+  <button type="button" class="btn btn-primary" (click)="next()">下一页</button>
+  当前第{{nowPage}}页，共{{max}}页 ,跳到 <input #input (keyup.enter)="skip(input.value)" type="number" title=""> 页
+</div>

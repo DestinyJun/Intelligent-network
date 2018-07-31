@@ -20,7 +20,7 @@ export class ReqService {
 
   // 登陆验证
   public submitForm(body): Observable<any> {
-    return this.http.post('http://' + this.publicUrl + '/pipe-network/login', body,
+    return this.http.post('http://' + this.publicUrl /*+ this.privateUrl*/ + '/pipe-network/login', body,
       {headers: this.header2});
    // return this.http.post('http://120.78.138.104:8080/pipe-network/login', body, this.headers);
   }

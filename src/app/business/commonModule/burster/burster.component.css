@@ -1,0 +1,10 @@
+.burster{
+  color: white;
+  text-align: center;
+  background-color: rgba(55,96,108,0.3);
+  padding: 10px 5px;
+  box-shadow:2px 1px 1px 0 rgba(0,0,0,0.5);
+}
+input{
+  color: #000000;
+}

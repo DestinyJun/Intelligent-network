@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HistoricalComponent } from './historical.component';
+import { BursterComponent } from './burster.component';
 
-describe('HistoricalComponent', () => {
-  let component: HistoricalComponent;
-  let fixture: ComponentFixture<HistoricalComponent>;
+describe('BursterComponent', () => {
+  let component: BursterComponent;
+  let fixture: ComponentFixture<BursterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HistoricalComponent ]
+      declarations: [ BursterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HistoricalComponent);
+    fixture = TestBed.createComponent(BursterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
