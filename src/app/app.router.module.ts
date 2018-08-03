@@ -6,7 +6,7 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 const appRoutes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', loadChildren: 'app/home/home.module#HomeModule'}
+  {path: 'home', loadChildren: 'app/home/home.module#HomeModule'},
 ];
 
 @NgModule({

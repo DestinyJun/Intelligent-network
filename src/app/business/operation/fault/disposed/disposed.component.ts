@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {GlobalService, PageBody} from '../../../../shared/global.service';
-import {ReqService} from '../../../../shared/req.service';
-import {Observable} from 'rxjs/Observable';
-import {HttpServiceService} from '../../http-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Fault, WorkUser} from '../Fault';
+import {FaultService} from '../fault.service';
+import {PageService} from '../../../commonModule/page.service';
 
 @Component({
   selector: 'app-disposed',
@@ -11,20 +10,20 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./disposed.component.css']
 })
 export class DisposedComponent implements OnInit {
-
-  currentPage: number;
   fault: Fault;
-  skpPage: number;
-  constructor(private httpService: HttpServiceService, private route: ActivatedRoute, private router: Router, private global: GlobalService) {
-    console.log(this.global.sessionStorage);
+  workUser: WorkUser;
+  tHead = ['编号ID', '故障时间', '水位', '水流量', '发送检修指令'];
+  prop = ['id', 'failureTime', 'waterLevel', 'flow'];
+  btnGroup = ['发送'];
+  tBody: any;
+  constructor(private faultService: FaultService, private route: ActivatedRoute,
+              public page: PageService) {
+    this.page.setRow(20);
+    this.page.setUrl('/home/operation/fault/disposed');
     this.route.params.subscribe(() => {
-      this.currentPage = this.route.snapshot.params['currentPage'];
-      this.fault = this.httpService.fault1({
-        start: this.route.snapshot.params['start'],
-        currentPage: this.currentPage,
-        pageSize: this.route.snapshot.params['pageSize'],
-        regionId: this.global.get('regionId')
-      });
+      this.page.setNowPage(Number(this.route.snapshot.params['page']));
+      this.fault = this.faultService.fault1(2, this.page.getNowPage(), this.page.getRow());
+      this.tBody = this.fault.datas;
       console.log(this.fault);
     });
   }
@@ -32,49 +31,4 @@ export class DisposedComponent implements OnInit {
   ngOnInit() {
     console.log(this.fault);
   }
-  firstPage() {
-    if (this.fault.totalPage >= 1) {
-      this.router.navigate(['/home/operation/fault/processing', 113, 1, 20]);
-    }
-  }
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.router.navigate(['/home/operation/fault/processing', 113, this.currentPage - 1, 20]);
-    }
-  }
-  nextPage() {
-    if (this.currentPage < this.fault.totalPage) {
-      this.router.navigate(['/home/operation/fault/processing', 113, this.currentPage + 1, 20]);
-    }
-  }
-  lastPage() {
-    if (this.fault.totalPage >= 1) {
-      this.router.navigate(['/home/operation/fault/processing', 113, this.fault.totalPage, 20]);
-    }
-  }
-  appointPage() {
-    console.log(this.skpPage);
-    if (this.skpPage <= this.fault.totalPage) {
-      this.router.navigate(['/home/operation/fault/processing', 113, this.skpPage, 20]);
-    }
-  }
-}
-class FaultRecordManholeCover {
-  id: string;
-  regionId: string;
-  failureTime: string;
-  state: string;
-  repairFrequency: string;
-  gpsPosition: string;
-  gpsId: string;
-  repairState: string;
-  completeTime: string;
-}
-class Fault {
-  currentPage: number;
-  pageSize: number;
-  startRecord: number;
-  totalPage: number;
-  totalRecord: number;
-  datas: Array<FaultRecordManholeCover>;
 }

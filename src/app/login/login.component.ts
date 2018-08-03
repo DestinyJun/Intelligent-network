@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ReqService} from '../shared/req.service';
-import {GlobalService} from '../shared/global.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Observable} from 'rxjs/Observable';
+import {LoginService} from './login.service';
+import {SessionService} from '../shared/session.service';
 
 @Component({
   selector: 'app-login',
@@ -25,11 +26,12 @@ export class LoginComponent implements OnInit {
   public formModel: FormGroup;
   public tj;
   public tips;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private req: ReqService,
-    private globalService: GlobalService
+    private login: LoginService,
+    private session: SessionService
   ) {
     this.formModel = fb.group({
       username: ['', [Validators.required]],
@@ -40,17 +42,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
+
 
   public Submit(): void {
     if (this.formModel.valid) {
       console.log(this.parameterSerializationForm(this.formModel.value));
-      this.req.submitForm(this.parameterSerializationForm(this.formModel.value))
+      this.login.submitForm(this.parameterSerializationForm(this.formModel.value))
         .subscribe(res => {
           this.tj = res.msg;
           console.log(res);
           if (this.tj === 14) {
-            this.globalService.set('accessToken', res.token);
+            this.session.set('accessToken', res.token);
             this.router.navigate(['/home']);
           } else if (this.tj === 10) {
             this.tips = '用户不存在';
@@ -62,7 +66,6 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
 
   // 表单参数序列化
   private parameterSerializationForm(obj: object): string {

@@ -1,10 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
-import {ReqService} from '../../shared/req.service';
-import {GlobalService} from '../../shared/global.service';
 import {animation} from './right-sider-animation';
-import {FaultRecordManholeCover, HomepageMsg} from '../jinggailei';
+import {FaultRecordManholeCover, HomepageMsg} from './jinggailei';
+import {SessionService, UserRegion} from '../../shared/session.service';
 declare let $, BMap;
 
 @Component({
@@ -21,19 +20,14 @@ export class MainComponent implements OnInit {
   faultRecordManholeCover: Array<FaultRecordManholeCover>; // 井部分信息数组
   pointData: Array<PointData>; // GPS数组
   onlist = 'off';
+  userRegion: UserRegion;
   color = ['rgba(249, 82, 63, .8)', 'rgba(15, 147, 255, .8)', 'rgba(148, 0, 211, .8)', 'rgba(124, 252, 0, .8)'];
-  marker: Array<any> = [];
   index: number;
-  // show loading spinner:
-  public mapLoaded = false;
-  // empty option before geoJSON loaded:
-  @ViewChild('baidumap') mapElement: ElementRef;
   public options = {};
   constructor(
-    private req: ReqService,
     public http: HttpClient,
     private es: NgxEchartsService,
-    private globalService: GlobalService) {
+    private session: SessionService) {
     this.faultRecordManholeCover = [];
     this.pointData = [];
   }
@@ -72,20 +66,25 @@ export class MainComponent implements OnInit {
   getData(): void { // 获取主页面元素
     const that = this;
     $.ajax({
-      url: 'http://' + this.publicUrl /*+ this.privateUrl*/ + '/pipe-network/homepage',
+      url: 'http://' + this.privateUrl /*+ this.privateUrl*/ + '/pipe-network/homepage',
       type: 'POST',
       async: false,
       cache: false,
       headers: {
-        'accessToken': this.globalService.get('accessToken')
+        'accessToken': this.session.get('accessToken')
       },
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
+        console.log(data);
         that.homepageMsg = data['homepageMsg'];
-        that.globalService.set('regionId', data['homepageMsg'].regionId);
+        that.session.set('regionId', data['homepageMsg'].regionId);
         that.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo);
         that.echartsBMap(that.pointData);
-        console.log(data);
+        console.log(that.homepageMsg.cityRegionId);
+        that.userRegion = new UserRegion(that.homepageMsg.cityRegionId, that.homepageMsg.provinceRegionId,
+          that.homepageMsg.countyRegionId, that.homepageMsg.townRegionId);
+        that.session.setUserRegion(that.userRegion);
+        console.log(sessionStorage);
       },
       error: function (err) {
         console.log(err);
@@ -111,8 +110,8 @@ export class MainComponent implements OnInit {
         trigger: 'item'
       },
       bmap: {
-        center: [121.15, 31.89],
-        zoom: 10,
+        center: [106.631929,26.687097],
+        zoom: 8,
         roam: true,
         mapStyle: {
           'styleJson': [

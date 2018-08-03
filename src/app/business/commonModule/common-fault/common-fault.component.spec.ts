@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageoperationComponent } from './pageoperation.component';
+import { CommonFaultComponent } from './common-fault.component';
 
-describe('PageoperationComponent', () => {
-  let component: PageoperationComponent;
-  let fixture: ComponentFixture<PageoperationComponent>;
+describe('CommonFaultComponent', () => {
+  let component: CommonFaultComponent;
+  let fixture: ComponentFixture<CommonFaultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageoperationComponent ]
+      declarations: [ CommonFaultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageoperationComponent);
+    fixture = TestBed.createComponent(CommonFaultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

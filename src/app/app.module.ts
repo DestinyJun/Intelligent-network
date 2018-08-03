@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {AppRouterModule} from './app.router.module';
-import {ReqService} from './shared/req.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
-import {GlobalService} from './shared/global.service';
 import {LoginComponent} from './login/login.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {LoginService} from './login/login.service';
+import {SessionService} from './shared/session.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
-  providers: [ReqService, GlobalService],
+  providers: [LoginService, SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,57 +1,71 @@
 <div class="container-fluid">
   <div class="sider">
-    <div class="row">
-      <div class="col-md-2">
-        <div class="search">
-          <i class="glyphicon glyphicon-search"></i>
-          <input type="search" placeholder="搜索" >
-        </div>
-      </div>
+    <div class="search">
+      <i class="glyphicon glyphicon-search"></i>
+      <input type="search" placeholder="搜索" >
     </div>
-    <div class="row">
-      <div class="col-md-2" (mouseleave)="onMouseleave()">
-        <!--运动条-->
-        <div #slidingBox class="sliding_box" [ngStyle]="{height: slidinghight+'px',top:slidingTop+'px'}"></div>
-        <div class="nav">
-          <ul class="Mul">
-            <li><a routerLink="/home"><i class="glyphicon glyphicon-home"></i><span>首页</span></a></li>
-          </ul>
-          <ul #mainul class="Mul">
-            <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
-              <span class="Span">操作菜单</span></a></li>
-            <li  #mainli *ngFor="let list of navlist">
-              <a
-                 #mainli_a
-                (mouseenter)="mainLiMouseEnter(mainli_a)"
-                (click)="mainLiClick(mainul,menuul,list)" >
+    <div class="search home" routerLink="/home">
+      <i class="glyphicon glyphicon-home"></i><span>&nbsp;&nbsp;首页</span>
+    </div>
+    <div>
+      <div class="nav">
+        <ul class="Mul" >
+          <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
+            <span class="Span">操作菜单</span></a></li>
+          <li *ngFor="let list of navList1; let listIndex = index" >
+            <a [ngStyle]="{'border-left':list.open?'5px solid white':'5px solid transparent',
+             'background-color':list.open? 'rgb(32,40,51,1)':''}"
+               (click)="toggleList(1, listIndex)">
               <i class="{{list.icon}}" ></i>
-                <span>{{list.title}}</span>
-              </a>
-               <ul  #menuul class="menu-ul">
-                <li *ngFor="let listchild of list.children" #menuli [ngStyle]="{background:listchild.setState? 'rgba(255,255,255,0.2)': ''}">
-                  <a
-                    routerLink="{{listchild.routers}}"
-                    #menuli_a [ngStyle]="{color:listchild.setState? '#f1f1f1': ''}"
-                    (mouseenter)="menuliMouseEnter(menuli)"
-                    (click)="menuliClick(listchild)">
-                    <i class="{{listchild.icon}}"></i>
-                    <span>{{listchild.title}}</span>
-                  </a>
-              </ul>
-            </li>
-          </ul>
-          <ul style="height: 125px;" class="Mul">
-            <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
-              <span class="Span" style="padding-left: 10px;">大数据分析</span></a></li>
-          </ul>
-          <ul class="Mul">
-            <li style="padding: 10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
-              <span class="Span">信息菜单</span></a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-time"></i><span>历史记录</span></a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-th"></i><span>巡检点汇总</span></a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-user"></i><span>个人信息</span></a></li>
-          </ul>
-        </div>
+              <span>{{list.title}}</span>
+            </a>
+            <ul class="mul" [ngStyle]="{'height':list.height}">
+              <li *ngFor="let listChild of list.children;let listChildIndex=index" (click)="toggleListChild(1, listIndex, listChildIndex)" [routerLink]="[listChild.routers]">
+                <a [ngStyle]="{'border-left':listChild.open?'2px solid white':'2px solid transparent', 'background-color':listChild.open? 'rgb(32,40,51,.8)':'rgb(32,40,51,.4)'}" >
+                  <i class="{{listChild.icon}}"></i>
+                  <span>{{listChild.title}}</span>
+                </a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="Mul">
+          <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
+            <span class="Span" style="padding-left: 10px;">大数据分析</span></a></li>
+          <li *ngFor="let list of navList2; let listIndex = index" >
+            <a [ngStyle]="{'border-left':list.open?'5px solid white':'5px solid transparent',
+            'background-color':list.open? 'rgb(32,40,51,1)':''}"
+               (click)="toggleList(2, listIndex)">
+              <i class="{{list.icon}}" ></i>
+              <span>{{list.title}}</span>
+            </a>
+            <ul class="menu-ul">
+              <li *ngFor="let listChild of list.children;let listChildIndex=index" (click)="toggleListChild(2, listIndex, listChildIndex)">
+                <a [ngStyle]="{'border-left':listChild.open?'2px solid white':'2px solid transparent', 'background-color':listChild.open? 'rgb(32,40,51,.8)':'rgb(32,40,51,.4)'}" >
+                  <i class="{{listChild.icon}}"></i>
+                  <span>{{listChild.title}}</span>
+                </a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="Mul">
+          <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
+            <span class="Span" style="padding-left: 10px;">信息菜单</span></a></li>
+          <li *ngFor="let list of navList3; let listIndex = index" >
+            <a [ngStyle]="{'border-left':list.open?'5px solid white':'5px solid transparent',
+            'background-color':list.open? 'rgb(32,40,51,1)':''}"
+               (click)="toggleList(3, listIndex)">
+              <i class="{{list.icon}}" ></i>
+              <span>{{list.title}}</span>
+            </a>
+            <ul class="menu-ul">
+              <li *ngFor="let listChild of list.children;let listChildIndex=index" (click)="toggleListChild(3, listIndex, listChildIndex)">
+                <a [ngStyle]="{'border-left':listChild.open?'2px solid white':'2px solid transparent', 'background-color':listChild.open? 'rgb(32,40,51,.8)':'rgb(32,40,51,.4)'}" >
+                  <i class="{{listChild.icon}}"></i>
+                  <span>{{listChild.title}}</span>
+                </a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
