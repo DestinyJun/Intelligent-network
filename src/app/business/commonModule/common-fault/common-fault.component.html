@@ -2,7 +2,7 @@
   <div class="row">
     <div class="title">
       <i style="margin-left: 15px;" class="glyphicon glyphicon-home"></i>
-      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">故障详情-处理中</p>
+      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">{{title}}</p>
     </div>
   </div>
   <div class="row Body">
@@ -18,7 +18,8 @@
         <tr *ngFor="let tb of tBody; let i = index">
           <td>{{i + 1}}</td>
           <td *ngFor="let p of prop">{{tb[p]}}</td>
-          <td><button (click)="send(tb['manholeId'])" *ngFor="let bg of btnGroup">{{bg}}</button></td>
+          <td><button data-toggle="modal" data-target="#sendInstruction"
+            class="btn btn-xs" (click)="send(tb['manholeId'])" *ngFor="let bg of btnGroup">{{bg}}</button></td>
         </tr>
         </tbody>
       </table>
@@ -29,7 +30,7 @@
             <li><a (click)="page.lastPage()">上一页</a></li>
             <li><a (click)="page.nextPage()">下一页</a></li>
             <li><a (click)="page.endPage()">尾页</a></li>
-            <li><a>{{page.getMax()}}</a></li>
+            <li><a>{{page.getNowPage()}}页/{{page.getMax()}}页</a></li>
             <li><a  style="padding: 3px;">跳转到: &nbsp;
               <input title="" type="number" #input  class="skip-input" (keyup.enter)="page.skipPage(input.value)">页</a></li>
           </ul>

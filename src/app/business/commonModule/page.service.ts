@@ -25,6 +25,10 @@ export class PageService {
       this.max = countNumber / Row + 1;
     }
   }
+  setMax(max: number) {
+    this.max = max;
+  }
+
   setNowPage(nowPage: number) {
     this.nowPage = nowPage;
   }

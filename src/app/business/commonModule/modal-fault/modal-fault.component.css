@@ -1,0 +1,14 @@
+.modal-content{
+  border-radius: 0;
+  background-color:#2b333d;
+}
+.mData{
+  color: rgba(255,255,255,.8);
+  padding: 10px 10px;
+}
+.mData > div > div:nth-child(2n+1){
+  color: #34c779;
+}
+.btn{
+  background-color: #34c779;
+}

@@ -1,9 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
 import {animation} from './right-sider-animation';
 import {FaultRecordManholeCover, HomepageMsg} from './jinggailei';
 import {SessionService, UserRegion} from '../../shared/session.service';
+import {Url} from '../commonModule/url';
 declare let $, BMap;
 
 @Component({
@@ -14,8 +15,9 @@ declare let $, BMap;
 })
 export class MainComponent implements OnInit {
 
-  private publicUrl = '120.78.137.182:8888';
-  private privateUrl = '192.168.28.65:8080';
+  @Input() listBool = false;
+  @Input() token: string;
+  url = new Url().getUrl();
   homepageMsg: HomepageMsg;
   faultRecordManholeCover: Array<FaultRecordManholeCover>; // 井部分信息数组
   pointData: Array<PointData>; // GPS数组
@@ -66,12 +68,12 @@ export class MainComponent implements OnInit {
   getData(): void { // 获取主页面元素
     const that = this;
     $.ajax({
-      url: 'http://' + this.privateUrl /*+ this.privateUrl*/ + '/pipe-network/homepage',
+      url: 'http://' + this.url + '/pipe-network/homepage',
       type: 'POST',
       async: false,
       cache: false,
       headers: {
-        'accessToken': this.session.get('accessToken')
+        'accessToken': this.token === undefined?this.session.get('accessToken'): this.token
       },
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {

@@ -165,7 +165,7 @@
 .table > table > thead > tr > th{
   padding: 8px 20px;
 }
-/*.i-title{
+.i-title{
   font-size: 25px;
   color: antiquewhite;
 }
@@ -200,23 +200,23 @@
   position: fixed;
   right: 0;
   z-index: 10;
-  background-color: rgba(69, 76, 84, 0.52);
-  height: 700px;
+  background-color: rgba(32,40,51,.9);
+  height: 620px;
   width: 50px;
-  padding-top: 350px;
+  padding-top: 310px;
   padding-left: 10px;
 }
 .information-body{
-  color: black;
-  background-color: white;
+  background-color: rgba(32,40,51,.9);
   position: fixed;
   right: -480px;
   padding-left: 5px;
   width: 480px;
-  height: 700px;
+  height: 620px;
+  color: rgba(222,222,222,1);
 }
 .information-title:hover{
-  background-color: rgba(69, 76, 84, 0.8);
+  background-color: rgba(32,40,51,.9);
   color: white;
 }
 table{
@@ -228,4 +228,12 @@ table th,td{
 tbody tr:hover{
   background-color: cornflowerblue;
   cursor: pointer;
-}*/
+}
+.tab-content tbody tr{
+  padding: 2px 10px;
+  border-radius: 1px;
+  margin: 1px 0;
+}
+.information-body tbody{
+  background-color: rgb(74,86,104);
+}

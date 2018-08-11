@@ -12,9 +12,9 @@ import {PageService} from '../../../commonModule/page.service';
 export class DisposedComponent implements OnInit {
   fault: Fault;
   workUser: WorkUser;
-  tHead = ['编号ID', '故障时间', '水位', '水流量', '发送检修指令'];
+  tHead = ['编号ID', '故障时间', '水位', '水流量'];
   prop = ['id', 'failureTime', 'waterLevel', 'flow'];
-  btnGroup = ['发送'];
+  btnGroup;
   tBody: any;
   constructor(private faultService: FaultService, private route: ActivatedRoute,
               public page: PageService) {
@@ -24,6 +24,7 @@ export class DisposedComponent implements OnInit {
       this.page.setNowPage(Number(this.route.snapshot.params['page']));
       this.fault = this.faultService.fault1(2, this.page.getNowPage(), this.page.getRow());
       this.tBody = this.fault.datas;
+      this.page.setMax(this.fault.totalPage);
       console.log(this.fault);
     });
   }

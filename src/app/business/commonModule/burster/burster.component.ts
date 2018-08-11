@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {PageService} from '../page.service';
 
 @Component({
   selector: 'app-burster',
@@ -13,7 +14,7 @@ export class BursterComponent implements OnInit {
   @Input() max: number;
   @Input() row: number;
   @Input() nowPage: number;
-  constructor() {
+  constructor(public page: PageService) {
   }
 
   ngOnInit() {  }

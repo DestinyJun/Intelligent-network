@@ -19,6 +19,7 @@ export class CommonFaultComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.page.getMax());
   }
 
   send(manholeId) {

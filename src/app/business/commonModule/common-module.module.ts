@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {TableComponent} from './table/table.component';
 import {BursterComponent} from './burster/burster.component';
 import {CommonFaultComponent} from './common-fault/common-fault.component';
+import { ModalFaultComponent } from './modal-fault/modal-fault.component';
 
 @NgModule({
   imports: [
@@ -11,12 +12,14 @@ import {CommonFaultComponent} from './common-fault/common-fault.component';
   declarations: [
     TableComponent,
     BursterComponent,
-    CommonFaultComponent
+    CommonFaultComponent,
+    ModalFaultComponent
   ],
   exports: [
     TableComponent,
     BursterComponent,
-    CommonFaultComponent
+    CommonFaultComponent,
+    ModalFaultComponent
   ]
 })
 export class CommonModuleModule { }

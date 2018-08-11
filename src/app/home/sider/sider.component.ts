@@ -63,7 +63,7 @@ export class SiderComponent implements OnInit {
             this.navList2[i].height = '0';
           }
           this.navList2[index].open = true;
-          this.navList1 = this.navListInit(this.navList2, index);
+          this.navList2 = this.navListInit(this.navList2, index);
         }
         break;
       case 3:
@@ -75,7 +75,7 @@ export class SiderComponent implements OnInit {
             this.navList3[i].height = '0';
           }
           this.navList3[index].open = true;
-          this.navList1 = this.navListInit(this.navList3, index);
+          this.navList3 = this.navListInit(this.navList3, index);
         }
         break;
     }

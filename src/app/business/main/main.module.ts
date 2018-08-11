@@ -14,5 +14,6 @@ import {NgxEchartsModule} from 'ngx-echarts';
     MainComponent,
   ],
   providers: [],
+  exports: [MainComponent]
 })
 export class MainModule { }

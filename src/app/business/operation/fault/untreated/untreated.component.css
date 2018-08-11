@@ -62,3 +62,29 @@ thead tr{
 .skip-input{
   color: black;
 }
+.modal-content{
+  border-radius: 0;
+  background-color:#2b333d;
+  font-size: 16px;
+  padding: 10px 10px;
+}
+.modal-header{
+  background-color:#2b333d;
+  font-size: 18px;
+  color: white;
+  border-bottom: 1px dashed rgba(255,255,255,.6);
+}
+.mData{
+  color: rgba(255,255,255,.8);
+  padding-bottom: 10px;
+}
+.mData > div > div:nth-child(2n+1){
+  color: #34c779;
+}
+.mData .btn{
+  background-color: #34c779;
+  height: 25px;
+}
+.close{
+  color: rgba(255,255,255,.6);
+}

@@ -1,10 +1,17 @@
-.burster{
-  color: white;
-  text-align: center;
-  background-color: rgba(55,96,108,0.3);
-  padding: 10px 5px;
-  box-shadow:2px 1px 1px 0 rgba(0,0,0,0.5);
+.pagination{
+  background-color:#2b333d;
+  margin: 0;
+  padding: 0;
 }
-input{
-  color: #000000;
+.pagination ul li a{
+
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.pagination input{
+  width: 38%;
+}
+.skip-input{
+  color: black;
 }

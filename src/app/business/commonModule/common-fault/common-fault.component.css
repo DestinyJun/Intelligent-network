@@ -21,6 +21,7 @@
   background-color: #202833;
   height: 520px;
   position: relative;
+  margin-bottom: 0;
 }
 table{
   width: 100%;
@@ -36,8 +37,8 @@ table tr th,td{
   padding: 1% 0 1% 1%;
 }
 table button{
-  width: 30%;
   background-color: #34c779;
+  padding: 2px 12px;
   border-style: none;
   color: white;
   border-radius: 10px;

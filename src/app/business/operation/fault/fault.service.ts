@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SessionService} from '../../../shared/session.service';
+import {Url} from '../../commonModule/url';
 declare let $;
 @Injectable()
 export class FaultService {
@@ -9,8 +10,8 @@ export class FaultService {
   public headers = { headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})};
   fault = new Fault();
   sendOut = new SendOut();
-  private publicUrl = '120.78.137.182:8888';
-  private privateUrl = '192.168.28.65:8080';
+  sendInstruction = new SendInstruction();
+  url = new Url().getUrl();
   constructor(private http: HttpClient, private session: SessionService) { 
     this.fault.cityRegionId = this.session.getUserRegion().cityRegionId;
     this.fault.countyRegionId = this.session.getUserRegion().countyRegionId;
@@ -26,7 +27,7 @@ export class FaultService {
     const that = this;
     let fault;
     $.ajax({
-      url: 'http://'+ this.privateUrl + '/pipe-network/fault1',
+      url: 'http://'+ this.url + '/pipe-network/fault1',
       type: 'POST',
       async: false,
       cache: false,
@@ -51,7 +52,7 @@ export class FaultService {
     const that = this;
     let sendOut;
     $.ajax({
-      url: 'http://'+ this.privateUrl + '/pipe-network/sendOut',
+      url: 'http://'+ this.url + '/pipe-network/sendOut',
       type: 'POST',
       async: false,
       cache: false,
@@ -62,13 +63,39 @@ export class FaultService {
       contentType: 'application/x-www-form-urlencoded',
       success: function(data) {
         console.log(data);
-        sendOut = data['fault'];
+        sendOut = data['WorkUser'];
       },
       error: function (err) {
         console.log(err);
       }
     });
     return sendOut;
+  }
+  sendInstruction1(username: string) {
+    this.sendInstruction.manholeId = this.sendOut.manholeId;
+    this.sendInstruction.username = username;
+    console.log(this.sendInstruction);
+    const that = this;
+    let sendInstruction;
+    $.ajax({
+      url: 'http://'+ this.url + '/pipe-network/sendInstruction',
+      type: 'POST',
+      async: false,
+      cache: false,
+      data: this.sendInstruction,
+      beforeSend: function(request) {
+        request.setRequestHeader('accessToken', that.session.get('accessToken'))
+      },
+      contentType: 'application/x-www-form-urlencoded',
+      success: function(data) {
+        console.log(data);
+        sendInstruction = data;
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+    return sendInstruction;
   }
 }
 class Fault {
@@ -84,4 +111,8 @@ class SendOut {
   manholeId: string;
   landState = '0';
   workState = '0';
+}
+class SendInstruction {
+  username: string;
+  manholeId: string;
 }
