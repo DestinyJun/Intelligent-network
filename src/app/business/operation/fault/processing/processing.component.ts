@@ -22,7 +22,7 @@ export class ProcessingComponent implements OnInit {
     this.page.setUrl('/home/operation/fault/processing');
     this.route.params.subscribe(() => {
       this.page.setNowPage(Number(this.route.snapshot.params['page']));
-      this.fault = this.faultService.fault1(1, this.page.getNowPage(), this.page.getRow());
+      this.fault = this.faultService.fault1(2, this.page.getNowPage(), this.page.getRow());
       this.tBody = this.fault.datas;
       this.page.setMax(this.fault.totalPage);
       console.log(this.fault);

@@ -19,7 +19,7 @@ export class FaultRecordManholeCover { // 异常井信息
   flowOutRelationId: string; // 流出井Id
   repairman: string; // 维修人员
   name: string; // 维修人员名字
-  flag: string; // 标记是哪一端出问题
+  flag: number; // 标记是哪一端出问题
   initialManhole: ManholeCoverInfo; // 起始井
   flowOutManhole: ManholeCoverInfo; // 流出井
 }

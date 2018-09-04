@@ -8,12 +8,14 @@ import {CommonModuleModule} from '../../commonModule/common-module.module';
 import {RouterModule, Routes} from '@angular/router';
 import {FaultComponent} from './fault.component';
 import {PageService} from '../../commonModule/page.service';
+import { AssigningComponent } from './assigning/assigning.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/disposed/:page', pathMatch: 'full'},
   {path: 'disposed/:page', component: DisposedComponent},
   {path: 'processing/:page', component: ProcessingComponent},
-  {path: 'untreated/:page', component: UntreatedComponent}
+  {path: 'untreated/:page', component: UntreatedComponent},
+  {path: 'assigning/:page', component: UntreatedComponent}
 ];
 @NgModule({
   imports: [
@@ -25,7 +27,8 @@ const routes: Routes = [
     DisposedComponent,
     ProcessingComponent,
     UntreatedComponent,
-    FaultComponent
+    FaultComponent,
+    AssigningComponent
   ],
   providers: [FaultService, PageService],
   exports: [FaultComponent]

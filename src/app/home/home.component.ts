@@ -14,17 +14,12 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-   /*this.webSoc = this.createObservableSocket('ws://192.168.28.65:8080/pipe-network/websocket').subscribe(
+   this.webSoc = this.createObservableSocket('ws://192.168.28.65:8080/pipe-network/websocket').subscribe(
       data => {
       }
     );
    setTimeout(() => this.webSoc, 1000);
    setTimeout(() => this.ws.send('websocket4'), 3000);
-
-   const that = this;
-   this.ws.onclose = function () {
-      that.ws.close(1000,'websocket2');
-    };*/
   }
 
   wsClose() {

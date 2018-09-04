@@ -1,10 +1,10 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
 import {animation} from './right-sider-animation';
 import {FaultRecordManholeCover, HomepageMsg} from './jinggailei';
 import {SessionService, UserRegion} from '../../shared/session.service';
-import {Url} from '../commonModule/url';
+import {Url} from '../../url';
 declare let $, BMap;
 
 @Component({
@@ -15,7 +15,7 @@ declare let $, BMap;
 })
 export class MainComponent implements OnInit {
 
-  @Input() listBool = false;
+  @Input() mobile = true;
   @Input() token: string;
   url = new Url().getUrl();
   homepageMsg: HomepageMsg;
@@ -36,10 +36,18 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    // let headers = new HttpHeaders({['Content-Type']: 'application/x-www-form-urlencoded'});
+    // headers = headers.append('accessToken', this.session.get('accessToken'));
+    // console.log(headers);
+    // this.http.post('http://' + this.url + '/pipe-network/homepage', '', {
+    //   headers: headers
+    // }).subscribe(data => {
+    //   console.log(data);
+    // })
   }
   addMarker(fMC: Array<FaultRecordManholeCover>) {// 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
     for (let i =  0; i < fMC.length; i++) {
-      if (fMC[i].flag === '0') {
+      if (fMC[i].flag === 0) {
         const gpsId = fMC[i].initialManhole.gpsId;
         let lng = '', lat = '', j;
         for (j = 0; gpsId[j] !== ','; j++)  { // 拿出纬度

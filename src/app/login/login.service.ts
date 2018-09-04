@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {SessionService} from '../shared/session.service';
-import {Url} from '../business/commonModule/url';
+import {Url} from '../url';
 
 @Injectable()
 export class LoginService {

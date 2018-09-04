@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SessionService} from '../../../shared/session.service';
-import {Url} from '../../commonModule/url';
+import {Url} from '../../../url';
 declare let $;
 @Injectable()
 export class FaultService {
@@ -23,11 +23,40 @@ export class FaultService {
     this.fault.state = state;
     this.fault.currentPage = currentPage;
     this.fault.pageSize = pageSize;
+    this.fault.provinceRegionId = '5';
     console.log(this.fault);
     const that = this;
     let fault;
     $.ajax({
       url: 'http://'+ this.url + '/pipe-network/fault1',
+      type: 'POST',
+      async: false,
+      cache: false,
+      data: this.fault,
+      beforeSend: function(request) {
+        request.setRequestHeader('accessToken', that.session.get('accessToken'))
+      },
+      contentType: 'application/x-www-form-urlencoded',
+      success: function(data) {
+        console.log(data);
+        fault = data['fault'];
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+    return fault;
+  }
+  history(state, currentPage, pageSize, ) {
+    this.fault.state = state;
+    this.fault.currentPage = currentPage;
+    this.fault.pageSize = pageSize;
+    this.fault.provinceRegionId = '5';
+    console.log(this.fault);
+    const that = this;
+    let fault;
+    $.ajax({
+      url: 'http://'+ this.url + '/pipe-network/historyManhole',
       type: 'POST',
       async: false,
       cache: false,
@@ -102,7 +131,7 @@ class Fault {
   state: string;
   currentPage: string;
   pageSize: string;
-  provinceRegionId: string;
+  provinceRegionId = '5';
   cityRegionId: string;
   countyRegionId: string;
   townRegionId: string;
