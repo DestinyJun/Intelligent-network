@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MainComponent} from './main.component';
 import {MainRoutersModule} from './main.routers.module';
 import {NgxEchartsModule} from 'ngx-echarts';
+import { MainService } from '../../common/services/main.service';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import {NgxEchartsModule} from 'ngx-echarts';
   declarations: [
     MainComponent,
   ],
-  providers: [],
+  providers: [MainService],
   exports: [MainComponent]
 })
 export class MainModule { }
