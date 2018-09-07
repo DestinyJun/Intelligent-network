@@ -5,6 +5,8 @@ import {animation} from './right-sider-animation';
 import {FaultRecordManholeCover, HomepageMsg} from './jinggailei';
 import {SessionService, UserRegion} from '../../shared/session.service';
 import {Url} from '../../url';
+import {MainService} from '../../common/services/main.service';
+
 declare let $, BMap;
 
 @Component({
@@ -21,17 +23,29 @@ export class MainComponent implements OnInit {
   homepageMsg: HomepageMsg;
   faultRecordManholeCover: Array<FaultRecordManholeCover>; // 井部分信息数组
   pointData: Array<PointData>; // GPS数组
+  // 省市联动
+  public selectDate = '贵州省';
+  public province: any;
+  public city: any;
+  public citeDate: string;
+  public provinceShow = false;
+  public cityShow = false;
+
   onlist = 'off';
   userRegion: UserRegion;
   color = ['rgba(249, 82, 63, .8)', 'rgba(15, 147, 255, .8)', 'rgba(148, 0, 211, .8)', 'rgba(124, 252, 0, .8)'];
   index: number;
   public options = {};
+
   constructor(
     public http: HttpClient,
     private es: NgxEchartsService,
-    private session: SessionService) {
+    private session: SessionService,
+    private mainService: MainService
+  ) {
     this.faultRecordManholeCover = [];
     this.pointData = [];
+
   }
 
   ngOnInit() {
@@ -45,28 +59,29 @@ export class MainComponent implements OnInit {
     //   console.log(data);
     // })
   }
+
   addMarker(fMC: Array<FaultRecordManholeCover>) {// 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
-    for (let i =  0; i < fMC.length; i++) {
+    for (let i = 0; i < fMC.length; i++) {
       if (fMC[i].flag === 0) {
         const gpsId = fMC[i].initialManhole.gpsId;
         let lng = '', lat = '', j;
-        for (j = 0; gpsId[j] !== ','; j++)  { // 拿出纬度
+        for (j = 0; gpsId[j] !== ','; j++) { // 拿出纬度
           lng = lng + gpsId[j];
         }
         for (j = j + 1; j < gpsId.length; j++) { // 拿出经度
           lat = lat + gpsId[j];
         }
-        this.pointData.push({name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']})
+        this.pointData.push({name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']});
       } else {
         const gpsId = fMC[i].flowOutManhole.gpsId; // 拿出flowOutManhole里的gpsId
         let lng = '', lat = '', j;
-        for (j = 0; gpsId[j] !== ','; j++)  {
+        for (j = 0; gpsId[j] !== ','; j++) {
           lng = lng + gpsId[j];
         }
         for (j = j + 1; j < gpsId.length; j++) {
           lat = lat + gpsId[j];
         }
-        this.pointData.push({name: fMC[i].flowOutManhole.gpsPosition, value: [lng, lat, '2']})
+        this.pointData.push({name: fMC[i].flowOutManhole.gpsPosition, value: [lng, lat, '2']});
       }
 
     }
@@ -81,10 +96,10 @@ export class MainComponent implements OnInit {
       async: false,
       cache: false,
       headers: {
-        'accessToken': this.token === undefined?this.session.get('accessToken'): this.token
+        'accessToken': this.token === undefined ? this.session.get('accessToken') : this.token
       },
       contentType: 'application/x-www-form-urlencoded',
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         that.homepageMsg = data['homepageMsg'];
         that.session.set('regionId', data['homepageMsg'].regionId);
@@ -102,9 +117,11 @@ export class MainComponent implements OnInit {
       }
     });
   }
+
   toggleOnlist() {
     this.onlist = this.onlist === 'off' ? 'open' : 'off';
-}
+  }
+
   echartsBMap(pointData: Array<PointData>) {
     const that = this;
     this.options = {
@@ -120,7 +137,7 @@ export class MainComponent implements OnInit {
         trigger: 'item'
       },
       bmap: {
-        center: [106.631929,26.687097],
+        center: [106.631929, 26.687097],
         zoom: 8,
         roam: true,
         mapStyle: {
@@ -266,8 +283,64 @@ export class MainComponent implements OnInit {
       ]
     };
   }
+
+  // 中部地图省市联动
+  public provinceClick() {
+    this.provinceShow = !this.provinceShow;
+    this.province = this.mainService.province;
+  }
+
+  public provinceMouseEnter() {
+    this.cityShow = true;
+    this.city = this.mainService.city.children;
+    /*  if (item === '全国') {
+        this.cityShow = false;
+        return;
+      } else if (item === '贵州省') {
+        this.cityShow = true;
+        this.http.get('assets/data/guizhoucity.json').subscribe(
+          (res) => {
+            this.city = res[0].children;
+            this.citeDate = res[0].province;
+          }
+        );
+      } else if (item === '云南省') {
+        this.cityShow = true;
+        this.http.get('assets/data/yunnancity.json').subscribe(
+          (res) => {
+            this.city = res[0].children;
+            this.citeDate = res[0].province;
+          }
+        );
+      } else {
+        this.cityShow = true;
+        this.city = [{city: '暂未开通'}];
+        this.citeDate = '暂未开通';
+      }*/
+  }
+
+  public provinceDataClick(item) {
+    this.selectDate = item;
+    /* if (item.name === '全国') {
+       this.dataToggle = '全国';
+       this.router.navigate(['/home/whole']);
+     } else if (item.name === '贵州') {
+       this.dataToggle = '贵州省';
+     } else {
+       window.confirm('此地区暂未开通');
+     }*/
+  }
+
+  public cityDataClick(item) {
+  /*  if (item.city === '贵阳市') {
+      this.router.navigate(['/home/city']);
+    } else {
+      window.confirm('此地区暂未开通');
+    }*/
+  }
 }
-class PointData{
+
+class PointData {
   name: string;
   value: Array<string>;
 }

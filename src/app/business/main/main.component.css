@@ -25,6 +25,58 @@
   padding: 11px;
   z-index: 1;
 }
+
+.location{
+  position: absolute;
+  top: 0;
+  left: 200px;
+  background-color: #0F93FF;
+  min-width: 180px;
+  height: 48px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
+  font-size: 16px;
+  padding: 11px;
+  z-index: 1;
+}
+.location.btn-warning{
+  box-shadow: rgba(40,145,231,0.52) 4px 4px 1px 2px;
+  min-width: 180px;
+}
+.location.btn-warning>i{
+  font-size: 20px;
+}
+.location .select-list-province{
+  background: rgba(120,120,112,0.8);
+  padding-left: 0;
+  color: #87FFFF;
+  position: absolute;
+  top: 46px;
+  left: 0;
+  z-index: 1;
+}
+.location .select-list-city{
+  background: rgba(120,120,112,0.8);
+  padding-left: 0;
+  border-left: 1px solid rgba(135,255,255,0.6);
+  /*padding-right: 40px;*/
+  color: #87FFFF;
+  position: absolute;
+  top: 103px;
+  left: 180px;
+  z-index: 1;
+}
+.location .select-list-province>li,.location  .select-list-city>li{
+  list-style: none;
+  padding: 10px 40px;
+  text-align: center;
+  min-width: 180px;
+}
+.location .select-list-province>li:hover,.location  .select-list-city>li:hover{
+  cursor: pointer;
+  background: #212121;
+}
+
 /*左下角白块信息框*/
 .white-title{
   background-color: rgba(255,255,255,.5);

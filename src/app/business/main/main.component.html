@@ -4,9 +4,25 @@
       <i class="glyphicon glyphicon-home"></i>
       <span class="map-title">管辖区域-实时视图</span>
     </div>
-    <div class="title btn-warning" style="left: 200px;background: #0F93FF;">
-      <i class="glyphicon glyphicon-home"></i>
-      <span class="map-title">当前位置：贵阳市</span>
+    <div class="location" (click)="provinceClick()">
+      <i class="fa fa-map-marker" aria-hidden="true"></i>
+      <span class="map-title">当前位置：{{selectDate}}</span>
+      <ul class="select-list-province" *ngIf="provinceShow">
+        <li *ngFor="let item of province"
+            (mouseenter)="provinceMouseEnter()"
+            (click)="provinceDataClick(item)"
+        >
+          {{item}}
+          <ul class="select-list-city" *ngIf="cityShow">
+            <li *ngFor="let item of city"
+                (click)="cityDataClick(item)"
+            >
+              {{item}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+
     </div>
   </div>
   <div  echarts [options]="options" style="height: 600px;width: 100%;"></div>
