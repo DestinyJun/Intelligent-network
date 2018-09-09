@@ -25,11 +25,15 @@ export class MainComponent implements OnInit {
   pointData: Array<PointData>; // GPS数组
   // 省市联动
   public selectDate = '贵州省';
+  public provinceDate: string;
+  public citeDate: string;
+  public townsDate: string;
   public province: any;
   public city: any;
-  public citeDate: string;
+  public towns: any;
   public provinceShow = false;
   public cityShow = false;
+  public townsShow = false;
 
   onlist = 'off';
   userRegion: UserRegion;
@@ -123,6 +127,8 @@ export class MainComponent implements OnInit {
   }
 
   echartsBMap(pointData: Array<PointData>) {
+  /*  var bmap = myChart.getModel().getComponent('bmap').getBMap();
+    bmap.addControl(new BMap.MapTypeControl());*/
     const that = this;
     this.options = {
       backgroundColor: '#404a59',
@@ -137,9 +143,17 @@ export class MainComponent implements OnInit {
         trigger: 'item'
       },
       bmap: {
+        show: false,
         center: [106.631929, 26.687097],
-        zoom: 8,
-        roam: true,
+        zoom: 18,
+        label: {
+          show: false,
+        },
+        roam: 'move',
+        scaleLimit: {
+          min: 15,
+          max: 19
+        },
         mapStyle: {
           'styleJson': [
             {
@@ -283,62 +297,65 @@ export class MainComponent implements OnInit {
       ]
     };
   }
+  // 地图事件
+  public onChartEvent(e, s): void {
+    console.log(e);
+  }
 
   // 中部地图省市联动
-  public provinceClick() {
-    this.provinceShow = !this.provinceShow;
+  public administrativeClick() {
+    this.provinceShow = true;
     this.province = this.mainService.province;
   }
-
-  public provinceMouseEnter() {
-    this.cityShow = true;
-    this.city = this.mainService.city.children;
-    /*  if (item === '全国') {
-        this.cityShow = false;
-        return;
-      } else if (item === '贵州省') {
-        this.cityShow = true;
-        this.http.get('assets/data/guizhoucity.json').subscribe(
-          (res) => {
-            this.city = res[0].children;
-            this.citeDate = res[0].province;
-          }
-        );
-      } else if (item === '云南省') {
-        this.cityShow = true;
-        this.http.get('assets/data/yunnancity.json').subscribe(
-          (res) => {
-            this.city = res[0].children;
-            this.citeDate = res[0].province;
-          }
-        );
-      } else {
-        this.cityShow = true;
-        this.city = [{city: '暂未开通'}];
-        this.citeDate = '暂未开通';
-      }*/
-  }
-
-  public provinceDataClick(item) {
-    this.selectDate = item;
-    /* if (item.name === '全国') {
-       this.dataToggle = '全国';
-       this.router.navigate(['/home/whole']);
-     } else if (item.name === '贵州') {
-       this.dataToggle = '贵州省';
-     } else {
-       window.confirm('此地区暂未开通');
-     }*/
-  }
-
-  public cityDataClick(item) {
-  /*  if (item.city === '贵阳市') {
-      this.router.navigate(['/home/city']);
+  public provinceMouseEnter(item) {
+    this.townsShow = false;
+    if (item === '贵州省') {
+      this.cityShow = true;
+      this.provinceDate = item;
+      this.city = this.mainService.city.children;
     } else {
-      window.confirm('此地区暂未开通');
-    }*/
+      this.city = ['对不起，' + item + '暂未开通'];
+    }
+  }
+  public provinceDataClick(item) {
+    this.provinceShow = false;
+    this.cityShow = false;
+    this.townsShow = false;
+    if (item === '贵州省') {
+      this.selectDate = item;
+    } else {
+      window.confirm(item + '暂未开通');
+    }
+  }
+
+  public cityMouseEnter(item) {
+    if (item === '贵阳市') {
+      this.townsShow = true;
+      this.citeDate = item;
+      this.towns = this.mainService.towns.children;
+    } else {
+      this.towns = ['对不起，' + item + '暂未开通'];
+    }
+  }
+  public cityDataClick(item) {
+    this.provinceShow = false;
+    this.cityShow = false;
+    this.townsShow = false;
+    if (item === '贵阳市') {
+      this.selectDate = this.provinceDate + this.citeDate;
+    } else {
+      window.confirm(item + '暂未开通');
+    }
+  }
+
+  public townsDataClick(item) {
+    this.provinceShow = false;
+    this.cityShow = false;
+    this.townsShow = false;
+    this.selectDate = this.provinceDate + this.citeDate + item;
   }
 }
+
 
 class PointData {
   name: string;

@@ -4,28 +4,38 @@
       <i class="glyphicon glyphicon-home"></i>
       <span class="map-title">管辖区域-实时视图</span>
     </div>
-    <div class="location" (click)="provinceClick()">
+    <div class="location" (click)="administrativeClick()">
       <i class="fa fa-map-marker" aria-hidden="true"></i>
       <span class="map-title">当前位置：{{selectDate}}</span>
-      <ul class="select-list-province" *ngIf="provinceShow">
-        <li *ngFor="let item of province"
-            (mouseenter)="provinceMouseEnter()"
-            (click)="provinceDataClick(item)"
-        >
-          {{item}}
-          <ul class="select-list-city" *ngIf="cityShow">
-            <li *ngFor="let item of city"
-                (click)="cityDataClick(item)"
-            >
-              {{item}}
-            </li>
-          </ul>
-        </li>
-      </ul>
-
     </div>
+    <!--省-->
+    <ul class="select-list-province" *ngIf="provinceShow">
+      <li *ngFor="let item of province"
+          (mouseenter)="provinceMouseEnter(item)"
+          (click)="provinceDataClick(item)"
+      >
+        {{item}}
+      </li>
+    </ul>
+    <!--市-->
+    <ul class="select-list-city" *ngIf="cityShow">
+      <li *ngFor="let item of city"
+          (click)="cityDataClick(item)"
+          (mouseenter)="cityMouseEnter(item)"
+      >
+        {{item}}
+      </li>
+    </ul>
+    <!--区-->
+    <ul class="select-list-town" *ngIf="townsShow">
+      <li *ngFor="let item of towns"
+          (click)="townsDataClick(item)"
+      >
+        {{item}}
+      </li>
+    </ul>
   </div>
-  <div  echarts [options]="options" style="height: 600px;width: 100%;"></div>
+  <div  echarts [options]="options" style="height: 600px;width: 100%;"   (chartInit)="onChartEvent($event, 'chartInit')"></div>
   <div class="white-title">
     <ul>
       <li><span></span>&nbsp;&nbsp;井盖丢失</li>
