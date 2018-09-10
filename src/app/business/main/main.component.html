@@ -35,7 +35,8 @@
       </li>
     </ul>
   </div>
-  <div  echarts [options]="options" style="height: 600px;width: 100%;"   (chartInit)="onChartEvent($event, 'chartInit')"></div>
+  <!--<div echarts [options]="options" style="height: 600px;width: 100%;" (chartInit)="onChartEvent($event)"></div>-->
+  <div id="myMap" style="height: 600px;width: 100%;"></div>
   <div class="white-title">
     <ul>
       <li><span></span>&nbsp;&nbsp;井盖丢失</li>

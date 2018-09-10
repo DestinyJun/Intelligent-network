@@ -39,6 +39,9 @@
   padding: 11px;
   z-index: 1;
 }
+.location:hover{
+  cursor: pointer;
+}
 .location.btn-warning>i{
   font-size: 20px;
 }

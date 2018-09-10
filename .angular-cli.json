@@ -27,8 +27,7 @@
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/echarts/dist/echarts.min.js",
-        "../node_modules/echarts/dist/extension/bmap.min.js",
-        "../node_modules/echarts/map/js/province/guizhou.js"
+        "../node_modules/echarts/dist/extension/bmap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

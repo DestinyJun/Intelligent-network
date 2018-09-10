@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Observable} from 'rxjs/Observable';
 import {LoginService} from './login.service';
 import {SessionService} from '../shared/session.service';
 

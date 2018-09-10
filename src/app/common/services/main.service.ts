@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class MainService {
@@ -19,6 +21,10 @@ export class MainService {
       '南明区', '云岩区', '白云区'
     ]
   };
-  constructor() { }
-
+  constructor(
+    private http: HttpClient
+  ) { }
+  public getWellDate(params): Observable<any> {
+    return this.http.post('', params);
+  }
 }
