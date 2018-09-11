@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 2244",
+    "start": "ng serve --host 0.0.0.0 --port 2244",
     "build": "ng build --prod --aot  --base-href /Smart/",
     "test": "ng test",
     "lint": "ng lint",

@@ -62,9 +62,9 @@
     <div class="information-body">
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#abnormal" aria-controls="abnormal" role="tab"
-        data-toggle="tab">异常事件</a></li>
+        data-toggle="tab" style="color:white;">异常事件</a></li>
         <li role="presentation"><a href="#inspection" aria-controls="inspection" role="tab"
-        data-toggle="tab">巡检事件</a></li>
+        data-toggle="tab" style="color:white;">巡检事件</a></li>
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="abnormal">
@@ -80,7 +80,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let f of homepageMsg.faultRecordManholeCoverInfo;let i=index">
+            <tr *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
               <td>{{i+1}}</td>
               <td>{{f.id}}</td>
               <td> </td>

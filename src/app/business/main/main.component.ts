@@ -72,7 +72,8 @@ export class MainComponent implements OnInit {
     // })
   }
 
-  public addMarker(fMC: Array<FaultRecordManholeCover>): void {// 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
+  public addMarker(fMC: Array<FaultRecordManholeCover>): any {
+    // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
     for (let i = 0; i < fMC.length; i++) {
       if (fMC[i].flag === 0) {
         const gpsId = fMC[i].initialManhole.gpsId;
@@ -97,11 +98,12 @@ export class MainComponent implements OnInit {
       }
 
     }
-    console.log(this.pointData);
+    return  this.pointData;
   }
 
-  public getData(): void { // 获取主页面元素
-    const that = this;
+  public getData(): void {
+    // 获取主页面元素
+    /*const that = this;
     $.ajax({
       url: 'http://' + this.url + '/pipe-network/homepage',
       type: 'POST',
@@ -124,10 +126,21 @@ export class MainComponent implements OnInit {
         console.log(sessionStorage);
       },
       error: function (err) {
-        console.log(err);
-        console.log('请求出错');
+        /!*console.log(err);
+        console.log('请求出错');*!/
       }
-    });
+    });*/
+    this.mainService.getWellDate({}).subscribe(
+      (data) => {
+        this.homepageMsg = data['homepageMsg'];
+        this.session.set('regionId', data['homepageMsg'].cityRegionId);
+        console.log(data['homepageMsg'].faultRecordManholeCoverInfo);
+        this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
+        this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
+          this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
+        this.session.setUserRegion(this.userRegion);
+      }
+    );
   }
 
   public toggleOnlist(): void {
@@ -135,14 +148,13 @@ export class MainComponent implements OnInit {
   }
 
   public echartsBMap(pointData: Array<PointData>): void {
-    console.log(pointData);
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
       {
         bmap: {
           center: [106.656504, 26.681777],
-          zoom: 1,
+          zoom: 15,
           roam: true,
           mapStyle: {
             'styleJson': [
@@ -267,33 +279,34 @@ export class MainComponent implements OnInit {
               }
             ]
           },
-          series: [
-            {
-              type: 'effectScatter',
-              coordinateSystem: 'bmap',
-              data: pointData,
-              symbolSize: 15,
-              legendHoverLink: 'true',
-              label: {
-                normal: {
-                  formatter: '{b}',
-                  position: 'right',
-                  show: false
-                },
-                emphasis: {
-                  show: true
-                }
+        },
+        series: [
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: pointData,
+            symbolSize: 13,
+            legendHoverLink: 'true',
+            label: {
+              normal: {
+                color: 'white',
+                formatter: '{b}',
+                position: 'right',
+                show: true
               },
-              itemStyle: {
-                normal: {
-                  color: function (params) {
-                    return that.color[Number(params.value[2])];
-                  }
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  return that.color[Number(params.value[2])];
                 }
               }
             }
-          ]
-        },
+          }
+        ]
       }
     );
     const bmap = myChart.getModel().getComponent('bmap').getBMap();
@@ -484,7 +497,7 @@ export class MainComponent implements OnInit {
       ]
     };*/
   }
-  // 地图事件
+  // 地图初始化事件
   public onChartEvent(e): void {
     const myChart = e;
     const bmap = myChart.getModel().getComponentMap('bmap').getBMap();
@@ -520,7 +533,6 @@ export class MainComponent implements OnInit {
       window.confirm(item + '暂未开通');
     }
   }
-
   public cityMouseEnter(item) {
     if (item === '贵阳市') {
       this.townsShow = true;
@@ -540,7 +552,6 @@ export class MainComponent implements OnInit {
       window.confirm(item + '暂未开通');
     }
   }
-
   public townsDataClick(item) {
     this.provinceShow = false;
     this.cityShow = false;
