@@ -55,8 +55,8 @@
   <div *ngIf="mobile" class="information" [@slide]="onlist">
     <div class="information-title" (click)="toggleOnlist()">
       <div class="i-title" >
-        <i class="glyphicon glyphicon-chevron-left" *ngIf="onlist=='off'"></i>
-        <i class="glyphicon glyphicon-chevron-right" *ngIf="onlist=='open'"></i>
+        <i [ngStyle]="{'display': onlist === 'off'?'block':'none'}" class="glyphicon glyphicon-chevron-left"></i>
+        <i [ngStyle]="{'display': onlist === 'open'?'block':'none'}" class="glyphicon glyphicon-chevron-right"></i>
       </div>
     </div>
     <div class="information-body">

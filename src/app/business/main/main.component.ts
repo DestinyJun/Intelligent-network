@@ -53,11 +53,11 @@ export class MainComponent implements OnInit {
     this.getData();
     // 全屏点击事件
     window.document.addEventListener('click', (e) => {
-      this.flag = e.srcElement.parentElement.className;
-      if ((this.provinceShow || this.cityShow || this.townsShow) && !(this.flag === 'location')) {
+     /* if ((this.provinceShow && this.cityShow && this.townsShow) || !(this.flag === 'location')){
+        console.log(111);
         this.provinceShow = false;
         this.cityShow = false;
-      }
+      }*/
     });
   }
 
