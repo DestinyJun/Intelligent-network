@@ -6,7 +6,7 @@ import {SessionService, UserRegion} from '../../shared/session.service';
 import {Url} from '../../url';
 import {MainService} from '../../common/services/main.service';
 import {FaultRecordManholeCover, HomepageMsg, PointData} from '../../common/model/main.model';
-declare let BMap;
+declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -327,7 +327,10 @@ export class MainComponent implements OnInit {
     );
     const bmap = myChart.getModel().getComponent('bmap').getBMap();
     // 添加切换地图、卫星、三维切换控件
-    bmap.addControl(new BMap.MapTypeControl());
+    bmap.addControl(new BMap.MapTypeControl({
+      // 靠左上角位置
+      anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+    }));
     // 添加定位控件
     bmap.addControl(new BMap.GeolocationControl());
     // 设置地图最小缩放级别
