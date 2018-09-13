@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 2244",
-    "build": "ng build --prod --aot  --base-href /Smart/",
+    "build": "ng build --prod --aot  --base-href /smart/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

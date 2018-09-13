@@ -6,7 +6,7 @@ import {SessionService, UserRegion} from '../../shared/session.service';
 import {Url} from '../../url';
 import {MainService} from '../../common/services/main.service';
 import {FaultRecordManholeCover, HomepageMsg, PointData} from '../../common/model/main.model';
-
+declare let BMap;
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
