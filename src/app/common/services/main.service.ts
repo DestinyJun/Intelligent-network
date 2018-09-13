@@ -32,5 +32,33 @@ export class MainService {
   public getWellDate(params): Observable<any> {
     console.log(this.headers.get('accessToken'));
     return this.http.post('http://120.78.137.182:8888//pipe-network/homepage', params, {headers: this.headers});
+    // 获取主页面元素
+    /*const that = this;
+    $.ajax({
+      url: 'http://' + this.url + '/pipe-network/homepage',
+      type: 'POST',
+      async: false,
+      cache: false,
+      headers: {
+        'accessToken': this.token === undefined ? this.session.get('accessToken') : this.token
+      },
+      contentType: 'application/x-www-form-urlencoded',
+      success: function (data) {
+        console.log(data);
+        that.homepageMsg = data['homepageMsg'];
+        that.session.set('regionId', data['homepageMsg'].regionId);
+        that.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo);
+        that.echartsBMap(that.pointData);
+        console.log(that.homepageMsg.cityRegionId);
+        that.userRegion = new UserRegion(that.homepageMsg.cityRegionId, that.homepageMsg.provinceRegionId,
+          that.homepageMsg.countyRegionId, that.homepageMsg.townRegionId);
+        that.session.setUserRegion(that.userRegion);
+        console.log(sessionStorage);
+      },
+      error: function (err) {
+        /!*console.log(err);
+        console.log('请求出错');*!/
+      }
+    });*/
   }
 }

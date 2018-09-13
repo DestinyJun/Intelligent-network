@@ -2,12 +2,10 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
 import {animation} from './right-sider-animation';
-import {FaultRecordManholeCover, HomepageMsg} from './jinggailei';
 import {SessionService, UserRegion} from '../../shared/session.service';
 import {Url} from '../../url';
 import {MainService} from '../../common/services/main.service';
-
-declare let $, BMap;
+import {FaultRecordManholeCover, HomepageMsg, PointData} from '../../common/model/main.model';
 
 @Component({
   selector: 'app-main',
@@ -22,7 +20,7 @@ export class MainComponent implements OnInit {
   public url = new Url().getUrl();
   public homepageMsg: HomepageMsg;
   public faultRecordManholeCover = Array<FaultRecordManholeCover>(); // 井部分信息数组
-  public pointData: Array<PointData>; // GPS数组
+  public pointData = []; // GPS数组
   // 省市联动
   public selectDate = '贵州省';
   public flag: string;
@@ -48,7 +46,6 @@ export class MainComponent implements OnInit {
     private mainService: MainService
   ) {
     // this.faultRecordManholeCover = [];
-    this.pointData = [];
 
   }
 
@@ -62,79 +59,46 @@ export class MainComponent implements OnInit {
         this.cityShow = false;
       }
     });
-    // let headers = new HttpHeaders({['Content-Type']: 'application/x-www-form-urlencoded'});
-    // headers = headers.append('accessToken', this.session.get('accessToken'));
-    // console.log(headers);
-    // this.http.post('http://' + this.url + '/pipe-network/homepage', '', {
-    //   headers: headers
-    // }).subscribe(data => {
-    //   console.log(data);
-    // })
   }
 
   public addMarker(fMC: Array<FaultRecordManholeCover>): any {
     // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
+    let lng, lat, usrLng, usrLat;
     for (let i = 0; i < fMC.length; i++) {
       if (fMC[i].flag === 0) {
-        const gpsId = fMC[i].initialManhole.gpsId;
-        let lng = '', lat = '', j;
-        for (j = 0; gpsId[j] !== ','; j++) { // 拿出纬度
-          lng = lng + gpsId[j];
+        const gpsId = fMC[i].initialManhole.gpsId.split(',');
+        let gpsIdUsr;
+        if (fMC[i].workUser !== null) {
+          gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
+          lng = gpsId[0]; lat = gpsId[1]; usrLng = gpsIdUsr[0]; usrLat = gpsIdUsr[1];
+          this.pointData.push(
+            [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
+            [{name: fMC[i].workUser.name, value: [usrLng, usrLat, '3']}]
+          );
         }
-        for (j = j + 1; j < gpsId.length; j++) { // 拿出经度
-          lat = lat + gpsId[j];
-        }
-        this.pointData.push({name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']});
-      } else {
-        const gpsId = fMC[i].flowOutManhole.gpsId; // 拿出flowOutManhole里的gpsId
-        let lng = '', lat = '', j;
-        for (j = 0; gpsId[j] !== ','; j++) {
-          lng = lng + gpsId[j];
-        }
-        for (j = j + 1; j < gpsId.length; j++) {
-          lat = lat + gpsId[j];
-        }
-        this.pointData.push({name: fMC[i].flowOutManhole.gpsPosition, value: [lng, lat, '2']});
       }
-
+      else {
+        const gpsId = fMC[i].initialManhole.gpsId.split(','); // 拿出flowOutManhole里的gpsId
+        let gpsIdUsr;
+        if (fMC[i].workUser !== null) {
+          gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
+          const lng = gpsId[0], lat = gpsId[1], usrLng = gpsIdUsr[0], usrLat = gpsIdUsr[1];
+          this.pointData.push(
+            [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
+            [{name: fMC[i].workUser.name, value: [usrLng, usrLat, '3']}]
+          );
+        }
+      }
     }
     return  this.pointData;
   }
 
   public getData(): void {
-    // 获取主页面元素
-    /*const that = this;
-    $.ajax({
-      url: 'http://' + this.url + '/pipe-network/homepage',
-      type: 'POST',
-      async: false,
-      cache: false,
-      headers: {
-        'accessToken': this.token === undefined ? this.session.get('accessToken') : this.token
-      },
-      contentType: 'application/x-www-form-urlencoded',
-      success: function (data) {
-        console.log(data);
-        that.homepageMsg = data['homepageMsg'];
-        that.session.set('regionId', data['homepageMsg'].regionId);
-        that.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo);
-        that.echartsBMap(that.pointData);
-        console.log(that.homepageMsg.cityRegionId);
-        that.userRegion = new UserRegion(that.homepageMsg.cityRegionId, that.homepageMsg.provinceRegionId,
-          that.homepageMsg.countyRegionId, that.homepageMsg.townRegionId);
-        that.session.setUserRegion(that.userRegion);
-        console.log(sessionStorage);
-      },
-      error: function (err) {
-        /!*console.log(err);
-        console.log('请求出错');*!/
-      }
-    });*/
     this.mainService.getWellDate({}).subscribe(
       (data) => {
+        console.log(data);
         this.homepageMsg = data['homepageMsg'];
         this.session.set('regionId', data['homepageMsg'].cityRegionId);
-        console.log(data['homepageMsg'].faultRecordManholeCoverInfo);
         this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
         this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
           this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
@@ -148,6 +112,7 @@ export class MainComponent implements OnInit {
   }
 
   public echartsBMap(pointData: Array<PointData>): void {
+    pointData[1][0].value = ['106.656504', '26.681777', '3'];
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
@@ -284,7 +249,7 @@ export class MainComponent implements OnInit {
           {
             type: 'effectScatter',
             coordinateSystem: 'bmap',
-            data: pointData,
+            data: pointData[1],
             symbolSize: 13,
             legendHoverLink: 'true',
             label: {
@@ -305,7 +270,58 @@ export class MainComponent implements OnInit {
                 }
               }
             }
-          }
+          },
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: pointData[0],
+            symbolSize: 13,
+            legendHoverLink: 'true',
+            label: {
+              normal: {
+                color: 'white',
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  return that.color[Number(params.value[2])];
+                }
+              }
+            }
+          },
+        /*  {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            data: pointData[1],
+            symbolSize: 13,
+            legendHoverLink: 'true',
+            label: {
+              normal: {
+                color: 'white',
+                formatter: '{b}',
+                position: 'right',
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  console.log(params.value[2]);
+                  return that.color[Number()];
+                }
+              }
+            }
+          }*/
         ]
       }
     );
@@ -315,7 +331,7 @@ export class MainComponent implements OnInit {
     // 添加定位控件
     bmap.addControl(new BMap.GeolocationControl());
     // 设置地图最小缩放级别
-    bmap.setMinZoom(1);
+    bmap.setMinZoom(15);
     // 设置地图最大缩放级别
     bmap.setMaxZoom(19);
     window.addEventListener('resize', function() {
@@ -561,7 +577,3 @@ export class MainComponent implements OnInit {
 }
 
 
-class PointData {
-  name: string;
-  value: Array<string>;
-}
