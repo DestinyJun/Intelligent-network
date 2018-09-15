@@ -77,26 +77,35 @@
         <div role="tabpanel" class="tab-pane active" id="abnormal">
           <table>
             <thead>
-              <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
-              <th>#</th>
-              <th>编号</th>
-              <th>水位高度</th>
-              <th>故障时间</th>
-              <th>故障详情</th>
-              <th>GPS位置</th>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
+              <th></th>
+              <th>时间</th>
+              <th></th>
+              <th></th>
+              <th>类型</th>
+              <th>事件描述</th>
             </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
-              <td>{{i+1}}</td>
-              <td>{{f.id}}</td>
-              <td> </td>
-              <td>{{f.failureTime}}</td>
-              <td> </td>
-              <td></td>
-            </tr>
-            </tbody>
+            <!--<tbody>
+          <tr *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
+            <td>{{i+1}}</td>
+            <td>{{f.id}}</td>
+            <td> </td>
+            <td>{{f.failureTime}}</td>
+            <td> </td>
+            <td></td>
+          </tr>
+          </tbody>-->
           </table>
+          <div class="tbody">
+            <ul *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
+              <li>20180612</li>
+              <li>00:23:25</li>
+              <li><span>报警</span></li>
+              <li>井盖丢失、水位异常</li>
+              <li></li>
+            </ul>
+          </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="inspection">
           <h1>无数据</h1>
