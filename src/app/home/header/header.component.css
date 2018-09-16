@@ -1,14 +1,13 @@
 .container-fluid{
-  height: 66px;
+  height: 60px;
 }
 .title {
   color: white;
   position: absolute;
-  left: 10px;
 }
 .title p{
-  height: 66px;
-  line-height: 66px;
+  height: 60px;
+  line-height: 60px;
   display: inline-block;
   float: left;
   padding-right: 25px;

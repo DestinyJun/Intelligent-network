@@ -4,10 +4,10 @@
 .map-view>.map{
   padding-top: 2px;
 }
-.container-fluid{
+.map-view>.map .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
-  margin:5px 15px;
   height: 520px;
+  margin-left: 10px;
   border-radius: 6px 6px 0 0;
   padding-top: 20px;
   position: relative;
@@ -16,7 +16,7 @@
 /*左上角黑色标题*/
 .title{
   position: absolute;
-  top: -5px;
+  top: -6px;
   left: -10px;
   background-color:#202833;
   width: 180px;
@@ -118,6 +118,7 @@
   padding: 3px 5px;
   font-size: 13px;
 }
+
 /*右侧彩色提示框*/
 .color-title{
   position: absolute;
@@ -149,16 +150,13 @@
 .color-title div:nth-child(1) {
   background-color: rgba(249, 82, 63, .8);
 }
-.color-title div:nth-child(2)
-{
+.color-title div:nth-child(2) {
   background-color: rgba(15, 147, 255, .8);
 }
-.color-title div:nth-child(3)
-{
+.color-title div:nth-child(3) {
   background-color: rgba(148, 0, 211, .8);
 }
-.color-title div:nth-child(4)
-{
+.color-title div:nth-child(4) {
   background-color: rgba(124, 252, 0, .8);
 }
 /*下方表格*/
@@ -242,13 +240,7 @@
   z-index: 0;
 }
 /*侧边事件信息*/
-.information{
-  position: fixed;
-  top: 65px;
-  right: 0;
-  z-index: 10;
-}
-.information-title{
+/*.information-title{
   position: fixed;
   right: 0;
   z-index: 10;
@@ -257,16 +249,17 @@
   width: 50px;
   padding-top: 310px;
   padding-left: 10px;
-}
+}*/
 .information-body{
-  background-color: rgba(32,40,51,0.9);
+  background-color: rgba(32,40,51,0.4);
   position: fixed;
-  top:81px;
+  top: 62px;
   right: 0;
   border-radius: 0 0 0 20px;
   width: 514px;
-  height: 620px;
+  height: 520px;
   color: rgba(222,222,222,1);
+  padding-right: 15px;
 }
 .information-body-title{
   position: absolute;
@@ -285,6 +278,10 @@
 }
 .information-body-table{
   margin-top: 48px;
+  /*padding: 20px;*/
+}
+.information-body-table .table-striped>tbody>tr:hover{
+  cursor: pointer;
 }
 .information-title:hover{
   background-color: rgba(32,40,51,.9);
@@ -299,16 +296,15 @@
   height: 45px;
   padding: 13px 0 13px 20px;
 }
-.information-body .tbody ul{
+.information-body-table ul{
   list-style: none;
 }
-.information-body .tbody ul li {
-  display:inline-block;
-  margin-right: 20px;
-}
-.information-body .tbody:hover {
-  background-color: cornflowerblue;
+.information-body-table ul li:hover {
   cursor: pointer;
+}
+.information-body :hover {
+ /* background-color: rgba(165,171,197,0.8);
+  */
 }
 .information-body .tbody ul>li:nth-child(3)>span {
   background: #F3563C;
@@ -318,7 +314,7 @@
   text-align: center;
 }
 
-table{
+/*table{
   width: 100%;
   text-align: center;
 }
@@ -326,15 +322,28 @@ table th,td{
   padding: 4px 0 4px 5px;
 }
 tbody tr:hover{
-  /*background-color: cornflowerblue;*/
+  !*background-color: cornflowerblue;*!
   background: #B2B6D1;
   cursor: pointer;
 }
 .tab-content tbody tr{
   padding: 2px 10px;
   margin: 1px 0;
-}
+}*/
 
+/*事件统计*/
+.event-statistics{
+  margin-left: 10px;
+  background: #2F3640;
+}
+.event-statistics .event-statistics-time{
+  position: relative;
+  height: 80px;
+}
+.event-statistics .event-statistics-day>.left{
+  height: 157px;
+  color: #646e8a;
+}
 
 /*bootstrap扩展*/
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
@@ -347,6 +356,89 @@ tbody tr:hover{
 .nav-tabs {
   border-bottom: none;
 }
+/*table改造*/
+.table thead{
+  border-top: 1px solid rgba(0,0,0,.2);
+  font-size: 14px;
+  background: none;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border: none;
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+  background-color: rgba(180,183,209,0.8);
+}
+.table-striped>tbody>tr:nth-of-type(even) {
+  background-color: rgba(212,211,211,0.8);
+}
+table tr td:first-child {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+table tr td:last-child {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.btn-violet {
+  color: #fff;
+  background-color: #9400D3;
+  border-color: #9400D3;
+}
+.btn-violet:focus,
+.btn-violet.focus {
+  color: #fff;
+  background-color: #9400D3;
+  border-color: #122b40;
+}
+.btn-violet:hover {
+  color: #fff;
+  background-color: #9400D3;
+  border-color: #204d74;
+}
+.btn-violet:active,
+.btn-violet.active,
+.open > .dropdown-toggle.btn-violet {
+  color: #fff;
+  background-color: #9400D3;
+  border-color: #204d74;
+}
+.btn-violet:active:hover,
+.btn-violet.active:hover,
+.open > .dropdown-toggle.btn-violet:hover,
+.btn-violet:active:focus,
+.btn-violet.active:focus,
+.open > .dropdown-toggle.btn-violet:focus,
+.btn-violet:active.focus,
+.btn-violet.active.focus,
+.open > .dropdown-toggle.btn-violet.focus {
+  color: #fff;
+  background-color: #9400D3;
+  border-color: #122b40;
+}
+.btn-violet:active,
+.btn-violet.active,
+.open > .dropdown-toggle.btn-violet {
+  background-image: none;
+}
+.btn-violet.disabled:hover,
+.btn-violet[disabled]:hover,
+fieldset[disabled] .btn-violet:hover,
+.btn-violet.disabled:focus,
+.btn-violet[disabled]:focus,
+fieldset[disabled] .btn-violet:focus,
+.btn-violet.disabled.focus,
+.btn-violet[disabled].focus,
+fieldset[disabled] .btn-violet.focus {
+  background-color: #9400D3;
+  border-color: #2e6da4;
+}
+.btn-violet .badge {
+  color: #9400D3;
+  background-color: #fff;
+}
 /*公共样式*/
 @font-face {
   font-family: 'icomoon';
@@ -358,7 +450,6 @@ tbody tr:hover{
   font-weight: normal;
   font-style: normal;
 }
-
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -373,7 +464,6 @@ tbody tr:hover{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 .icon-untreated:before {
   content: "\e901";
 }
