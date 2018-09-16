@@ -1,62 +1,59 @@
-<div class="container-fluid">
-  <div class="row" *ngIf="mobile">
-    <div class="title">
-      <i class="glyphicon glyphicon-home"></i>
-      <span class="map-title">管辖区域-实时视图</span>
+<div class="map-view">
+  <div class="map">
+    <div class="container-fluid">
+      <div class="row">
+        <!--地图标题-->
+        <div class="title">
+          <i class="glyphicon glyphicon-home"></i>
+          <span class="map-title">管辖区域-实时视图</span>
+        </div>
+        <!--地图分布-->
+        <!--<div echarts [options]="options" style="height: 600px;width: 100%;" (chartInit)="onChartEvent($event)"></div>-->
+        <div id="myMap" style="height: 600px;width: 100%;"></div>
+        <!--地图左侧异常信息说明-->
+        <div class="white-title">
+          <ul>
+            <li><span></span>&nbsp;&nbsp;井盖丢失</li>
+            <li><span></span>&nbsp;&nbsp;水位过高</li>
+            <li><span></span>&nbsp;&nbsp;管道堵塞</li>
+            <li><span></span>&nbsp;&nbsp;井盖传感器异常</li>
+            <li><span></span>&nbsp;&nbsp;水位传感器异常</li>
+          </ul>
+        </div>
+        <!--省市联动-->
+        <div class="location" (click)="administrativeClick()">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          <span class="map-title">当前位置：{{selectDate}}</span>
+        </div>
+        <!--省-->
+        <ul class="select-list-province" *ngIf="provinceShow">
+          <li *ngFor="let item of province"
+              (mouseenter)="provinceMouseEnter(item)"
+              (click)="provinceDataClick(item)"
+          >
+            {{item}}
+          </li>
+        </ul>
+        <!--市-->
+        <ul class="select-list-city" *ngIf="cityShow">
+          <li *ngFor="let item of city"
+              (click)="cityDataClick(item)"
+              (mouseenter)="cityMouseEnter(item)"
+          >
+            {{item}}
+          </li>
+        </ul>
+        <!--区-->
+        <ul class="select-list-town" *ngIf="townsShow">
+          <li *ngFor="let item of towns"
+              (click)="townsDataClick(item)"
+          >
+            {{item}}
+          </li>
+        </ul>
+      </div>
     </div>
-    <!--省市联动-->
-    <div class="location" (click)="administrativeClick()">
-      <i class="fa fa-map-marker" aria-hidden="true"></i>
-      <span class="map-title">当前位置：{{selectDate}}</span>
-    </div>
-    <!--省-->
-    <ul class="select-list-province" *ngIf="provinceShow">
-      <li *ngFor="let item of province"
-          (mouseenter)="provinceMouseEnter(item)"
-          (click)="provinceDataClick(item)"
-      >
-        {{item}}
-      </li>
-    </ul>
-    <!--市-->
-    <ul class="select-list-city" *ngIf="cityShow">
-      <li *ngFor="let item of city"
-          (click)="cityDataClick(item)"
-          (mouseenter)="cityMouseEnter(item)"
-      >
-        {{item}}
-      </li>
-    </ul>
-    <!--区-->
-    <ul class="select-list-town" *ngIf="townsShow">
-      <li *ngFor="let item of towns"
-          (click)="townsDataClick(item)"
-      >
-        {{item}}
-      </li>
-    </ul>
   </div>
-  <!--地图分布-->
-  <!--<div echarts [options]="options" style="height: 600px;width: 100%;" (chartInit)="onChartEvent($event)"></div>-->
-  <div id="myMap" style="height: 600px;width: 100%;"></div>
-  <!--地图左侧异常信息说明-->
-  <div class="white-title">
-    <ul>
-      <li><span></span>&nbsp;&nbsp;井盖丢失</li>
-      <li><span></span>&nbsp;&nbsp;水位过高</li>
-      <li><span></span>&nbsp;&nbsp;管道堵塞</li>
-      <li><span></span>&nbsp;&nbsp;井盖传感器异常</li>
-      <li><span></span>&nbsp;&nbsp;水位传感器异常</li>
-    </ul>
-  </div>
-  <!--异常信息提醒-->
-  <!--<div class="color-title" *ngIf="mobile">
-    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖丢失</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;水位过高</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;管道堵塞</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖传感器异常</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-  </div>-->
-  <!--<div *ngIf="mobile" class="information" [@slide]="onlist">-->
   <div class="information">
     <!--<div class="information-title" (click)="toggleOnlist()">
       <div class="i-title" >
@@ -65,15 +62,11 @@
       </div>
     </div>-->
     <div class="information-body">
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-          <a href="#abnormal" aria-controls="abnormal" role="tab" data-toggle="tab" style="color:white;">异常事件</a>
-        </li>
-        <li role="presentation">
-          <a href="#inspection" aria-controls="inspection" role="tab" data-toggle="tab" style="color:white;">巡检事件</a>
-        </li>
-      </ul>
-      <div class="tab-content">
+      <div class="information-body-title">
+        <i class="icon-event2"></i>
+        <span style="color:white;margin-left: 15px">异常事件</span>
+      </div>
+      <div class="information-body-table">
         <div role="tabpanel" class="tab-pane active" id="abnormal">
           <table>
             <thead>
@@ -107,10 +100,19 @@
             </ul>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="inspection">
-          <h1>无数据</h1>
-        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+  <!--异常信息提醒-->
+  <!--<div class="color-title" *ngIf="mobile">
+    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖丢失</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;水位过高</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;管道堵塞</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖传感器异常</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
+  </div>-->
+  <!--<div *ngIf="mobile" class="information" [@slide]="onlist">-->
+

@@ -1,6 +1,8 @@
-*{
-  margin: 0;
-  padding: 0;
+.map-view {
+  position: relative;
+}
+.map-view>.map{
+  padding-top: 2px;
 }
 .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
@@ -14,7 +16,7 @@
 /*左上角黑色标题*/
 .title{
   position: absolute;
-  top: 0;
+  top: -5px;
   left: -10px;
   background-color:#202833;
   width: 180px;
@@ -28,7 +30,7 @@
 
 .location{
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 200px;
   background-color: #0F93FF;
   min-width: 180px;
@@ -239,6 +241,7 @@
   width: 100%;
   z-index: 0;
 }
+/*侧边事件信息*/
 .information{
   position: fixed;
   top: 65px;
@@ -256,39 +259,40 @@
   padding-left: 10px;
 }
 .information-body{
-  background-color: rgba(32,40,51,.9);
+  background-color: rgba(32,40,51,0.9);
   position: fixed;
+  top:81px;
   right: 0;
-  /*padding-left: 5px;*/
-  border-radius: 20px;
+  border-radius: 0 0 0 20px;
   width: 514px;
   height: 620px;
   color: rgba(222,222,222,1);
+}
+.information-body-title{
+  position: absolute;
+  top: -5px;
+  left: -10px;
+  background-color:#202833;
+  width: 180px;
+  height: 48px;
+  line-height: 48px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 1;
+  padding-left: 15px;
+}
+.information-body-table{
+  margin-top: 48px;
 }
 .information-title:hover{
   background-color: rgba(32,40,51,.9);
   color: white;
 }
-table{
-  width: 100%;
-  text-align: center;
-}
-table th,td{
-  padding: 4px 0 4px 5px;
-}
-tbody tr:hover{
-  /*background-color: cornflowerblue;*/
-  background: #B2B6D1;
-  cursor: pointer;
-}
-.tab-content tbody tr{
-  padding: 2px 10px;
-  margin: 1px 0;
-}
-.information-body tbody{
+.information-body .tbody{
   background-color: rgb(74,86,104);
 }
-/*div属性*/
 .information-body .tbody {
   background-color: rgb(74,86,104);
   border-radius: 6px 0 0 6px;
@@ -313,11 +317,72 @@ tbody tr:hover{
   border-radius: 4px;
   text-align: center;
 }
-/*bootstrap改造*/
+
+table{
+  width: 100%;
+  text-align: center;
+}
+table th,td{
+  padding: 4px 0 4px 5px;
+}
+tbody tr:hover{
+  /*background-color: cornflowerblue;*/
+  background: #B2B6D1;
+  cursor: pointer;
+}
+.tab-content tbody tr{
+  padding: 2px 10px;
+  margin: 1px 0;
+}
+
+
+/*bootstrap扩展*/
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
   color: #555;
   cursor: default;
   background-color: #F9523F;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+/*公共样式*/
+@font-face {
+  font-family: 'icomoon';
+  src:  url('/assets/fonts/icomoon.eot');
+  src:  url('/assets/fonts/icomoon.eot') format('embedded-opentype'),
+  url('/assets/fonts/icomoon.ttf') format('truetype'),
+  url('/assets/fonts/icomoon.woff') format('woff'),
+  url('/assets/fonts/icomoon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-untreated:before {
+  content: "\e901";
+}
+.icon-event1:before {
+  content: "\e902";
+}
+.icon-complete1:before {
+  content: "\e903";
+}
+.icon-event2:before {
+  content: "\e900";
 }

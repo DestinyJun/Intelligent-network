@@ -1,5 +1,5 @@
 .container-fluid{
-  height: 50px;
+  height: 66px;
 }
 .title {
   color: white;
@@ -7,9 +7,12 @@
   left: 10px;
 }
 .title p{
+  height: 66px;
+  line-height: 66px;
   display: inline-block;
   float: left;
   padding-right: 25px;
+  margin-bottom: 0;
 }
 .title span{
   font-size: 25px;
