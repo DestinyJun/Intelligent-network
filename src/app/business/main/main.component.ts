@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
 import {animation} from './right-sider-animation';
 import {SessionService, UserRegion} from '../../shared/session.service';
@@ -68,6 +68,7 @@ export class MainComponent implements OnInit {
       if (fMC[i].flag === 0) {
         const gpsId = fMC[i].initialManhole.gpsId.split(',');
         let gpsIdUsr;
+        console.log(gpsId);
         if (fMC[i].workUser !== null) {
           gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
           lng = gpsId[0]; lat = gpsId[1]; usrLng = gpsIdUsr[0]; usrLat = gpsIdUsr[1];
@@ -82,6 +83,7 @@ export class MainComponent implements OnInit {
         let gpsIdUsr;
         if (fMC[i].workUser !== null) {
           gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
+          console.log(gpsIdUsr);
           const lng = gpsId[0], lat = gpsId[1], usrLng = gpsIdUsr[0], usrLat = gpsIdUsr[1];
           this.pointData.push(
             [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
@@ -96,9 +98,9 @@ export class MainComponent implements OnInit {
   public getData(): void {
     this.mainService.getWellDate({}).subscribe(
       (data) => {
-        console.log(data);
         this.homepageMsg = data['homepageMsg'];
         this.session.set('regionId', data['homepageMsg'].cityRegionId);
+        console.log(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
         this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
         this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
           this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
@@ -112,7 +114,8 @@ export class MainComponent implements OnInit {
   }
 
   public echartsBMap(pointData: Array<PointData>): void {
-    pointData[1][0].value = ['106.656504', '26.681777', '3'];
+    console.log(pointData);
+    // pointData[1][0].value = ['106.656504', '26.681777', '3'];
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
@@ -124,122 +127,113 @@ export class MainComponent implements OnInit {
           mapStyle: {
             'styleJson': [
               {
-                'featureType': 'water',
-                'elementType': 'all',
-                'stylers': {
-                  'color': '#031628'
-                }
-              },
-              {
                 'featureType': 'land',
                 'elementType': 'geometry',
                 'stylers': {
-                  'color': '#000102'
+                  'color': '#212121'
+                }
+              },
+              {
+                'featureType': 'building',
+                'elementType': 'geometry',
+                'stylers': {
+                  'color': '#2b2b2b'
                 }
               },
               {
                 'featureType': 'highway',
                 'elementType': 'all',
                 'stylers': {
-                  'visibility': 'off'
+                  'lightness': -42,
+                  'saturation': -91
                 }
               },
               {
                 'featureType': 'arterial',
-                'elementType': 'geometry.fill',
-                'stylers': {
-                  'color': '#000000'
-                }
-              },
-              {
-                'featureType': 'arterial',
-                'elementType': 'geometry.stroke',
-                'stylers': {
-                  'color': '#0b3d51'
-                }
-              },
-              {
-                'featureType': 'local',
                 'elementType': 'geometry',
                 'stylers': {
-                  'color': '#000000'
-                }
-              },
-              {
-                'featureType': 'railway',
-                'elementType': 'geometry.fill',
-                'stylers': {
-                  'color': '#000000'
-                }
-              },
-              {
-                'featureType': 'railway',
-                'elementType': 'geometry.stroke',
-                'stylers': {
-                  'color': '#08304b'
-                }
-              },
-              {
-                'featureType': 'subway',
-                'elementType': 'geometry',
-                'stylers': {
-                  'lightness': -70
-                }
-              },
-              {
-                'featureType': 'building',
-                'elementType': 'geometry.fill',
-                'stylers': {
-                  'color': '#000000'
-                }
-              },
-              {
-                'featureType': 'all',
-                'elementType': 'labels.text.fill',
-                'stylers': {
-                  'color': '#857f7f'
-                }
-              },
-              {
-                'featureType': 'all',
-                'elementType': 'labels.text.stroke',
-                'stylers': {
-                  'color': '#000000'
-                }
-              },
-              {
-                'featureType': 'building',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#022338'
+                  'lightness': -77,
+                  'saturation': -94
                 }
               },
               {
                 'featureType': 'green',
                 'elementType': 'geometry',
                 'stylers': {
-                  'color': '#062032'
+                  'color': '#1b1b1b'
                 }
               },
               {
-                'featureType': 'boundary',
-                'elementType': 'all',
+                'featureType': 'water',
+                'elementType': 'geometry',
                 'stylers': {
-                  'color': '#465b6c'
+                  'color': '#181818'
+                }
+              },
+              {
+                'featureType': 'subway',
+                'elementType': 'geometry.stroke',
+                'stylers': {
+                  'color': '#181818'
+                }
+              },
+              {
+                'featureType': 'railway',
+                'elementType': 'geometry',
+                'stylers': {
+                  'lightness': -52
+                }
+              },
+              {
+                'featureType': 'all',
+                'elementType': 'labels.text.stroke',
+                'stylers': {
+                  'color': '#313131'
+                }
+              },
+              {
+                'featureType': 'all',
+                'elementType': 'labels.text.fill',
+                'stylers': {
+                  'color': '#8b8787'
                 }
               },
               {
                 'featureType': 'manmade',
-                'elementType': 'all',
+                'elementType': 'geometry',
                 'stylers': {
-                  'color': '#022338'
+                  'color': '#1b1b1b'
                 }
               },
               {
-                'featureType': 'label',
+                'featureType': 'local',
+                'elementType': 'geometry',
+                'stylers': {
+                  'lightness': -75,
+                  'saturation': -91
+                }
+              },
+              {
+                'featureType': 'subway',
+                'elementType': 'geometry',
+                'stylers': {
+                  'lightness': -65
+                }
+              },
+              {
+                'featureType': 'railway',
                 'elementType': 'all',
                 'stylers': {
-                  'visibility': 'off'
+                  'lightness': -40
+                }
+              },
+              {
+                'featureType': 'boundary',
+                'elementType': 'geometry',
+                'stylers': {
+                  'color': '#8b8787',
+                  'weight': '1',
+                  'lightness': -29
                 }
               }
             ]

@@ -6,7 +6,7 @@
 }
 .map-view>.map .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
-  height: 520px;
+  height: 65vh;
   margin-left: 10px;
   border-radius: 6px 6px 0 0;
   padding-top: 20px;
@@ -163,7 +163,6 @@
 .header-table {
   background-color: white;
   margin-left: 15px;
-  margin-right: 15px;
   position: relative;
   font-size: 18px;
   padding: 16px 20px;
@@ -335,14 +334,52 @@ tbody tr:hover{
 .event-statistics{
   margin-left: 10px;
   background: #2F3640;
+  padding-bottom: 10px;
 }
 .event-statistics .event-statistics-time{
   position: relative;
-  height: 80px;
+  height: 50px;
+  padding-left: 200px;
+  padding-top: 10px;
 }
-.event-statistics .event-statistics-day>.left{
+.event-statistics .event-statistics-time>.title-box{
+  position: absolute;
+  top: -10px;
+  left: -26px;
+  background-color:#202833;
+  width: 180px;
+  height: 48px;
+  line-height: 48px;
+  color: white;
+  box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 1;
+  padding-left: 15px;
+}
+.event-statistics .event-statistics-time>.time-box{
+  height: 30px;
+  border-radius: 25px;
+  background: #202833;
+  width: 30%;
+}
+.event-statistics .left{
   height: 157px;
-  color: #646e8a;
+  background: #646e8a;
+  margin-left: -15px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.event-statistics .right{
+  height: 157px;
+  background: #475264;
+  /*margin-left: -15px;*/
+  margin-right: -15px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.event-statistics-month .right{
+  margin-right: -15px;
 }
 
 /*bootstrap扩展*/
