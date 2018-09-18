@@ -6,10 +6,10 @@
 }
 .map-view>.map .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
-  height: 65vh;
+  height: 68vh;
   margin-left: 10px;
   border-radius: 6px 6px 0 0;
-  padding-top: 20px;
+  padding-top: 2vh;
   position: relative;
   margin-bottom: 0;
 }
@@ -344,7 +344,7 @@ tbody tr:hover{
 }
 .event-statistics .event-statistics-time>.title-box{
   position: absolute;
-  top: -10px;
+  top: -8px;
   left: -26px;
   background-color:#202833;
   width: 180px;
@@ -361,22 +361,42 @@ tbody tr:hover{
   height: 30px;
   border-radius: 25px;
   background: #202833;
-  width: 30%;
+  width: 400px;
+  color: white;
+  line-height: 30px;
+  padding-left: 20px;
+}
+.event-statistics .event-statistics-time>.time-box>span{
+  letter-spacing: 1px;
+  margin-right: 20px;
 }
 .event-statistics .left{
-  height: 157px;
+  height: 14vh;
+  font-size: 20px;
+  color: white;
+  padding-top: calc((35% - 58px) / 2);
   background: #646e8a;
   margin-left: -15px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
 .event-statistics .right{
-  height: 157px;
+  height: 14vh;
+  color: white;
   background: #475264;
   /*margin-left: -15px;*/
-  margin-right: -15px;
+  margin-right: -10px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+.event-statistics .right .col-xs-3{
+  padding-left: 0;
+  padding-right: 0;
+}
+.event-statistics .right .icon-box{
+  background: #202833;
+  border-radius: 5px;
+  /*padding: 3px;*/
 }
 .event-statistics-month .right{
   margin-right: -15px;
@@ -487,6 +507,7 @@ fieldset[disabled] .btn-violet.focus {
   font-weight: normal;
   font-style: normal;
 }
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -501,15 +522,21 @@ fieldset[disabled] .btn-violet.focus {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .icon-untreated:before {
-  content: "\e901";
-}
-.icon-event1:before {
-  content: "\e902";
-}
-.icon-complete1:before {
-  content: "\e903";
-}
-.icon-event2:before {
   content: "\e900";
 }
+.icon-event1:before {
+  content: "\e901";
+}
+.icon-event2:before {
+  content: "\e902";
+}
+.icon-maintain:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-complete:before {
+  content: "\e904";
+}
+
