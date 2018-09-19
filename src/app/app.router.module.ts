@@ -7,7 +7,7 @@ const appRoutes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'home', loadChildren: 'app/home/home.module#HomeModule'},
-  {path: 'mobie', loadChildren: 'app/mobie/mobie.module#MobieModule'}
+  {path: 'mobie', loadChildren: 'app/business/mobie/mobie.module#MobieModule'}
 ];
 
 @NgModule({

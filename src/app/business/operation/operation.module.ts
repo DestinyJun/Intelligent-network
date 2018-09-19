@@ -6,7 +6,7 @@ import {OperationRoutersModule} from './operation.routers.module';
 import {NgxEchartsModule} from 'ngx-echarts';
 import {PaginationModule} from 'ngx-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpServiceService} from './http-service.service';
+import {HttpServiceService} from '../../common/services/http-service.service';
 
 @NgModule({
   imports: [

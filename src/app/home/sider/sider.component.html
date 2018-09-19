@@ -30,7 +30,7 @@
         </ul>
         <ul class="Mul">
           <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
-            <span class="Span" style="padding-left: 10px;">大数据分析</span></a></li>
+            <span class="Span" style="padding-left: 10px;" (click)="bigDataClick()">大数据分析</span></a></li>
           <li *ngFor="let list of navList2; let listIndex = index" >
             <a [ngStyle]="{'border-left':list.open?'5px solid white':'5px solid transparent',
             'background-color':list.open? 'rgb(32,40,51,1)':''}"

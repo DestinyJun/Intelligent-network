@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BursterComponent } from './burster.component';
+import { BigDataComponent } from './big-data.component';
 
-describe('BursterComponent', () => {
-  let component: BursterComponent;
-  let fixture: ComponentFixture<BursterComponent>;
+describe('BigDataComponent', () => {
+  let component: BigDataComponent;
+  let fixture: ComponentFixture<BigDataComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BursterComponent ]
+      declarations: [ BigDataComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BursterComponent);
+    fixture = TestBed.createComponent(BigDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
