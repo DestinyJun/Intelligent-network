@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Fault, WorkUser} from '../Fault';
-import {FaultService} from '../fault.service';
-import {PageService} from '../../../commonModule/page.service';
+import {Fault, WorkUser} from '../../../../common/model/Fault';
+import {FaultService} from '../../../../common/services/fault.service';
+import {PageService} from '../../../../common/services/page.service';
 
 @Component({
   selector: 'app-untreated',

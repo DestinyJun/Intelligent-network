@@ -6,8 +6,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LoginComponent} from './login/login.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {LoginService} from './login/login.service';
-import {SessionService} from './shared/session.service';
+import {LoginService} from './common/services/login.service';
+import {SessionService} from './common/services/session.service';
 
 @NgModule({
   declarations: [

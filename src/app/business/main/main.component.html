@@ -5,11 +5,11 @@
         <!--地图标题-->
         <div class="title">
           <i class="glyphicon glyphicon-home"></i>
-          <span class="map-title">管辖区域-实时视图</span>
+          <span class="map-title" style="margin-left: 0.5vw">管辖区域-实时视图</span>
         </div>
         <!--地图分布-->
         <!--<div echarts [options]="options" style="height: 600px;width: 100%;" (chartInit)="onChartEvent($event)"></div>-->
-        <div id="myMap" style="height: 66vh;width: 100%;"></div>
+        <div id="myMap" style="height: 65vh;width: 100%;"></div>
         <!--地图左侧异常信息说明-->
         <div class="white-title">
           <ul>
@@ -23,7 +23,7 @@
         <!--省市联动-->
         <div class="location" (click)="administrativeClick()">
           <i class="fa fa-map-marker" aria-hidden="true"></i>
-          <span class="map-title">当前位置：{{selectDate}}</span>
+          <span class="map-title" style="margin-left: 0.5vw">当前位置：{{selectDate}}</span>
         </div>
         <!--省-->
         <ul class="select-list-province" *ngIf="provinceShow">
@@ -51,119 +51,69 @@
             {{item}}
           </li>
         </ul>
+        <!--事件提醒-->
+        <div class="information-body">
+          <div class="information-body-title">
+            <i class="icon-eventonetwo"></i>
+            <span style="margin-left: 0.5vw">异常事件</span>
+          </div>
+          <div class="information-body-table">
+            <table class="table table-striped" style=" border-collapse: separate;color: white;">
+              <thead>
+              <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);font-size: 0.42rem">
+                <th>时间</th>
+                <th>类型</th>
+                <th>事件描述</th>
+              </tr>
+              </thead>
+              <tbody style="font-size: 0.4rem">
+                <tr>
+                  <td>2018-06-12 00:23:25</td>
+                  <td><button class="btn btn-danger">报警</button></td>
+                  <td>井盖丢失、水位异常</td>
+                </tr>
+                <div style="height: 3px"></div>
+                <tr>
+                  <td>2018-06-12 00:23:25</td>
+                  <td><button class="btn btn-primary">报警</button></td>
+                  <td>井盖丢失、水位异常</td>
+                </tr>
+                <div style="height: 3px"></div>
+                <tr>
+                  <td>2018-06-12 00:23:25</td>
+                  <td><button class="btn btn-violet">维修</button></td>
+                  <td>井盖丢失、水位异常</td>
+                </tr>
+                <div style="height: 3px"></div>
+                <tr>
+                  <td>2018-06-12 00:23:25</td>
+                  <td><button class="btn btn-warning">报警</button></td>
+                  <td>井盖丢失、水位异常</td>
+                </tr>
+                <div style="height: 3px"></div>
+                <tr>
+                  <td>2018-06-12 00:23:25</td>
+                  <td><button class="btn btn-success">报警</button></td>
+                  <td>井盖丢失、水位异常</td>
+                </tr>
+                <div style="height: 3px"></div>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <!--<div class="information-title" (click)="toggleOnlist()">
-    <div class="i-title" >
-      <i [ngStyle]="{'display': onlist === 'off'?'block':'none'}" class="glyphicon glyphicon-chevron-left"></i>
-      <i [ngStyle]="{'display': onlist === 'open'?'block':'none'}" class="glyphicon glyphicon-chevron-right"></i>
-    </div>
-  </div>-->
-  <div class="information-body">
-    <div class="information-body-title">
-      <i class="icon-event2"></i>
-      <span style="color:white;margin-left: 15px">异常事件</span>
-    </div>
-    <div class="information-body-table">
-     <!-- <ul>
-        <li>
-          <span>20180612</span>
-          <span>00:23:25</span>
-          <button class="btn btn-danger">报警</button>
-          <span>井盖丢失、水位异常</span>
-        </li>
-        <li>
-          <span>20180612</span>
-          <span>00:23:25</span>
-          <button class="btn btn-primary">报警</button>
-          <span>井盖丢失、水位异常</span>
-        </li>
-        <li>
-          <span>20180612</span>
-          <span>00:23:25</span>
-          <button class="btn">报警</button>
-          <span>井盖丢失、水位异常</span>
-        </li>
-        <li>
-          <span>20180612</span>
-          <span>00:23:25</span>
-          <button class="btn btn-warning">报警</button>
-          <span>井盖丢失、水位异常</span>
-        </li>
-        <li>
-          <span>20180612</span>
-          <span>00:23:25</span>
-          <button class="btn btn-success">报警</button>
-          <span>井盖丢失、水位异常</span>
-        </li>
-      </ul>-->
-      <table class="table table-striped" style=" border-collapse: separate;color: white;">
-        <thead>
-          <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);">
-            <th>时间</th>
-            <th>类型</th>
-            <th>事件描述</th>
-        </tr>
-        </thead>
-        <tbody>
-         <!-- <tr *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
-            <td>{{i+1}}</td>
-            <td>{{f.id}}</td>
-            <td>{{f.failureTime}}</td>
-          </tr>-->
-          <tr>
-            <td>2018-06-12 00:23:25</td>
-            <td><button class="btn btn-danger">报警</button></td>
-            <td>井盖丢失、水位异常</td>
-          </tr>
-         <div style="height: 3px"></div>
-         <tr>
-           <td>2018-06-12 00:23:25</td>
-           <td><button class="btn btn-primary">报警</button></td>
-           <td>井盖丢失、水位异常</td>
-         </tr>
-         <div style="height: 3px"></div>
-         <tr>
-           <td>2018-06-12 00:23:25</td>
-           <td><button class="btn btn-violet">维修</button></td>
-           <td>井盖丢失、水位异常</td>
-         </tr>
-         <div style="height: 3px"></div>
-         <tr>
-           <td>2018-06-12 00:23:25</td>
-           <td><button class="btn btn-warning">报警</button></td>
-           <td>井盖丢失、水位异常</td>
-         </tr>
-         <div style="height: 3px"></div>
-         <tr>
-           <td>2018-06-12 00:23:25</td>
-           <td><button class="btn btn-success">报警</button></td>
-           <td>井盖丢失、水位异常</td>
-         </tr>
-         <div style="height: 3px"></div>
-        </tbody>
-      </table>
-       <!-- <div class="tbody">
-          <ul *ngFor="let f of homepageMsg?.faultRecordManholeCoverInfo;let i=index">
-            <li>20180612</li>
-            <li>00:23:25</li>
-            <li><span>报警</span></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>-->
-    </div>
-  </div>
+
 </div>
-<div class="event-statistics">
+<div class="event-statistics" >
   <div class="container-fluid" style="padding-right: 0;">
     <div class="row">
       <div class="col-lg-12 col-md-12">
         <div class="event-statistics-time">
           <div class="title-box">
-            <i class="icon-event1"></i>
-            <span style="color:white;margin-left: 15px">事件统计</span>
+            <i class="icon-eventone"></i>
+            <span style="color:white;margin-left: 1vw">事件统计</span>
           </div>
           <div class="time-box text-center">
             <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -186,7 +136,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-maintain"></i>
+                    <i class="icon-police"></i>
                   </p>
                   <p class="text-center">报警中</p>
                 </div>
@@ -195,7 +145,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event1"></i>
+                    <i class="icon-untreated"></i>
                   </p>
                   <p class="text-center">未处理</p>
                 </div>
@@ -204,7 +154,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-maintain"></i>
                   </p>
                   <p class="text-center">维修中</p>
                 </div>
@@ -213,7 +163,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-complete" style="color: white"></i>
                   </p>
                   <p class="text-center">已完成</p>
                 </div>
@@ -233,7 +183,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-maintain"></i>
+                    <i class="icon-police"></i>
                   </p>
                   <p class="text-center">报警中</p>
                 </div>
@@ -242,7 +192,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event1"></i>
+                    <i class="icon-untreated"></i>
                   </p>
                   <p class="text-center">未处理</p>
                 </div>
@@ -251,7 +201,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-maintain"></i>
                   </p>
                   <p class="text-center">维修中</p>
                 </div>
@@ -260,7 +210,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-complete" style="color: white"></i>
                   </p>
                   <p class="text-center">已完成</p>
                 </div>
@@ -280,7 +230,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-maintain"></i>
+                    <i class="icon-police"></i>
                   </p>
                   <p class="text-center">报警中</p>
                 </div>
@@ -289,7 +239,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event1"></i>
+                    <i class="icon-untreated"></i>
                   </p>
                   <p class="text-center">未处理</p>
                 </div>
@@ -298,7 +248,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-maintain"></i>
                   </p>
                   <p class="text-center">维修中</p>
                 </div>
@@ -307,7 +257,7 @@
               <div class="col-xs-3">
                 <div class="icon-box">
                   <p class="text-center">
-                    <i class="icon-event2"></i>
+                    <i class="icon-complete" style="color: white"></i>
                   </p>
                   <p class="text-center">已完成</p>
                 </div>
@@ -319,17 +269,4 @@
       </div >
     </div>
   </div>
-
 </div>
-
-
-
-  <!--异常信息提醒-->
-  <!--<div class="color-title" *ngIf="mobile">
-    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖丢失</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;水位过高</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;管道堵塞</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-    <div><span class="glyphicon glyphicon-alert">&nbsp;井盖传感器异常</span><span>编号:XXXXXXX</span><span>经纬度:XXXXX,XXXXX</span></div>
-  </div>-->
-  <!--<div *ngIf="mobile" class="information" [@slide]="onlist">-->
-

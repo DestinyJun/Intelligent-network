@@ -2,11 +2,11 @@
   position: relative;
 }
 .map-view>.map{
-  padding-top: 2px;
+  padding-top: 0.5vh;
 }
 .map-view>.map .container-fluid{
   background-color: rgba(69, 76, 84, 0.52);
-  height: 68vh;
+  height: 67vh;
   margin-left: 10px;
   border-radius: 6px 6px 0 0;
   padding-top: 2vh;
@@ -19,51 +19,53 @@
   top: -6px;
   left: -10px;
   background-color:#202833;
-  width: 180px;
-  height: 48px;
+  width: 14vw;
+  height: 5vh;
+  line-height: 5vh;
   color: white;
   box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
-  font-size: 16px;
-  padding: 11px;
+  font-size: 0.5rem;
+  padding-left: 1vw;
   z-index: 1;
 }
 
 .location{
   position: absolute;
   top: -5px;
-  left: 200px;
+  left: 15vw;
   background-color: #0F93FF;
-  min-width: 180px;
-  height: 48px;
+  min-width: 14vw;
+  height: 5vh;
+  line-height: 5vh;
   color: white;
   box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
-  font-size: 16px;
-  padding: 11px;
+  font-size: 0.5rem;
   z-index: 1;
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
 .location:hover{
   cursor: pointer;
 }
-.location.btn-warning>i{
-  font-size: 20px;
+.location .fa-map-marker{
+  font-size: 0.6rem;
 }
 .select-list-province,.select-list-city,.select-list-town{
   background: rgba(120,120,112,0.8);
   padding-left: 0;
   color: #87FFFF;
   position: absolute;
-  top: 49px;
-  left: 200px;
+  top: 4.6vh;
+  left: 15vw;
   z-index: 1;
 }
 .select-list-city{
-  top: 68px;
-  left: 380px;
-
+  top: 12vh;
+  left: 24.3vw;
 }
 .select-list-town{
-  top: 88px;
-  left: 560px;
+  top: 18vh;
+  left: 33.6vw;
 }
 .select-list-province>li,.select-list-city>li,.select-list-town>li{
   list-style: none;
@@ -78,21 +80,23 @@
 
 /*左下角白块信息框*/
 .white-title{
+  font-size: 0.4rem;
   background-color: rgba(255,255,255,.5);
   position: absolute;
-  top: 350px;
   left: 0;
+  bottom: 8vh;
 }
 .white-title ul{
   list-style: none;
   font-weight: bolder;
+  padding-left: 15px;
+  padding-right: 2vw;
 }
 .white-title span{
   display: inline-block;
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  padding-right: 4px;
 }
 .white-title li:nth-child(1) > span{
   padding-top: 10px;
@@ -256,27 +260,27 @@
   right: 0;
   border-radius: 0 0 0 20px;
   width: 28vw;
-  height: 68vh;
+  height: 64vh;
   color: rgba(222,222,222,1);
-  padding-right: 15px;
+  padding-right: 0.7vw;
 }
 .information-body-title{
   position: absolute;
   top: -5px;
   left: -10px;
   background-color:#202833;
-  width: 180px;
-  height: 48px;
-  line-height: 48px;
+  width: 10vw;
+  height: 5vh;
+  line-height: 5vh;
   color: white;
   box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
-  font-size: 16px;
+  font-size: 0.5rem;
   font-weight: 500;
   z-index: 1;
-  padding-left: 15px;
+  padding-left: 1vw;
 }
 .information-body-table{
-  margin-top: 48px;
+  margin-top: 5vh;
   /*padding: 20px;*/
 }
 .information-body-table .table-striped>tbody>tr:hover{
@@ -337,44 +341,44 @@ tbody tr:hover{
   padding-bottom: 10px;
 }
 .event-statistics .event-statistics-time{
+  padding-top: 1vh;
   position: relative;
-  height: 50px;
-  padding-left: 200px;
-  padding-top: 10px;
+  height: 6vh;
+  padding-left: 15vw;
 }
 .event-statistics .event-statistics-time>.title-box{
   position: absolute;
   top: -8px;
   left: -26px;
   background-color:#202833;
-  width: 180px;
-  height: 48px;
-  line-height: 48px;
+  width: 10vw;
+  height: 5vh;
+  line-height: 5vh;
   color: white;
   box-shadow: rgba(27, 24, 24, 0.52) 4px 4px 1px 2px;
-  font-size: 16px;
+  font-size: 0.45rem;
   font-weight: 500;
   z-index: 1;
-  padding-left: 15px;
+  padding-left: 1vw;
 }
 .event-statistics .event-statistics-time>.time-box{
-  height: 30px;
+  height: 4vh;
   border-radius: 25px;
   background: #202833;
-  width: 446px;
+  width: 25vw;
   color: white;
-  line-height: 30px;
-  padding-left: 20px;
-  font-size: 16px;
+  line-height: 4vh;
+  font-size: 0.4rem;
 }
 .event-statistics .event-statistics-time>.time-box>span{
   letter-spacing: 1px;
-  margin-right: 20px;
+  margin-right: 1vw;
 }
+
 .event-statistics .left{
   text-align: center;
   height: 14vh;
-  font-size: 20px;
+  font-size: 0.6rem;
   color: white;
   padding-top: 4vh;
   background: #646e8a;
@@ -396,18 +400,19 @@ tbody tr:hover{
  }
 .event-statistics .right .col-xs-3>p{
   margin-top: 2vh;
-  font-size: 18px;
+  font-size: 0.5rem;
 }
 .event-statistics .right .icon-box{
   border-radius: 5px;
-  padding: 10px 0;
+  padding: 1vh 0;
+  color: white;
   /*padding: 3px;*/
 }
 .event-statistics .right .icon-box p{
-  font-size: 16px;
+  font-size: 0.4rem;
 }
 .event-statistics .right .icon-box p i{
-  font-size: 20px;
+  font-size: 0.5rem;
 }
 .event-statistics .right .col-xs-3:nth-child(1)>.icon-box{
   background: #202833;
@@ -550,20 +555,24 @@ fieldset[disabled] .btn-violet.focus {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-untreated:before {
+.icon-police:before {
   content: "\e900";
+  color: #fff;
 }
-.icon-event1:before {
+.icon-untreated:before {
   content: "\e901";
 }
-.icon-event2:before {
+.icon-eventone:before {
   content: "\e902";
 }
-.icon-maintain:before {
+.icon-eventonetwo:before {
   content: "\e903";
+}
+.icon-maintain:before {
+  content: "\e904";
   color: #fff;
 }
 .icon-complete:before {
-  content: "\e904";
+  content: "\e905";
 }
 

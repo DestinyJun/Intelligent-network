@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FaultService} from '../fault.service';
-import {Fault, WorkUser} from '../Fault';
-import {PageService} from '../../../commonModule/page.service';
+import {FaultService} from '../../../../common/services/fault.service';
+import {Fault, WorkUser} from '../../../../common/model/Fault';
+import {PageService} from '../../../../common/services/page.service';
 
 @Component({
   selector: 'app-processing',

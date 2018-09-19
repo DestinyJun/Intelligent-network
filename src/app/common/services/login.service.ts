@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {SessionService} from '../shared/session.service';
-import {Url} from '../url';
+import {SessionService} from './session.service';
+import {UrlModul} from '../model/url.modul';
 
 @Injectable()
 export class LoginService {
 
-  url = new Url().getUrl();
+  url = new UrlModul().getUrl();
   private header = {['Content-Type']: 'application/x-www-form-urlencoded'};
 
   constructor(

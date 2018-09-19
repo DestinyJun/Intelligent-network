@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {NavList, NavListChild} from '../../shared/session.service';
+import {NavList, NavListChild} from '../../common/services/session.service';
 
 @Component({
   selector: 'app-sider',
@@ -29,8 +29,8 @@ export class SiderComponent implements OnInit {
     this.height = 40;
   }
   ngOnInit() {
-    console.log(this.navList1[0].height);
-    console.log(this.navList1[0].children.length);
+    /*console.log(this.navList1[0].height);
+    console.log(this.navList1[0].children.length);*/
   }
 
   navListInit(navList: NavList[], index: number) {
@@ -39,6 +39,10 @@ export class SiderComponent implements OnInit {
   }
   onMouseClick(navList: NavList) {
 
+  }
+  public bigDataClick(): void {
+    console.log(1);
+    this.router.navigate(['/home/bigdata']);
   }
   toggleList(navList: number, index: number) {
     switch (navList) {

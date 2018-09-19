@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NgxEchartsService} from 'ngx-echarts';
-import {animation} from './right-sider-animation';
-import {SessionService, UserRegion} from '../../shared/session.service';
-import {Url} from '../../url';
+import {animation} from '../../common/animation/right-sider-animation';
+import {SessionService, UserRegion} from '../../common/services/session.service';
+import {UrlModul} from '../../common/model/url.modul';
 import {MainService} from '../../common/services/main.service';
 import {FaultRecordManholeCover, HomepageMsg, PointData} from '../../common/model/main.model';
 declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
@@ -17,7 +17,7 @@ export class MainComponent implements OnInit {
 
   @Input() public mobile = true;
   @Input() public token: string;
-  public url = new Url().getUrl();
+  public url = new UrlModul().getUrl();
   public homepageMsg: HomepageMsg;
   public faultRecordManholeCover = Array<FaultRecordManholeCover>(); // 井部分信息数组
   public pointData = []; // GPS数组
@@ -44,10 +44,7 @@ export class MainComponent implements OnInit {
     private es: NgxEchartsService,
     private session: SessionService,
     private mainService: MainService
-  ) {
-    // this.faultRecordManholeCover = [];
-
-  }
+  ) {}
 
   ngOnInit() {
     this.getData();
@@ -60,15 +57,30 @@ export class MainComponent implements OnInit {
       }*/
     });
   }
-
+  // 拿到井数据
+  public getData(): void {
+    this.mainService.getWellDate({}).subscribe(
+      (data) => {
+        this.homepageMsg = data['homepageMsg'];
+        // console.log(data['homepageMsg']);
+        this.session.set('regionId', data['homepageMsg'].cityRegionId);
+        // console.log(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
+        this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
+        this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
+          this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
+        this.session.setUserRegion(this.userRegion);
+      }
+    );
+  }
+  // 遍历出坐标点
   public addMarker(fMC: Array<FaultRecordManholeCover>): any {
     // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
     let lng, lat, usrLng, usrLat;
     for (let i = 0; i < fMC.length; i++) {
-      if (fMC[i].flag === 0) {
+      if (fMC[i].flag === 0 || fMC[i].flag === 2) {
+        // console.log(fMC[i].initialManhole.gpsId);
         const gpsId = fMC[i].initialManhole.gpsId.split(',');
         let gpsIdUsr;
-        console.log(gpsId);
         if (fMC[i].workUser !== null) {
           gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
           lng = gpsId[0]; lat = gpsId[1]; usrLng = gpsIdUsr[0]; usrLat = gpsIdUsr[1];
@@ -77,13 +89,11 @@ export class MainComponent implements OnInit {
             [{name: fMC[i].workUser.name, value: [usrLng, usrLat, '3']}]
           );
         }
-      }
-      else {
+      } else if (fMC[i].flag === 1)  {
         const gpsId = fMC[i].initialManhole.gpsId.split(','); // 拿出flowOutManhole里的gpsId
         let gpsIdUsr;
         if (fMC[i].workUser !== null) {
           gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
-          console.log(gpsIdUsr);
           const lng = gpsId[0], lat = gpsId[1], usrLng = gpsIdUsr[0], usrLat = gpsIdUsr[1];
           this.pointData.push(
             [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
@@ -94,28 +104,9 @@ export class MainComponent implements OnInit {
     }
     return  this.pointData;
   }
-
-  public getData(): void {
-    this.mainService.getWellDate({}).subscribe(
-      (data) => {
-        this.homepageMsg = data['homepageMsg'];
-        this.session.set('regionId', data['homepageMsg'].cityRegionId);
-        console.log(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
-        this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
-        this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
-          this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
-        this.session.setUserRegion(this.userRegion);
-      }
-    );
-  }
-
-  public toggleOnlist(): void {
-    this.onlist = this.onlist === 'off' ? 'open' : 'off';
-  }
-
+  // echartk开始画点及线
   public echartsBMap(pointData: Array<PointData>): void {
     console.log(pointData);
-    // pointData[1][0].value = ['106.656504', '26.681777', '3'];
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
@@ -290,32 +281,32 @@ export class MainComponent implements OnInit {
               }
             }
           },
-        /*  {
-            type: 'effectScatter',
-            coordinateSystem: 'bmap',
-            data: pointData[1],
-            symbolSize: 13,
-            legendHoverLink: 'true',
-            label: {
-              normal: {
-                color: 'white',
-                formatter: '{b}',
-                position: 'right',
-                show: true
+          /*  {
+              type: 'effectScatter',
+              coordinateSystem: 'bmap',
+              data: pointData[1],
+              symbolSize: 13,
+              legendHoverLink: 'true',
+              label: {
+                normal: {
+                  color: 'white',
+                  formatter: '{b}',
+                  position: 'right',
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
               },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  console.log(params.value[2]);
-                  return that.color[Number()];
+              itemStyle: {
+                normal: {
+                  color: function (params) {
+                    console.log(params.value[2]);
+                    return that.color[Number()];
+                  }
                 }
               }
-            }
-          }*/
+            }*/
         ]
       }
     );
@@ -334,191 +325,181 @@ export class MainComponent implements OnInit {
     window.addEventListener('resize', function() {
       myChart.resize();
     });
-   /* this.options = {
-      backgroundColor: '#404a59',
-      title: {
-        text: '井盖异常位置图',
-        left: 'center',
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-      bmap: {
-        show: false,
-        center: [106.631929, 26.687097],
-        zoom: 18,
-        label: {
-          show: false,
-        },
-        roam: 'move',
-        scaleLimit: {
-          min: 15,
-          max: 19
-        },
-        mapStyle: {
-          'styleJson': [
-            {
-              'featureType': 'water',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#031628'
-              }
-            },
-            {
-              'featureType': 'land',
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#000102'
-              }
-            },
-            {
-              'featureType': 'highway',
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            },
-            {
-              'featureType': 'arterial',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                'color': '#000000'
-              }
-            },
-            {
-              'featureType': 'arterial',
-              'elementType': 'geometry.stroke',
-              'stylers': {
-                'color': '#0b3d51'
-              }
-            },
-            {
-              'featureType': 'local',
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#000000'
-              }
-            },
-            {
-              'featureType': 'railway',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                'color': '#000000'
-              }
-            },
-            {
-              'featureType': 'railway',
-              'elementType': 'geometry.stroke',
-              'stylers': {
-                'color': '#08304b'
-              }
-            },
-            {
-              'featureType': 'subway',
-              'elementType': 'geometry',
-              'stylers': {
-                'lightness': -70
-              }
-            },
-            {
-              'featureType': 'building',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                'color': '#000000'
-              }
-            },
-            {
-              'featureType': 'all',
-              'elementType': 'labels.text.fill',
-              'stylers': {
-                'color': '#857f7f'
-              }
-            },
-            {
-              'featureType': 'all',
-              'elementType': 'labels.text.stroke',
-              'stylers': {
-                'color': '#000000'
-              }
-            },
-            {
-              'featureType': 'building',
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#022338'
-              }
-            },
-            {
-              'featureType': 'green',
-              'elementType': 'geometry',
-              'stylers': {
-                'color': '#062032'
-              }
-            },
-            {
-              'featureType': 'boundary',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#465b6c'
-              }
-            },
-            {
-              'featureType': 'manmade',
-              'elementType': 'all',
-              'stylers': {
-                'color': '#022338'
-              }
-            },
-            {
-              'featureType': 'label',
-              'elementType': 'all',
-              'stylers': {
-                'visibility': 'off'
-              }
-            }
-          ]
-        }
-      },
-     series: [
-        {
-          type: 'effectScatter',
-          coordinateSystem: 'bmap',
-          data: pointData,
-          symbolSize: 15,
-          legendHoverLink: 'true',
-          label: {
-            normal: {
-              formatter: '{b}',
-              position: 'right',
-              show: false
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: function (params) {
-                return that.color[Number(params.value[2])];
-              }
-            }
-          }
-        }
-      ]
-    };*/
-  }
-  // 地图初始化事件
-  public onChartEvent(e): void {
-    const myChart = e;
-    const bmap = myChart.getModel().getComponentMap('bmap').getBMap();
-    bmap.addControl(new BMap.MapTypeControl());
-  /*  console.log(myChart.resize());
-    console.log(myChart.getHeight());
-    console.log(myChart.getOption());*/
-    // console.log(myChart.getMap('bmap'));
+    /* this.options = {
+       backgroundColor: '#404a59',
+       title: {
+         text: '井盖异常位置图',
+         left: 'center',
+         textStyle: {
+           color: '#fff'
+         }
+       },
+       tooltip: {
+         trigger: 'item'
+       },
+       bmap: {
+         show: false,
+         center: [106.631929, 26.687097],
+         zoom: 18,
+         label: {
+           show: false,
+         },
+         roam: 'move',
+         scaleLimit: {
+           min: 15,
+           max: 19
+         },
+         mapStyle: {
+           'styleJson': [
+             {
+               'featureType': 'water',
+               'elementType': 'all',
+               'stylers': {
+                 'color': '#031628'
+               }
+             },
+             {
+               'featureType': 'land',
+               'elementType': 'geometry',
+               'stylers': {
+                 'color': '#000102'
+               }
+             },
+             {
+               'featureType': 'highway',
+               'elementType': 'all',
+               'stylers': {
+                 'visibility': 'off'
+               }
+             },
+             {
+               'featureType': 'arterial',
+               'elementType': 'geometry.fill',
+               'stylers': {
+                 'color': '#000000'
+               }
+             },
+             {
+               'featureType': 'arterial',
+               'elementType': 'geometry.stroke',
+               'stylers': {
+                 'color': '#0b3d51'
+               }
+             },
+             {
+               'featureType': 'local',
+               'elementType': 'geometry',
+               'stylers': {
+                 'color': '#000000'
+               }
+             },
+             {
+               'featureType': 'railway',
+               'elementType': 'geometry.fill',
+               'stylers': {
+                 'color': '#000000'
+               }
+             },
+             {
+               'featureType': 'railway',
+               'elementType': 'geometry.stroke',
+               'stylers': {
+                 'color': '#08304b'
+               }
+             },
+             {
+               'featureType': 'subway',
+               'elementType': 'geometry',
+               'stylers': {
+                 'lightness': -70
+               }
+             },
+             {
+               'featureType': 'building',
+               'elementType': 'geometry.fill',
+               'stylers': {
+                 'color': '#000000'
+               }
+             },
+             {
+               'featureType': 'all',
+               'elementType': 'labels.text.fill',
+               'stylers': {
+                 'color': '#857f7f'
+               }
+             },
+             {
+               'featureType': 'all',
+               'elementType': 'labels.text.stroke',
+               'stylers': {
+                 'color': '#000000'
+               }
+             },
+             {
+               'featureType': 'building',
+               'elementType': 'geometry',
+               'stylers': {
+                 'color': '#022338'
+               }
+             },
+             {
+               'featureType': 'green',
+               'elementType': 'geometry',
+               'stylers': {
+                 'color': '#062032'
+               }
+             },
+             {
+               'featureType': 'boundary',
+               'elementType': 'all',
+               'stylers': {
+                 'color': '#465b6c'
+               }
+             },
+             {
+               'featureType': 'manmade',
+               'elementType': 'all',
+               'stylers': {
+                 'color': '#022338'
+               }
+             },
+             {
+               'featureType': 'label',
+               'elementType': 'all',
+               'stylers': {
+                 'visibility': 'off'
+               }
+             }
+           ]
+         }
+       },
+      series: [
+         {
+           type: 'effectScatter',
+           coordinateSystem: 'bmap',
+           data: pointData,
+           symbolSize: 15,
+           legendHoverLink: 'true',
+           label: {
+             normal: {
+               formatter: '{b}',
+               position: 'right',
+               show: false
+             },
+             emphasis: {
+               show: true
+             }
+           },
+           itemStyle: {
+             normal: {
+               color: function (params) {
+                 return that.color[Number(params.value[2])];
+               }
+             }
+           }
+         }
+       ]
+     };*/
   }
 
   // 中部地图省市联动
@@ -570,6 +551,20 @@ export class MainComponent implements OnInit {
     this.cityShow = false;
     this.townsShow = false;
     this.selectDate = this.provinceDate + this.citeDate + item;
+  }
+
+  public toggleOnlist(): void {
+    this.onlist = this.onlist === 'off' ? 'open' : 'off';
+  }
+  // 地图初始化事件
+  public onChartEvent(e): void {
+    const myChart = e;
+    const bmap = myChart.getModel().getComponentMap('bmap').getBMap();
+    bmap.addControl(new BMap.MapTypeControl());
+  /*  console.log(myChart.resize());
+    console.log(myChart.getHeight());
+    console.log(myChart.getOption());*/
+    // console.log(myChart.getMap('bmap'));
   }
 }
 

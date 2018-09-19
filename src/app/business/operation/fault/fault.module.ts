@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import {DisposedComponent} from './disposed/disposed.component';
 import {ProcessingComponent} from './processing/processing.component';
 import {UntreatedComponent} from './untreated/untreated.component';
-import {FaultService} from './fault.service';
-import {CommonModuleModule} from '../../commonModule/common-module.module';
+import {FaultService} from '../../../common/services/fault.service';
 import {RouterModule, Routes} from '@angular/router';
 import {FaultComponent} from './fault.component';
-import {PageService} from '../../commonModule/page.service';
+import {PageService} from '../../../common/services/page.service';
 import { AssigningComponent } from './assigning/assigning.component';
 
 const routes: Routes = [
@@ -21,7 +20,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    CommonModuleModule
   ],
   declarations: [
     DisposedComponent,
