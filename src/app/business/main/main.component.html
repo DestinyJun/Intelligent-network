@@ -67,13 +67,12 @@
               </tr>
               </thead>
               <tbody style="font-size: 0.4rem">
-                <tr>
-                  <td>2018-06-12 00:23:25</td>
-                  <td><button class="btn btn-danger">报警</button></td>
-                  <td>井盖丢失、水位异常</td>
+                <tr *ngFor="let item of alarmInformation;let i = index">
+                  <td>{{item.time}}</td>
+                  <td><button class="btn" [ngClass]="btnClassList[i].colors">{{item.type}}</button></td>
+                  <td>{{item.description}}</td>
                 </tr>
-                <div style="height: 3px"></div>
-                <tr>
+                <!--<tr>
                   <td>2018-06-12 00:23:25</td>
                   <td><button class="btn btn-primary">报警</button></td>
                   <td>井盖丢失、水位异常</td>
@@ -96,7 +95,7 @@
                   <td><button class="btn btn-success">报警</button></td>
                   <td>井盖丢失、水位异常</td>
                 </tr>
-                <div style="height: 3px"></div>
+                <div style="height: 3px"></div>-->
               </tbody>
             </table>
           </div>
@@ -104,7 +103,6 @@
       </div>
     </div>
   </div>
-
 </div>
 <div class="event-statistics" >
   <div class="container-fluid" style="padding-right: 0;">

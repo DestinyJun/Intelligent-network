@@ -283,6 +283,9 @@
   margin-top: 5vh;
   /*padding: 20px;*/
 }
+.information-body-table .table-striped>tbody>tr>td{
+  border-bottom: 5px solid rgba(255,0,0,0);
+}
 .information-body-table .table-striped>tbody>tr:hover{
   cursor: pointer;
 }

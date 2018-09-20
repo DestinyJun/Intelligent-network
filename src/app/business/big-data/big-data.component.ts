@@ -21,7 +21,7 @@ export class BigDataComponent implements OnInit {
   public buildEchart(): void {
     this.http.get('assets/data/data-1504965328785-rJKAz_-cW.json').subscribe(
       (value) => {
-        let points = JSON.parse(value);
+        const points = value;
         const colorList = ['#778899', '#FFD700', '#7CFC00', '#00BFFF', '#FF8C00', '#FF0000', '#9400D3'];
         const labels = ['0', '0~10', '10~20', '20~30', '30~50', '50~80', '>80'];
         let series = labels.map((i, j) => {

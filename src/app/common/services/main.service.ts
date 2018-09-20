@@ -22,7 +22,13 @@ export class MainService {
       '南明区', '云岩区', '白云区'
     ]
   };
-  public colorList  = [];
+  public colorList  = [
+    {states: '井盖丢失', colors: 'btn-danger'},
+    {states: '水位过高', colors: 'btn-primary'},
+    {states: '管道堵塞', colors: 'btn-violet'},
+    {states: '井盖传感器异常', colors: 'btn-warning'},
+    {states: '水位传感器异常', colors: 'btn-success'}
+    ];
   private headers: HttpHeaders = new HttpHeaders({'Content-Type': ['application/x-www-form-urlencoded']});
   constructor(
     private http: HttpClient,

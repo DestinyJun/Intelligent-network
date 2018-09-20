@@ -21,6 +21,8 @@ export class MainComponent implements OnInit {
   public homepageMsg: HomepageMsg;
   public faultRecordManholeCover = Array<FaultRecordManholeCover>(); // 井部分信息数组
   public pointData = []; // GPS数组
+  public alarmInformation = []; // 报警信息
+  public btnClassList = []; // 按钮颜色信息
   // 省市联动
   public selectDate = '贵州省';
   public flag: string;
@@ -62,7 +64,8 @@ export class MainComponent implements OnInit {
     this.mainService.getWellDate({}).subscribe(
       (data) => {
         this.homepageMsg = data['homepageMsg'];
-        // console.log(data['homepageMsg']);
+        console.log(data['homepageMsg'].faultRecordManholeCoverInfo);
+        this.getPublicPolice(data['homepageMsg'].faultRecordManholeCoverInfo);
         this.session.set('regionId', data['homepageMsg'].cityRegionId);
         // console.log(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
         this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
@@ -71,6 +74,30 @@ export class MainComponent implements OnInit {
         this.session.setUserRegion(this.userRegion);
       }
     );
+  }
+  // 拿到报警信息
+  public getPublicPolice(alarm): void {
+    this.alarmInformation = [];
+    let a = '';
+    this.btnClassList = this.mainService.colorList;
+    alarm.map((value, index) => {
+      let wellState = value.state.split('');
+      if (
+        wellState[0] === '2'
+        || wellState[1] === '1' || wellState[1] === '2' || wellState[1] === '3' || wellState[1] === '4'
+        || wellState[2] === '1') {
+        if (wellState[0] === '2') {
+          a = '井水溢出';
+        } else if (wellState[1] === '1' || wellState[1] === '2' || wellState[1] === '3') {
+          a = a + '且井盖偏移';
+        } else if (wellState[1] === '4') {
+          a = a + '井盖丢失';
+        } else if (wellState[2] === '1') {
+          a = a + '且堵塞或泄漏';
+        }
+        this.alarmInformation.push({time: value.failureTime, type: '报警', description: a});
+      }
+    });
   }
   // 遍历出坐标点
   public addMarker(fMC: Array<FaultRecordManholeCover>): any {
@@ -312,12 +339,12 @@ export class MainComponent implements OnInit {
     );
     const bmap = myChart.getModel().getComponent('bmap').getBMap();
     // 添加切换地图、卫星、三维切换控件
-    bmap.addControl(new BMap.MapTypeControl({
+   /* bmap.addControl(new BMap.MapTypeControl({
       // 靠左上角位置
       anchor: BMAP_ANCHOR_BOTTOM_LEFT,
-    }));
+    }));*/
     // 添加定位控件
-    bmap.addControl(new BMap.GeolocationControl());
+    // bmap.addControl(new BMap.GeolocationControl());
     // 设置地图最小缩放级别
     bmap.setMinZoom(15);
     // 设置地图最大缩放级别
