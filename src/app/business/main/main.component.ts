@@ -23,6 +23,12 @@ export class MainComponent implements OnInit {
   public pointData = []; // GPS数组
   public alarmInformation = []; // 报警信息
   public btnClassList = []; // 按钮颜色信息
+  // 画线条
+  public moveLine = {
+    normal: [
+      {'fromName': '省委', 'toName': '合肥市', 'coords': [[106.656504, 26.681777], [106.646474, 26.6784825]]},
+    ]
+  };
   // 省市联动
   public selectDate = '贵州省';
   public flag: string;
@@ -308,32 +314,30 @@ export class MainComponent implements OnInit {
               }
             }
           },
-          /*  {
-              type: 'effectScatter',
-              coordinateSystem: 'bmap',
-              data: pointData[1],
-              symbolSize: 13,
-              legendHoverLink: 'true',
-              label: {
-                normal: {
-                  color: 'white',
-                  formatter: '{b}',
-                  position: 'right',
-                  show: true
-                },
-                emphasis: {
-                  show: true
-                }
-              },
-              itemStyle: {
-                normal: {
-                  color: function (params) {
-                    console.log(params.value[2]);
-                    return that.color[Number()];
-                  }
-                }
+          {
+            name: '线路',
+            type: 'lines',
+            coordinateSystem: 'bmap',
+            zlevel: 2,
+            large: true,
+            effect: {
+              show: true,
+              constantSpeed: 30,
+              symbol: 'arrow',
+              symbolSize: 0,
+              trailLength: 0,
+            },
+
+            lineStyle: {
+              normal: {
+                color: '#0fff17',
+                width: 2,
+                opacity: 1.0,
+                curveness: 0.15
               }
-            }*/
+            },
+            data: this.moveLine.normal
+          },
         ]
       }
     );
