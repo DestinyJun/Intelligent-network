@@ -8,6 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FaultComponent} from './fault.component';
 import {PageService} from '../../../common/services/page.service';
 import { AssigningComponent } from './assigning/assigning.component';
+import {Shared} from '../../../common/shared/shared';
 
 const routes: Routes = [
   {path: '', redirectTo: '/disposed/:page', pathMatch: 'full'},
@@ -19,6 +20,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    Shared,
     RouterModule.forChild(routes),
   ],
   declarations: [

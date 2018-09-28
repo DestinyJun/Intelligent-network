@@ -1,0 +1,17 @@
+.pagination{
+  background-color:#2b333d;
+  margin: 0;
+  padding: 0;
+}
+.pagination ul li a{
+
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.pagination input{
+  width: 38%;
+}
+.skip-input{
+  color: black;
+}
