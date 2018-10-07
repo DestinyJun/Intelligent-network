@@ -28,8 +28,8 @@ export class MainComponent implements OnInit {
   public moveLine = {
     normal: [
       {
-        fromName: '省委',
-        toName: '合肥市',
+       /* fromName: '省委',
+        toName: '合肥市',*/
         coords: [
         [106.656504, 26.681777], [106.646474, 26.6784825]],
         value: 1
@@ -110,12 +110,11 @@ export class MainComponent implements OnInit {
   }
   // 遍历出异常井的坐标点
   public addWellMarker(well: any): any {
-    console.log(well);
     for (let i = 0; i < well.length; i++) {
       if (well[i].manholeState.toString()[0] !== '1' || well[i].manholeState.toString()[1] !== '1') {
         const gpsId = well[i].gpsId.split(',');
         this.wellPointData.push(
-          {name: well[i].gpsPosition, value: [gpsId[0], gpsId[1], '15', well[i].manholeState]}
+          {name: well[i].gpsPosition, value: [gpsId[0], gpsId[1], well[i].manholeState]}
         );
       }
     }
@@ -127,11 +126,11 @@ export class MainComponent implements OnInit {
     console.log(pipe);
     for (let i = 0; i < pipe.length; i++) {
         console.log(pipe[i]);
-        const gpsId = pipe[i].gpsId.split(',');
-        console.log(gpsId);
-        this.pipePointData.push(
-          {name: pipe[i].gpsPosition, value: [gpsId[0], gpsId[1], '1']}
-        );
+        const pipeInGps = pipe[i].gpsId.split(',');
+        // console.log(gpsId);
+        // this.pipePointData.push(
+        //   {name: pipe[i].gpsPosition, value: [gpsId[0], gpsId[1], '1']}
+        // );
 
     }
     return  this.pipePointData;
@@ -268,11 +267,7 @@ export class MainComponent implements OnInit {
             ]
           },
         },
-        tooltip: {
-          formatter: function (params) {
-            console.log(params);
-          }
-        },
+        tooltip: {},
         series: [
           {
             type: 'effectScatter',
@@ -282,7 +277,20 @@ export class MainComponent implements OnInit {
             legendHoverLink: 'true',
             tooltip: {
               formatter: function (params) {
-                console.log(params);
+                const wellState = params.data.value[2].toString().split('');
+                if (wellState[0] === '2') {
+                  return `<p>${params.data.name}井盖位移</p>`;
+                } else if (wellState[0] === '3') {
+                  return `<p>${params.data.name}传感器损坏</p>`;
+                } else if (wellState[1] === '2') {
+                  return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
+                } else if (wellState[1] === '3') {
+                  return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
+                } else if (wellState[1] === '4') {
+                  return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
+                } else if (wellState[1] === '5') {
+                  return `<p>${params.data.name}水位等于0</p>`;
+                }
               }
             },
             itemStyle: {
@@ -324,7 +332,9 @@ export class MainComponent implements OnInit {
             coordinateSystem: 'bmap',
             zlevel: 2,
             tooltip: {
-              formatter: '{b0}: {c0}<br />{b1}: {c1}'
+              formatter: function (params) {
+                console.log(params);
+              }
             },
             large: true,
             effect: {
