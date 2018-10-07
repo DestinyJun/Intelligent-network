@@ -14,19 +14,26 @@ declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
   animations: [animation]
 })
 export class MainComponent implements OnInit {
-
   @Input() public mobile = true;
   @Input() public token: string;
   public url = new UrlModul().getUrl();
-  public homepageMsg: HomepageMsg;
+  public homepageWell: any;
+  public wellPointData = []; // 井的GPS数组
+  public homepagePipe: any;
+  public pipePointData = []; // 管道的GPS数组
   public faultRecordManholeCover = Array<FaultRecordManholeCover>(); // 井部分信息数组
-  public pointData = []; // GPS数组
   public alarmInformation = []; // 报警信息
   public btnClassList = []; // 按钮颜色信息
   // 画线条
   public moveLine = {
     normal: [
-      {'fromName': '省委', 'toName': '合肥市', 'coords': [[106.656504, 26.681777], [106.646474, 26.6784825]]},
+      {
+        fromName: '省委',
+        toName: '合肥市',
+        coords: [
+        [106.656504, 26.681777], [106.646474, 26.6784825]],
+        value: 1
+      },
     ]
   };
   // 省市联动
@@ -69,14 +76,10 @@ export class MainComponent implements OnInit {
   public getData(): void {
     this.mainService.getWellDate({}).subscribe(
       (data) => {
-        this.homepageMsg = data['homepageMsg'];
-        console.log(data['homepageMsg'].faultRecordManholeCoverInfo);
-        this.getPublicPolice(data['homepageMsg'].faultRecordManholeCoverInfo);
-        this.session.set('regionId', data['homepageMsg'].cityRegionId);
-        // console.log(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
-        this.echartsBMap(this.addMarker(data['homepageMsg'].faultRecordManholeCoverInfo));
-        this.userRegion = new UserRegion(this.homepageMsg.cityRegionId, this.homepageMsg.provinceRegionId,
-          this.homepageMsg.countyRegionId, this.homepageMsg.townRegionId);
+        this.homepageWell = data.homePageDate.manholeStateList;
+        this.homepagePipe = data.homePageDate.pipeStateList;
+        this.echartsBMap(this.addWellMarker(this.homepageWell));
+        console.log(this.addPipeMarker(this.homepagePipe));
         this.session.setUserRegion(this.userRegion);
       }
     );
@@ -105,45 +108,47 @@ export class MainComponent implements OnInit {
       }
     });
   }
-  // 遍历出坐标点
-  public addMarker(fMC: Array<FaultRecordManholeCover>): any {
-    // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
-    let lng, lat, usrLng, usrLat;
-    for (let i = 0; i < fMC.length; i++) {
-      if (fMC[i].flag === 0 || fMC[i].flag === 2) {
-        // console.log(fMC[i].initialManhole.gpsId);
-        const gpsId = fMC[i].initialManhole.gpsId.split(',');
-        let gpsIdUsr;
-        if (fMC[i].workUser !== null) {
-          gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
-          lng = gpsId[0]; lat = gpsId[1]; usrLng = gpsIdUsr[0]; usrLat = gpsIdUsr[1];
-          this.pointData.push(
-            [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
-            [{name: fMC[i].workUser.name, value: [usrLng, usrLat, '3']}]
-          );
-        }
-      } else if (fMC[i].flag === 1)  {
-        const gpsId = fMC[i].initialManhole.gpsId.split(','); // 拿出flowOutManhole里的gpsId
-        let gpsIdUsr;
-        if (fMC[i].workUser !== null) {
-          gpsIdUsr = fMC[i].workUser.gpsPoint.split(',');
-          const lng = gpsId[0], lat = gpsId[1], usrLng = gpsIdUsr[0], usrLat = gpsIdUsr[1];
-          this.pointData.push(
-            [{name: fMC[i].initialManhole.gpsPosition, value: [lng, lat, '2']}],
-            [{name: fMC[i].workUser.name, value: [usrLng, usrLat, '3']}]
-          );
-        }
+  // 遍历出异常井的坐标点
+  public addWellMarker(well: any): any {
+    console.log(well);
+    for (let i = 0; i < well.length; i++) {
+      if (well[i].manholeState.toString()[0] !== '1' || well[i].manholeState.toString()[1] !== '1') {
+        const gpsId = well[i].gpsId.split(',');
+        this.wellPointData.push(
+          {name: well[i].gpsPosition, value: [gpsId[0], gpsId[1], '15', well[i].manholeState]}
+        );
       }
     }
-    return  this.pointData;
+    return  this.wellPointData;
+  }
+  // 遍历出管道的坐标点
+  public addPipeMarker(pipe: any): any {
+    // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
+    console.log(pipe);
+    for (let i = 0; i < pipe.length; i++) {
+        console.log(pipe[i]);
+        const gpsId = pipe[i].gpsId.split(',');
+        console.log(gpsId);
+        this.pipePointData.push(
+          {name: pipe[i].gpsPosition, value: [gpsId[0], gpsId[1], '1']}
+        );
+
+    }
+    return  this.pipePointData;
   }
   // echartk开始画点及线
   public echartsBMap(pointData: Array<PointData>): void {
-    console.log(pointData);
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
       {
+        visualMap: {
+          max: 20,
+          inRange: {
+            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+          },
+          bottom: '40%'
+        },
         bmap: {
           center: [106.656504, 26.681777],
           zoom: 15,
@@ -263,22 +268,21 @@ export class MainComponent implements OnInit {
             ]
           },
         },
+        tooltip: {
+          formatter: function (params) {
+            console.log(params);
+          }
+        },
         series: [
           {
             type: 'effectScatter',
             coordinateSystem: 'bmap',
-            data: pointData[1],
-            symbolSize: 13,
+            data: pointData,
+            symbolSize: 10,
             legendHoverLink: 'true',
-            label: {
-              normal: {
-                color: 'white',
-                formatter: '{b}',
-                position: 'right',
-                show: true
-              },
-              emphasis: {
-                show: true
+            tooltip: {
+              formatter: function (params) {
+                console.log(params);
               }
             },
             itemStyle: {
@@ -289,7 +293,7 @@ export class MainComponent implements OnInit {
               }
             }
           },
-          {
+         /* {
             type: 'effectScatter',
             coordinateSystem: 'bmap',
             data: pointData[0],
@@ -313,12 +317,15 @@ export class MainComponent implements OnInit {
                 }
               }
             }
-          },
+          },*/
           {
             name: '线路',
             type: 'lines',
             coordinateSystem: 'bmap',
             zlevel: 2,
+            tooltip: {
+              formatter: '{b0}: {c0}<br />{b1}: {c1}'
+            },
             large: true,
             effect: {
               show: true,
@@ -327,10 +334,9 @@ export class MainComponent implements OnInit {
               symbolSize: 0,
               trailLength: 0,
             },
-
             lineStyle: {
               normal: {
-                color: '#0fff17',
+                // color: '#0fff17',
                 width: 2,
                 opacity: 1.0,
                 curveness: 0.15
@@ -582,20 +588,6 @@ export class MainComponent implements OnInit {
     this.cityShow = false;
     this.townsShow = false;
     this.selectDate = this.provinceDate + this.citeDate + item;
-  }
-
-  public toggleOnlist(): void {
-    this.onlist = this.onlist === 'off' ? 'open' : 'off';
-  }
-  // 地图初始化事件
-  public onChartEvent(e): void {
-    const myChart = e;
-    const bmap = myChart.getModel().getComponentMap('bmap').getBMap();
-    bmap.addControl(new BMap.MapTypeControl());
-  /*  console.log(myChart.resize());
-    console.log(myChart.getHeight());
-    console.log(myChart.getOption());*/
-    // console.log(myChart.getMap('bmap'));
   }
 }
 

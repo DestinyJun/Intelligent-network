@@ -38,7 +38,7 @@ export class MainService {
   }
   public getWellDate(params): Observable<any> {
     // console.log(this.headers.get('accessToken'));
-    return this.http.post('http://120.78.137.182:8888//pipe-network/homepage', params, {headers: this.headers});
+    return this.http.post('http://123.249.28.108:8082/pipe-network/homepage', params, {headers: this.headers});
     // 获取主页面元素
     /*const that = this;
     $.ajax({
