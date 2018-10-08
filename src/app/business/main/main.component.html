@@ -55,47 +55,45 @@
         <div class="information-body">
           <div class="information-body-title">
             <i class="icon-eventonetwo"></i>
-            <span style="margin-left: 0.5vw">异常事件</span>
+            <span style="margin-left: 0.5vw">事件</span>
           </div>
           <div class="information-body-table">
             <table class="table table-striped" style=" border-collapse: separate;color: white;">
               <thead>
-              <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);font-size: 0.42rem">
-                <th>时间</th>
-                <th>类型</th>
-                <th>事件描述</th>
-              </tr>
-              </thead>
-              <tbody style="font-size: 0.4rem">
-                <tr *ngFor="let item of alarmInformation;let i = index">
-                  <td>{{item.time}}</td>
-                  <td><button class="btn" [ngClass]="btnClassList[i].colors">{{item.type}}</button></td>
-                  <td>{{item.description}}</td>
+                <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);font-size: 0.42rem">
+                  <th>时间</th>
+                  <!--<th>类型</th>-->
+                  <th>坐标</th>
+                  <th>事件描述</th>
                 </tr>
-                <!--<tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of exceptionList;let i = index">
+                  <td>{{item.failureTime}}</td>
+                  <!--<td><button class="btn" [ngClass]="btnClassList[i].colors">{{item.type}}</button></td>-->
+                  <td>{{item.gpsPosition}}</td>
+                  <td>{{item.name}}</td>
+                </tr>
+               <!-- <tr>
                   <td>2018-06-12 00:23:25</td>
                   <td><button class="btn btn-primary">报警</button></td>
                   <td>井盖丢失、水位异常</td>
                 </tr>
-                <div style="height: 3px"></div>
                 <tr>
                   <td>2018-06-12 00:23:25</td>
                   <td><button class="btn btn-violet">维修</button></td>
                   <td>井盖丢失、水位异常</td>
                 </tr>
-                <div style="height: 3px"></div>
                 <tr>
                   <td>2018-06-12 00:23:25</td>
                   <td><button class="btn btn-warning">报警</button></td>
                   <td>井盖丢失、水位异常</td>
                 </tr>
-                <div style="height: 3px"></div>
                 <tr>
                   <td>2018-06-12 00:23:25</td>
                   <td><button class="btn btn-success">报警</button></td>
                   <td>井盖丢失、水位异常</td>
-                </tr>
-                <div style="height: 3px"></div>-->
+                </tr>-->
               </tbody>
             </table>
           </div>

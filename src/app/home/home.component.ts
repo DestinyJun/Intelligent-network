@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-   this.webSoc = this.createObservableSocket('ws://192.168.28.65:8080/pipe-network/websocket').subscribe(
+   this.webSoc = this.createObservableSocket('ws://123.249.28.108:8080/pipe-network/websocket').subscribe(
       data => {
       }
     );

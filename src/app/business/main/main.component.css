@@ -13,6 +13,19 @@
   position: relative;
   margin-bottom: 0;
 }
+.map-view .information-body-table tbody{
+  font-size: 0.4rem
+}
+.map-view .information-body-table thead{
+
+}
+.map-view .information-body-table thead>tr>th{
+
+}
+.map-view .information-body-table tbody>tr{
+ /* display: block;
+  width: 27.1vw;*/
+}
 /*左上角黑色标题*/
 .title{
   position: absolute;

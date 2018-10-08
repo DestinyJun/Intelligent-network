@@ -16,26 +16,16 @@ declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
 export class MainComponent implements OnInit {
   @Input() public mobile = true;
   @Input() public token: string;
-  public url = new UrlModul().getUrl();
-  public homepageWell: any;
+  public url = new UrlModul().getUrl(); // 保存服务器地址
+  public exceptionList = [];
+  public homepageWell: any;  // 所有的井
   public wellPointData = []; // 井的GPS数组
-  public homepagePipe: any;
+  public wellPointList = []; // 井的异常列表
+  public homepagePipe: any;  // 所有的井
   public pipePointData = []; // 管道的GPS数组
-  public faultRecordManholeCover = Array<FaultRecordManholeCover>(); // 井部分信息数组
+  public pipePointList = []; // 管道的异常列表
   public alarmInformation = []; // 报警信息
   public btnClassList = []; // 按钮颜色信息
-  // 画线条
-  public moveLine = {
-    normal: [
-      {
-       /* fromName: '省委',
-        toName: '合肥市',*/
-        coords: [
-        [106.656504, 26.681777], [106.646474, 26.6784825]],
-        value: 1
-      },
-    ]
-  };
   // 省市联动
   public selectDate = '贵州省';
   public flag: string;
@@ -78,43 +68,26 @@ export class MainComponent implements OnInit {
       (data) => {
         this.homepageWell = data.homePageDate.manholeStateList;
         this.homepagePipe = data.homePageDate.pipeStateList;
-        this.echartsBMap(this.addWellMarker(this.homepageWell));
-        console.log(this.addPipeMarker(this.homepagePipe));
+        this.wellPointList = data.AbnormalEventsDate.abnormalManholeList;
+        this.pipePointList = data.AbnormalEventsDate.abnormalPipeList;
+        this.echartsBMap(this.addWellMarker(this.homepageWell), this.addPipeMarker(this.homepagePipe));
+        this.addExceptionList(this.wellPointList, this.pipePointList);
         this.session.setUserRegion(this.userRegion);
       }
     );
   }
-  // 拿到报警信息
-  public getPublicPolice(alarm): void {
-    this.alarmInformation = [];
-    let a = '';
-    this.btnClassList = this.mainService.colorList;
-    alarm.map((value, index) => {
-      let wellState = value.state.split('');
-      if (
-        wellState[0] === '2'
-        || wellState[1] === '1' || wellState[1] === '2' || wellState[1] === '3' || wellState[1] === '4'
-        || wellState[2] === '1') {
-        if (wellState[0] === '2') {
-          a = '井水溢出';
-        } else if (wellState[1] === '1' || wellState[1] === '2' || wellState[1] === '3') {
-          a = a + '且井盖偏移';
-        } else if (wellState[1] === '4') {
-          a = a + '井盖丢失';
-        } else if (wellState[2] === '1') {
-          a = a + '且堵塞或泄漏';
-        }
-        this.alarmInformation.push({time: value.failureTime, type: '报警', description: a});
-      }
-    });
-  }
   // 遍历出异常井的坐标点
   public addWellMarker(well: any): any {
     for (let i = 0; i < well.length; i++) {
-      if (well[i].manholeState.toString()[0] !== '1' || well[i].manholeState.toString()[1] !== '1') {
+      const wllState = well[i].manholeState.toString();
+      if (wllState[0] !== '1' || wllState[1] !== '1') {
         const gpsId = well[i].gpsId.split(',');
         this.wellPointData.push(
-          {name: well[i].gpsPosition, value: [gpsId[0], gpsId[1], well[i].manholeState]}
+          {
+            name: well[i].gpsPosition,
+            value: [gpsId[0], gpsId[1], wllState, 3],
+            visualMap: false,
+          }
         );
       }
     }
@@ -122,31 +95,63 @@ export class MainComponent implements OnInit {
   }
   // 遍历出管道的坐标点
   public addPipeMarker(pipe: any): any {
-    // 标注点,由于该死的后端弄得数据不容易处理,(initialManhole, flowOutManhole)两个类分开遍历
-    console.log(pipe);
     for (let i = 0; i < pipe.length; i++) {
-        console.log(pipe[i]);
-        const pipeInGps = pipe[i].gpsId.split(',');
-        // console.log(gpsId);
-        // this.pipePointData.push(
-        //   {name: pipe[i].gpsPosition, value: [gpsId[0], gpsId[1], '1']}
-        // );
-
+        const pipeInGps = pipe[i].inFlowGpsId.split(',');
+        const pipeOutGps = pipe[i].flowOutGpsId.split(',');
+        this.pipePointData.push(
+          {
+            flow: pipe[i].flow, // 管道流量
+            permeability: pipe[i].permeability, // 管道渗透率
+            loadRate: pipe[i].loadRate, // 管道载荷率
+            coords: [pipeInGps, pipeOutGps],
+            value: pipe[i].flow * 100
+          }
+        );
     }
     return  this.pipePointData;
   }
+  // 拿到异常警报列表
+  public addUnPipeMarker(pipe: any): any {
+    console.log(pipe);
+    for (let i = 0; i < pipe.length; i++) {
+      const pipeInGps = pipe[i].inFlowGpsId.split(',');
+      const pipeOutGps = pipe[i].flowOutGpsId.split(',');
+      this.pipePointData.push(
+        {
+          flow: pipe[i].flow, // 管道流量
+          permeability: pipe[i].flow.permeability, // 管道渗透率
+          loadRate: pipe[i].flow.loadRate, // 管道载荷率
+          coords: [pipeInGps, pipeOutGps]
+        }
+      );
+    }
+    return  this.pipePointData;
+  }
+  // 遍历出异常管道坐标点
+  public addExceptionList(wellList: any, pipeList: any): any {
+    wellList.map((val, index) => {
+      this.exceptionList.push(val);
+    });
+    pipeList.map((val, index) => {
+      this.exceptionList.push(val);
+    });
+    console.log(this.exceptionList);
+  }
   // echartk开始画点及线
-  public echartsBMap(pointData: Array<PointData>): void {
+  public echartsBMap(wellPointGps: any, pipePointGps: any): void {
     const that = this;
     const myChart = this.es.init(document.getElementById('myMap'));
     myChart.setOption(
       {
         visualMap: {
-          max: 20,
+          max: 100,
           inRange: {
             color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
           },
-          bottom: '40%'
+          bottom: '40%',
+          textStyle: {
+            color: 'white'
+          }
         },
         bmap: {
           center: [106.656504, 26.681777],
@@ -270,9 +275,10 @@ export class MainComponent implements OnInit {
         tooltip: {},
         series: [
           {
+            name: '井',
             type: 'effectScatter',
             coordinateSystem: 'bmap',
-            data: pointData,
+            data: wellPointGps,
             symbolSize: 10,
             legendHoverLink: 'true',
             tooltip: {
@@ -296,44 +302,34 @@ export class MainComponent implements OnInit {
             itemStyle: {
               normal: {
                 color: function (params) {
-                  return that.color[Number(params.value[2])];
+                  return that.color[Number(params.value[3])];
                 }
               }
             }
           },
-         /* {
-            type: 'effectScatter',
-            coordinateSystem: 'bmap',
-            data: pointData[0],
-            symbolSize: 13,
-            legendHoverLink: 'true',
-            label: {
-              normal: {
-                color: 'white',
-                formatter: '{b}',
-                position: 'right',
-                show: true
-              },
-              emphasis: {
-                show: true
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  return that.color[Number(params.value[2])];
-                }
-              }
-            }
-          },*/
           {
-            name: '线路',
+            name: '管道',
             type: 'lines',
             coordinateSystem: 'bmap',
             zlevel: 2,
             tooltip: {
               formatter: function (params) {
-                console.log(params);
+                // console.log(params.data);
+                return `<div>
+                          <p>管道流量：${params.data.flow}</p>
+                          <p>管道渗透率：${params.data.permeability}</p>
+                          <p>管道载荷率：${params.data.loadRate}</p>
+                      </div> `;
+                // const pipeStates = params.data.pipeState.toString().split('');
+                /*if (pipeStates[0] === '2') {
+                  return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
+                } else if (pipeStates[0] === '3') {
+                  return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
+                } else if (pipeStates[0] === '4') {
+                  return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
+                } else if (pipeStates[0] === '5') {
+                  return `<p>${params.data.name}水位等于0</p>`;
+                }*/
               }
             },
             large: true,
@@ -352,8 +348,71 @@ export class MainComponent implements OnInit {
                 curveness: 0.15
               }
             },
-            data: this.moveLine.normal
+            data: pipePointGps
           },
+        /*  {
+            name: '有问题的管道',
+            type: 'lines',
+            coordinateSystem: 'bmap',
+            zlevel: 2,
+            tooltip: {
+              formatter: function (params) {
+                console.log(params.data);
+                // const pipeStates = params.data.pipeState.toString().split('');
+                /!*if (pipeStates[0] === '2') {
+                  return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
+                } else if (pipeStates[0] === '3') {
+                  return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
+                } else if (pipeStates[0] === '4') {
+                  return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
+                } else if (pipeStates[0] === '5') {
+                  return `<p>${params.data.name}水位等于0</p>`;
+                }*!/
+              }
+            },
+            large: true,
+            effect: {
+              show: true,
+              constantSpeed: 30,
+              symbol: 'arrow',
+              symbolSize: 0,
+              trailLength: 0,
+            },
+            lineStyle: {
+              normal: {
+                // color: '#0fff17',
+                width: 2,
+                opacity: 1.0,
+                curveness: 0.15
+              }
+            },
+            data: pipePointGps
+          },*/
+          /* {
+         type: 'effectScatter',
+         coordinateSystem: 'bmap',
+         data: pointData[0],
+         symbolSize: 13,
+         legendHoverLink: 'true',
+         label: {
+           normal: {
+             color: 'white',
+             formatter: '{b}',
+             position: 'right',
+             show: true
+           },
+           emphasis: {
+             show: true
+           }
+         },
+         itemStyle: {
+           normal: {
+             color: function (params) {
+               return that.color[Number(params.value[2])];
+             }
+           }
+         }
+       },*/
         ]
       }
     );
