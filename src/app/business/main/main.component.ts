@@ -16,6 +16,9 @@ declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
 export class MainComponent implements OnInit {
   @Input() public mobile = true;
   @Input() public token: string;
+  public color = ['rgba(249, 82, 63, .8)', 'rgba(15, 147, 255, .8)', 'rgba(148, 0, 211, .8)', 'rgba(124, 252, 0, .8)'];
+  public myChart: any; // 定义图表
+  public myChartOption: any; // 定义图表
   public url = new UrlModul().getUrl(); // 保存服务器地址
   public exceptionList = [];
   public homepageWell: any;  // 所有的井
@@ -41,7 +44,6 @@ export class MainComponent implements OnInit {
 
   public onlist = 'off';
   public userRegion: UserRegion;
-  public color = ['rgba(249, 82, 63, .8)', 'rgba(15, 147, 255, .8)', 'rgba(148, 0, 211, .8)', 'rgba(124, 252, 0, .8)'];
   public index: number;
 
   constructor(
@@ -61,6 +63,9 @@ export class MainComponent implements OnInit {
         this.cityShow = false;
       }*/
     });
+    setInterval(() => {
+      this.getData();
+  }, 3000);
   }
   // 拿到井数据
   public getData(): void {
@@ -75,6 +80,19 @@ export class MainComponent implements OnInit {
         this.session.setUserRegion(this.userRegion);
       }
     );
+   /* setInterval(() => {
+      // this.getData();
+      this.mainService.getWellDate({}).subscribe(
+        (data) => {
+          this.homepageWell = data.homePageDate.manholeStateList;
+          this.homepagePipe = data.homePageDate.pipeStateList;
+          this.wellPointList = data.AbnormalEventsDate.abnormalManholeList;
+          this.pipePointList = data.AbnormalEventsDate.abnormalPipeList;
+          this.echartsBMap(this.addWellMarker(this.homepageWell), this.addPipeMarker(this.homepagePipe));
+          this.addExceptionList(this.wellPointList, this.pipePointList);
+        }
+      );
+    }, 3000);*/
   }
   // 遍历出异常井的坐标点
   public addWellMarker(well: any): any {
@@ -129,227 +147,226 @@ export class MainComponent implements OnInit {
   }
   // 遍历出异常管道坐标点
   public addExceptionList(wellList: any, pipeList: any): any {
+    this.exceptionList = [];
     wellList.map((val, index) => {
       this.exceptionList.push(val);
     });
     pipeList.map((val, index) => {
       this.exceptionList.push(val);
     });
-    console.log(this.exceptionList);
   }
   // echartk开始画点及线
   public echartsBMap(wellPointGps: any, pipePointGps: any): void {
     const that = this;
-    const myChart = this.es.init(document.getElementById('myMap'));
-    myChart.setOption(
-      {
-        visualMap: {
-          max: 100,
-          inRange: {
-            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
-          },
-          bottom: '40%',
-          textStyle: {
-            color: 'white'
-          }
+    this.myChart = this.es.init(document.getElementById('myMap'));
+    this.myChartOption =  {
+      visualMap: {
+        max: 100,
+        inRange: {
+          color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
         },
-        bmap: {
-          center: [106.656504, 26.681777],
-          zoom: 15,
-          roam: true,
-          mapStyle: {
-            'styleJson': [
-              {
-                'featureType': 'land',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#212121'
-                }
-              },
-              {
-                'featureType': 'building',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#2b2b2b'
-                }
-              },
-              {
-                'featureType': 'highway',
-                'elementType': 'all',
-                'stylers': {
-                  'lightness': -42,
-                  'saturation': -91
-                }
-              },
-              {
-                'featureType': 'arterial',
-                'elementType': 'geometry',
-                'stylers': {
-                  'lightness': -77,
-                  'saturation': -94
-                }
-              },
-              {
-                'featureType': 'green',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#1b1b1b'
-                }
-              },
-              {
-                'featureType': 'water',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#181818'
-                }
-              },
-              {
-                'featureType': 'subway',
-                'elementType': 'geometry.stroke',
-                'stylers': {
-                  'color': '#181818'
-                }
-              },
-              {
-                'featureType': 'railway',
-                'elementType': 'geometry',
-                'stylers': {
-                  'lightness': -52
-                }
-              },
-              {
-                'featureType': 'all',
-                'elementType': 'labels.text.stroke',
-                'stylers': {
-                  'color': '#313131'
-                }
-              },
-              {
-                'featureType': 'all',
-                'elementType': 'labels.text.fill',
-                'stylers': {
-                  'color': '#8b8787'
-                }
-              },
-              {
-                'featureType': 'manmade',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#1b1b1b'
-                }
-              },
-              {
-                'featureType': 'local',
-                'elementType': 'geometry',
-                'stylers': {
-                  'lightness': -75,
-                  'saturation': -91
-                }
-              },
-              {
-                'featureType': 'subway',
-                'elementType': 'geometry',
-                'stylers': {
-                  'lightness': -65
-                }
-              },
-              {
-                'featureType': 'railway',
-                'elementType': 'all',
-                'stylers': {
-                  'lightness': -40
-                }
-              },
-              {
-                'featureType': 'boundary',
-                'elementType': 'geometry',
-                'stylers': {
-                  'color': '#8b8787',
-                  'weight': '1',
-                  'lightness': -29
-                }
-              }
-            ]
-          },
-        },
-        tooltip: {},
-        series: [
-          {
-            name: '井',
-            type: 'effectScatter',
-            coordinateSystem: 'bmap',
-            data: wellPointGps,
-            symbolSize: 10,
-            legendHoverLink: 'true',
-            tooltip: {
-              formatter: function (params) {
-                const wellState = params.data.value[2].toString().split('');
-                if (wellState[0] === '2') {
-                  return `<p>${params.data.name}井盖位移</p>`;
-                } else if (wellState[0] === '3') {
-                  return `<p>${params.data.name}传感器损坏</p>`;
-                } else if (wellState[1] === '2') {
-                  return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
-                } else if (wellState[1] === '3') {
-                  return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
-                } else if (wellState[1] === '4') {
-                  return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
-                } else if (wellState[1] === '5') {
-                  return `<p>${params.data.name}水位等于0</p>`;
-                }
+        bottom: '40%',
+        textStyle: {
+          color: 'white'
+        }
+      },
+      bmap: {
+        center: [106.656504, 26.681777],
+        zoom: 15,
+        roam: true,
+        mapStyle: {
+          'styleJson': [
+            {
+              'featureType': 'land',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#212121'
               }
             },
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  return that.color[Number(params.value[3])];
-                }
+            {
+              'featureType': 'building',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#2b2b2b'
+              }
+            },
+            {
+              'featureType': 'highway',
+              'elementType': 'all',
+              'stylers': {
+                'lightness': -42,
+                'saturation': -91
+              }
+            },
+            {
+              'featureType': 'arterial',
+              'elementType': 'geometry',
+              'stylers': {
+                'lightness': -77,
+                'saturation': -94
+              }
+            },
+            {
+              'featureType': 'green',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#1b1b1b'
+              }
+            },
+            {
+              'featureType': 'water',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#181818'
+              }
+            },
+            {
+              'featureType': 'subway',
+              'elementType': 'geometry.stroke',
+              'stylers': {
+                'color': '#181818'
+              }
+            },
+            {
+              'featureType': 'railway',
+              'elementType': 'geometry',
+              'stylers': {
+                'lightness': -52
+              }
+            },
+            {
+              'featureType': 'all',
+              'elementType': 'labels.text.stroke',
+              'stylers': {
+                'color': '#313131'
+              }
+            },
+            {
+              'featureType': 'all',
+              'elementType': 'labels.text.fill',
+              'stylers': {
+                'color': '#8b8787'
+              }
+            },
+            {
+              'featureType': 'manmade',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#1b1b1b'
+              }
+            },
+            {
+              'featureType': 'local',
+              'elementType': 'geometry',
+              'stylers': {
+                'lightness': -75,
+                'saturation': -91
+              }
+            },
+            {
+              'featureType': 'subway',
+              'elementType': 'geometry',
+              'stylers': {
+                'lightness': -65
+              }
+            },
+            {
+              'featureType': 'railway',
+              'elementType': 'all',
+              'stylers': {
+                'lightness': -40
+              }
+            },
+            {
+              'featureType': 'boundary',
+              'elementType': 'geometry',
+              'stylers': {
+                'color': '#8b8787',
+                'weight': '1',
+                'lightness': -29
+              }
+            }
+          ]
+        },
+      },
+      tooltip: {},
+      series: [
+        {
+          name: '井',
+          type: 'scatter',
+          coordinateSystem: 'bmap',
+          data: wellPointGps,
+          symbolSize: 10,
+          legendHoverLink: 'true',
+          tooltip: {
+            formatter: function (params) {
+              const wellState = params.data.value[2].toString().split('');
+              if (wellState[0] === '2') {
+                return `<p>${params.data.name}井盖位移</p>`;
+              } else if (wellState[0] === '3') {
+                return `<p>${params.data.name}传感器损坏</p>`;
+              } else if (wellState[1] === '2') {
+                return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
+              } else if (wellState[1] === '3') {
+                return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
+              } else if (wellState[1] === '4') {
+                return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
+              } else if (wellState[1] === '5') {
+                return `<p>${params.data.name}水位等于0</p>`;
               }
             }
           },
-          {
-            name: '管道',
-            type: 'lines',
-            coordinateSystem: 'bmap',
-            zlevel: 2,
-            tooltip: {
-              formatter: function (params) {
-                // console.log(params.data);
-                return `<div>
+          itemStyle: {
+            normal: {
+              color: function (params) {
+                return that.color[Number(params.value[3])];
+              }
+            }
+          }
+        },
+        {
+          name: '管道',
+          type: 'lines',
+          coordinateSystem: 'bmap',
+          zlevel: 2,
+          tooltip: {
+            formatter: function (params) {
+              // console.log(params.data);
+              return `<div>
                           <p>管道流量：${params.data.flow}</p>
                           <p>管道渗透率：${params.data.permeability}</p>
                           <p>管道载荷率：${params.data.loadRate}</p>
                       </div> `;
-                // const pipeStates = params.data.pipeState.toString().split('');
-                /*if (pipeStates[0] === '2') {
-                  return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
-                } else if (pipeStates[0] === '3') {
-                  return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
-                } else if (pipeStates[0] === '4') {
-                  return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
-                } else if (pipeStates[0] === '5') {
-                  return `<p>${params.data.name}水位等于0</p>`;
-                }*/
-              }
-            },
-            large: true,
-            effect: {
-              show: true,
-              constantSpeed: 30,
-              symbol: 'arrow',
-              symbolSize: 0,
-              trailLength: 0,
-            },
-            lineStyle: {
-              normal: {
-                // color: '#0fff17',
-                width: 2,
-                opacity: 1.0,
-                curveness: 0.15
-              }
-            },
-            data: pipePointGps
+              // const pipeStates = params.data.pipeState.toString().split('');
+              /*if (pipeStates[0] === '2') {
+                return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
+              } else if (pipeStates[0] === '3') {
+                return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
+              } else if (pipeStates[0] === '4') {
+                return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
+              } else if (pipeStates[0] === '5') {
+                return `<p>${params.data.name}水位等于0</p>`;
+              }*/
+            }
           },
+          large: true,
+          effect: {
+            show: true,
+            constantSpeed: 30,
+            symbol: 'arrow',
+            symbolSize: 0,
+            trailLength: 0,
+          },
+          lineStyle: {
+            normal: {
+              // color: '#0fff17',
+              width: 2,
+              opacity: 1.0,
+              curveness: 0.15
+            }
+          },
+          data: pipePointGps
+        },
         /*  {
             name: '有问题的管道',
             type: 'lines',
@@ -388,35 +405,35 @@ export class MainComponent implements OnInit {
             },
             data: pipePointGps
           },*/
-          /* {
-         type: 'effectScatter',
-         coordinateSystem: 'bmap',
-         data: pointData[0],
-         symbolSize: 13,
-         legendHoverLink: 'true',
-         label: {
-           normal: {
-             color: 'white',
-             formatter: '{b}',
-             position: 'right',
-             show: true
-           },
-           emphasis: {
-             show: true
-           }
+        /* {
+       type: 'effectScatter',
+       coordinateSystem: 'bmap',
+       data: pointData[0],
+       symbolSize: 13,
+       legendHoverLink: 'true',
+       label: {
+         normal: {
+           color: 'white',
+           formatter: '{b}',
+           position: 'right',
+           show: true
          },
-         itemStyle: {
-           normal: {
-             color: function (params) {
-               return that.color[Number(params.value[2])];
-             }
+         emphasis: {
+           show: true
+         }
+       },
+       itemStyle: {
+         normal: {
+           color: function (params) {
+             return that.color[Number(params.value[2])];
            }
          }
-       },*/
-        ]
-      }
-    );
-    const bmap = myChart.getModel().getComponent('bmap').getBMap();
+       }
+     },*/
+      ]
+    };
+    this.myChart.setOption(this.myChartOption);
+    const bmap = this.myChart.getModel().getComponent('bmap').getBMap();
     // 添加切换地图、卫星、三维切换控件
    /* bmap.addControl(new BMap.MapTypeControl({
       // 靠左上角位置
@@ -429,7 +446,7 @@ export class MainComponent implements OnInit {
     // 设置地图最大缩放级别
     bmap.setMaxZoom(19);
     window.addEventListener('resize', function() {
-      myChart.resize();
+      that.myChart.resize();
     });
     /* this.options = {
        backgroundColor: '#404a59',
