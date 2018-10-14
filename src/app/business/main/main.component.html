@@ -13,11 +13,12 @@
         <!--地图左侧异常信息说明-->
         <div class="white-title">
           <ul>
-            <li><span></span>&nbsp;&nbsp;井盖丢失</li>
-            <li><span></span>&nbsp;&nbsp;水位过高</li>
+            <li><span></span>&nbsp;&nbsp;井盖位移</li>
+            <li><span></span>&nbsp;&nbsp;井盖传感器损坏</li>
+            <li><span></span>&nbsp;&nbsp;井水位异常</li>
+            <li><span></span>&nbsp;&nbsp;管道水位异常</li>
             <li><span></span>&nbsp;&nbsp;管道堵塞</li>
-            <li><span></span>&nbsp;&nbsp;井盖传感器异常</li>
-            <li><span></span>&nbsp;&nbsp;水位传感器异常</li>
+            <li><span></span>&nbsp;&nbsp;管道水位传感器异常</li>
           </ul>
         </div>
         <!--省市联动-->
@@ -62,17 +63,17 @@
               <thead>
                 <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.21);font-size: 0.42rem">
                   <th>时间</th>
-                  <!--<th>类型</th>-->
+                  <th>类型</th>
                   <th>坐标</th>
                   <th>事件描述</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of exceptionList;let i = index">
-                  <td>{{item.failureTime}}</td>
-                  <!--<td><button class="btn" [ngClass]="btnClassList[i].colors">{{item.type}}</button></td>-->
-                  <td>{{item.gpsPosition}}</td>
-                  <td>{{item.name}}</td>
+                <tr *ngFor="let item of exceptionList;let i = index" (click)="exceptionListClick(item)">
+                  <td><span>{{item.failureTime}}</span></td>
+                  <td><span [ngStyle]="{'background': item.abnormaType === 1?'#9400D3': '#FA523F'}">{{item.abnormaType === 1?'管道': '竖井'}}</span></td>
+                  <td><span>{{item.gpsPosition}}</span></td>
+                  <td><span>{{exceptionDes[i]}}</span></td>
                 </tr>
                <!-- <tr>
                   <td>2018-06-12 00:23:25</td>

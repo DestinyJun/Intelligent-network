@@ -16,19 +16,17 @@ declare let BMap, BMAP_ANCHOR_BOTTOM_LEFT;
 export class MainComponent implements OnInit {
   @Input() public mobile = true;
   @Input() public token: string;
-  public color = ['rgba(249, 82, 63, .8)', 'rgba(15, 147, 255, .8)', 'rgba(148, 0, 211, .8)', 'rgba(124, 252, 0, .8)'];
   public myChart: any; // 定义图表
   public myChartOption: any; // 定义图表
   public url = new UrlModul().getUrl(); // 保存服务器地址
-  public exceptionList = [];
+  public exceptionList = []; // 异常事件列表
+  public exceptionDes = []; // 报警描述
   public homepageWell: any;  // 所有的井
   public wellPointData = []; // 井的GPS数组
-  public wellPointList = []; // 井的异常列表
-  public homepagePipe: any;  // 所有的井
+  public homepagePipe: any;  // 所有的管道
   public pipePointData = []; // 管道的GPS数组
-  public pipePointList = []; // 管道的异常列表
-  public alarmInformation = []; // 报警信息
-  public btnClassList = []; // 按钮颜色信息
+  public mapCenterPoint = [106.656286, 26.681845];
+
   // 省市联动
   public selectDate = '贵州省';
   public flag: string;
@@ -63,9 +61,9 @@ export class MainComponent implements OnInit {
         this.cityShow = false;
       }*/
     });
-    setInterval(() => {
+   /* setInterval(() => {
       this.getData();
-  }, 3000);
+  }, 3000);*/
   }
   // 拿到井数据
   public getData(): void {
@@ -73,10 +71,21 @@ export class MainComponent implements OnInit {
       (data) => {
         this.homepageWell = data.homePageDate.manholeStateList;
         this.homepagePipe = data.homePageDate.pipeStateList;
-        this.wellPointList = data.AbnormalEventsDate.abnormalManholeList;
-        this.pipePointList = data.AbnormalEventsDate.abnormalPipeList;
+        this.exceptionList = data.AbnormalEventsDate;
+        this.exceptionList.map((val, index) => {
+          if (val.abnormaType === 1) {
+            this.exceptionDes.push(
+              this.mainService.pipeState.decade[parseInt(val.state.toString().split('')[0], 10) - 1] + ';' +
+              this.mainService.pipeState.individual[parseInt(val.state.toString().split('')[1], 10) - 1]
+            );
+          } else if (val.abnormaType === 2) {
+            this.exceptionDes.push(
+              this.mainService.manholeState.decade[parseInt(val.state.toString().split('')[0], 10) - 1] + ';' +
+              this.mainService.manholeState.individual[parseInt(val.state.toString().split('')[1], 10) - 1]
+            );
+          }
+        });
         this.echartsBMap(this.addWellMarker(this.homepageWell), this.addPipeMarker(this.homepagePipe));
-        this.addExceptionList(this.wellPointList, this.pipePointList);
         this.session.setUserRegion(this.userRegion);
       }
     );
@@ -96,6 +105,7 @@ export class MainComponent implements OnInit {
   }
   // 遍历出异常井的坐标点
   public addWellMarker(well: any): any {
+    console.log(well);
     for (let i = 0; i < well.length; i++) {
       const wllState = well[i].manholeState.toString();
       if (wllState[0] !== '1' || wllState[1] !== '1') {
@@ -103,7 +113,7 @@ export class MainComponent implements OnInit {
         this.wellPointData.push(
           {
             name: well[i].gpsPosition,
-            value: [gpsId[0], gpsId[1], wllState, 3],
+            value: [gpsId[0], gpsId[1], wllState, well[i].manholeState],
             visualMap: false,
           }
         );
@@ -145,16 +155,6 @@ export class MainComponent implements OnInit {
     }
     return  this.pipePointData;
   }
-  // 遍历出异常管道坐标点
-  public addExceptionList(wellList: any, pipeList: any): any {
-    this.exceptionList = [];
-    wellList.map((val, index) => {
-      this.exceptionList.push(val);
-    });
-    pipeList.map((val, index) => {
-      this.exceptionList.push(val);
-    });
-  }
   // echartk开始画点及线
   public echartsBMap(wellPointGps: any, pipePointGps: any): void {
     const that = this;
@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
         }
       },
       bmap: {
-        center: [106.656504, 26.681777],
+        center: this.mapCenterPoint,
         zoom: 15,
         roam: true,
         mapStyle: {
@@ -301,25 +301,23 @@ export class MainComponent implements OnInit {
           tooltip: {
             formatter: function (params) {
               const wellState = params.data.value[2].toString().split('');
-              if (wellState[0] === '2') {
-                return `<p>${params.data.name}井盖位移</p>`;
-              } else if (wellState[0] === '3') {
-                return `<p>${params.data.name}传感器损坏</p>`;
-              } else if (wellState[1] === '2') {
-                return `<p>${params.data.name}水位大于0.3，低于0.6</p>`;
-              } else if (wellState[1] === '3') {
-                return `<p>${params.data.name}水位大于0.6，低于0.8%</p>`;
-              } else if (wellState[1] === '4') {
-                return `<p>${params.data.name}水位大于0.8，低于等于1</p>`;
-              } else if (wellState[1] === '5') {
-                return `<p>${params.data.name}水位等于0</p>`;
-              }
+              return `<p>${that.mainService.manholeState.decade[parseInt(wellState[0], 10) - 1]}；
+                        ${that.mainService.manholeState.individual[parseInt(wellState[1], 10) - 1]}</p>`;
             }
           },
           itemStyle: {
             normal: {
               color: function (params) {
-                return that.color[Number(params.value[3])];
+                const states = params.value[3].toString().split('');
+                if (states[0] === '1' && states[1] !== '1') {
+                  return '#9400D3';
+                } else if (states[0] !== '1') {
+                  if (states[0] === '2') {
+                    return '#F9523F';
+                  } else {
+                    return '#0F93FF';
+                  }
+                }
               }
             }
           }
@@ -624,7 +622,14 @@ export class MainComponent implements OnInit {
        ]
      };*/
   }
-
+  // 异常列表点击切换地图中点
+  public exceptionListClick(item) {
+    this.mapCenterPoint = item.gpsId.split(',');
+    this.myChartOption.bmap =  {
+        center: this.mapCenterPoint,
+    };
+    this.myChart.setOption(this.myChartOption);
+  }
   // 中部地图省市联动
   public administrativeClick() {
     this.provinceShow = true;
