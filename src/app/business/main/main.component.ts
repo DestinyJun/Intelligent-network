@@ -300,9 +300,12 @@ export class MainComponent implements OnInit {
           legendHoverLink: 'true',
           tooltip: {
             formatter: function (params) {
+              console.log(params);
               const wellState = params.data.value[2].toString().split('');
-              return `<p>${that.mainService.manholeState.decade[parseInt(wellState[0], 10) - 1]}；
-                        ${that.mainService.manholeState.individual[parseInt(wellState[1], 10) - 1]}</p>`;
+              return `<p>井盖位置：${params.data.name}</p>
+                      <p> ${that.mainService.manholeState.decade[parseInt(wellState[0], 10) - 1]}</p>
+                      <p>${that.mainService.manholeState.individual[parseInt(wellState[1], 10) - 1]}</p>
+                      `;
             }
           },
           itemStyle: {
