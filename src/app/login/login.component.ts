@@ -47,13 +47,14 @@ export class LoginComponent implements OnInit {
 
   public Submit(): void {
     if (this.formModel.valid) {
-      console.log(this.parameterSerializationForm(this.formModel.value));
-      this.login.submitForm(this.parameterSerializationForm(this.formModel.value))
+      console.log(this.session.parameterSerializationForm(this.formModel.value));
+      this.login.submitForm(this.session.parameterSerializationForm(this.formModel.value))
         .subscribe(res => {
           this.tj = res.msg;
           console.log(res);
           if (this.tj === 14) {
             this.session.set('accessToken', res.token);
+            this.session.setObject('regionInfo', res.regionInfo);
             this.router.navigate(['/home']);
           } else if (this.tj === 10) {
             this.tips = '用户不存在';
@@ -66,20 +67,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // 表单参数序列化
-  private parameterSerializationForm(obj: object): string {
-    let result: string;
-    for (const prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        if (!result) {
-          result = prop + '=' + obj[prop];
-        } else {
-          result += '&' + prop + '=' + obj[prop];
-        }
-      }
-    }
-    return result;
-  }
+
 
 
 }

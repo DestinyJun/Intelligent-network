@@ -266,7 +266,7 @@
   top: -5px;
   left: -10px;
   background-color:#202833;
-  width: 10vw;
+  width: auto;
   height: 5vh;
   line-height: 5vh;
   color: white;
@@ -275,6 +275,9 @@
   font-weight: 500;
   z-index: 1;
   padding-left: 1vw;
+  padding-top: 0.4vh;
+  padding-right: 0.5vw;
+  cursor: pointer;
 }
 .information-body-table{
   margin-top: 5vh;
@@ -535,3 +538,8 @@ fieldset[disabled] .btn-violet.focus {
   content: "\e905";
 }
 
+/*事件详情按钮*/
+
+.btn-info{
+  border-color: transparent;
+}

@@ -1,51 +1,32 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {SessionService} from './session.service';
-import {UrlModul} from '../model/url.modul';
+import {SessionService} from '../../../common/services/session.service';
+import {UrlModul} from '../../../common/model/url.modul';
 declare let $;
 @Injectable()
 export class FaultService {
 
-  public token: any = sessionStorage.getItem('token');
-  public headers = { headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})};
+  public token: string = this.session.get('accessToken');
+  public headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
   fault = new Fault();
   sendOut = new SendOut();
   sendInstruction = new SendInstruction();
   url = new UrlModul().getUrl();
-  constructor(private http: HttpClient, private session: SessionService) { 
-    this.fault.cityRegionId = this.session.getUserRegion().cityRegionId;
-    this.fault.countyRegionId = this.session.getUserRegion().countyRegionId;
-    this.fault.townRegionId = this.session.getUserRegion().townRegionId;
-    this.fault.provinceRegionId = this.session.getUserRegion().provinceRegionId;
+  constructor(private http: HttpClient, private session: SessionService) {
   }
 
-  fault1(state, currentPage, pageSize, ) {
-    this.fault.state = state;
-    this.fault.currentPage = currentPage;
-    this.fault.pageSize = pageSize;
-    this.fault.provinceRegionId = '5';
-    console.log(this.fault);
-    const that = this;
-    let fault;
-    $.ajax({
-      url: 'http://'+ this.url + '/pipe-network/fault1',
-      type: 'POST',
-      async: false,
-      cache: false,
-      data: this.fault,
-      beforeSend: function(request) {
-        request.setRequestHeader('accessToken', that.session.get('accessToken'))
-      },
-      contentType: 'application/x-www-form-urlencoded',
-      success: function(data) {
-        console.log(data);
-        fault = data['fault'];
-      },
-      error: function (err) {
-        console.log(err);
-      }
+  fault1(repairState) {
+    let headers = this.headers;
+    headers = headers.append('accessToken', this.token);
+    console.log(headers);
+    const body = {
+      regionId: 'CN101260101',
+      repairState: repairState
+    };
+    return this.http.post('http://123.249.28.108:8082/pipe-network/abnormalEvent',
+      this.session.parameterSerializationForm(body), {
+      headers: headers
     });
-    return fault;
   }
   history(state, currentPage, pageSize, ) {
     this.fault.state = state;

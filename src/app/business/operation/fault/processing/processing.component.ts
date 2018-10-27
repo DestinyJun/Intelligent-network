@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FaultService} from '../../../../common/services/fault.service';
+import {FaultService} from '../fault.service';
 import {Fault, WorkUser} from '../../../../common/model/Fault';
 import {PageService} from '../../../../common/services/page.service';
 
@@ -22,14 +22,19 @@ export class ProcessingComponent implements OnInit {
     this.page.setUrl('/home/operation/fault/processing');
     this.route.params.subscribe(() => {
       this.page.setNowPage(Number(this.route.snapshot.params['page']));
-      this.fault = this.faultService.fault1(2, this.page.getNowPage(), this.page.getRow());
-      this.tBody = this.fault.datas;
-      this.page.setMax(this.fault.totalPage);
+      this.getData();
       console.log(this.fault);
     });
   }
-
   ngOnInit() {
+    console.log(1);
+    this.getData();
+  }
+  getData() {
+    this.faultService.fault1(2).subscribe( data => {
+      console.log(data);
+      this.tBody = data['AbnormalEventsDate'];
+    });
   }
 }
 

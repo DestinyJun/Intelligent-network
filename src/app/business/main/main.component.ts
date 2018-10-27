@@ -44,6 +44,7 @@ export class MainComponent implements OnInit {
   public userRegion: UserRegion;
   public index: number;
 
+  public eventTitleColor;
   constructor(
     public http: HttpClient,
     private es: NgxEchartsService,
@@ -65,10 +66,12 @@ export class MainComponent implements OnInit {
       this.getData();
   }, 3000);*/
   }
-  // 拿到井数据
+  // 拿到全部井数据
   public getData(): void {
+    this.eventTitleColor = '全部事件';
     this.mainService.getWellDate({}).subscribe(
       (data) => {
+        console.log(data);
         this.homepageWell = data.homePageDate.manholeStateList;
         this.homepagePipe = data.homePageDate.pipeStateList;
         this.exceptionList = data.AbnormalEventsDate;
@@ -86,7 +89,6 @@ export class MainComponent implements OnInit {
           }
         });
         this.echartsBMap(this.addWellMarker(this.homepageWell), this.addPipeMarker(this.homepagePipe));
-        this.session.setUserRegion(this.userRegion);
       }
     );
    /* setInterval(() => {
@@ -102,6 +104,22 @@ export class MainComponent implements OnInit {
         }
       );
     }, 3000);*/
+  }
+  // 拿到异常井数据
+  public getAbnormalData() {
+    this.eventTitleColor = '异常事件';
+    this.exceptionList = [];
+  }
+  // 切换事件数据
+  public tabEventData(title) {
+    if (title !== this.eventTitleColor) {
+      this.eventTitleColor = title;
+      if (title === '全部事件') {
+        this.getData();
+      } else if (title === '异常事件') {
+        this.getAbnormalData();
+      }
+    }
   }
   // 遍历出异常井的坐标点
   public addWellMarker(well: any): any {

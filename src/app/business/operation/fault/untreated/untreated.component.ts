@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Fault, WorkUser} from '../../../../common/model/Fault';
-import {FaultService} from '../../../../common/services/fault.service';
+import {FaultService} from '../fault.service';
 import {PageService} from '../../../../common/services/page.service';
 
 @Component({
@@ -28,13 +28,18 @@ export class UntreatedComponent implements OnInit {
     this.route.params.subscribe(() => {
       this.page.setNowPage(Number(this.route.snapshot.params['page']));
       this.getData();
-      this.tBody = this.fault.datas;
-      this.page.setMax(this.fault.totalPage);
       console.log(this.fault);
     });
   }
+  ngOnInit() {
+    console.log(1);
+    this.getData();
+  }
   getData() {
-    this.fault = this.faultService.fault1(0, this.page.getNowPage(), this.page.getRow());
+    this.faultService.fault1(0).subscribe( data => {
+      console.log(data);
+      this.tBody = data['AbnormalEventsDate'];
+    });
   }
   sendOut(event) {
     this.workUser = this.faultService.sendOut1(event);
@@ -44,7 +49,5 @@ export class UntreatedComponent implements OnInit {
   sendInstruction(username) {
     this.faultService.sendInstruction1(username);
   }
-  ngOnInit() {
-    console.log(this.fault);
-  }
+
 }

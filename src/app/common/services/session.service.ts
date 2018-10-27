@@ -20,12 +20,6 @@ export class SessionService {
   public setObject(key: string, value: any): void {
     this.sessionStorage[key] = value;
   }
-  public setUserRegion(value: UserRegion): void {
-    this.set('userRegion', JSON.stringify(value));
-  }
-  public getUserRegion(): UserRegion {
-    return this.getObject('userRegion');
-  }
 
   public getObject(key: string): any {
     return JSON.parse(this.sessionStorage[key] || '{}');
@@ -33,6 +27,20 @@ export class SessionService {
 
   public remove(key: string): any {
     this.sessionStorage.removeItem(key);
+  }
+  // 表单参数序列化
+  public parameterSerializationForm(obj: object): string {
+    let result: string;
+    for (const prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        if (!result) {
+          result = prop + '=' + obj[prop];
+        } else {
+          result += '&' + prop + '=' + obj[prop];
+        }
+      }
+    }
+    return result;
   }
 }
 export class NavList {

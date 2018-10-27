@@ -10,14 +10,14 @@ import {NavList, NavListChild} from '../../common/services/session.service';
 export class SiderComponent implements OnInit {
 
   height: number;
-  navList1: NavList[]= [ //操作菜单
+  navList1: NavList[] = [ // 操作菜单
     new NavList('故障详情', 'operation/fault', 'glyphicon glyphicon-lock',  [
       new NavListChild('未处理', false, 'glyphicon glyphicon-lock', 'operation/fault/untreated/1'),
       new NavListChild('指派中', false, 'glyphicon glyphicon-lock', 'operation/fault/assigning/1'),
       new NavListChild('处理中', false, 'glyphicon glyphicon-lock', 'operation/fault/processing/1'),
       new NavListChild('已处理', false, 'glyphicon glyphicon-lock', 'operation/fault/disposed/1'),
     ], false, '0'),
-    new NavList('巡检', 'operation/inspection', 'glyphicon glyphicon-warning-sign', [], false,'0')
+    new NavList('巡检', 'operation/inspection', 'glyphicon glyphicon-warning-sign', [], false, '0')
   ];
   navList2: NavList[] = [];
   navList3: NavList[] = [

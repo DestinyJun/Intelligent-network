@@ -54,9 +54,13 @@
         </ul>
         <!--事件提醒-->
         <div class="information-body">
-          <div class="information-body-title">
+          <div class="information-body-title" (click)="tabEventData('全部事件')" [ngStyle]="{backgroundColor: eventTitleColor==='全部事件'?'#0f93ff':''}">
+              <i class="icon-eventonetwo"></i>
+              <span style="margin-left: 0.5vw">全部事件</span>
+          </div>
+          <div class="information-body-title" (click)="tabEventData('异常事件')" style="left: 6vw" [ngStyle]="{backgroundColor: eventTitleColor==='异常事件'?'#0f93ff':''}">
             <i class="icon-eventonetwo"></i>
-            <span style="margin-left: 0.5vw">事件</span>
+            <span style="margin-left: 0.5vw">异常事件</span>
           </div>
           <div class="information-body-table">
             <table class="table table-striped" style=" border-collapse: separate;color: white;">
@@ -71,7 +75,7 @@
               <tbody>
                 <tr *ngFor="let item of exceptionList;let i = index" (click)="exceptionListClick(item)">
                   <td><span>{{item.failureTime}}</span></td>
-                  <td><span [ngStyle]="{'background': item.abnormaType === 1?'#9400D3': '#FA523F'}">{{item.abnormaType === 1?'管道': '竖井'}}</span></td>
+                  <td title="查看详情"><span class="btn btn-info btn-sm" [ngStyle]="{'background': item.abnormaType === 1?'#9400D3': '#FA523F'}">{{item.abnormaType === 1?'管道': '竖井'}}</span></td>
                   <td><span>{{item.gpsPosition}}</span></td>
                   <td><span>{{exceptionDes[i]}}</span></td>
                 </tr>
