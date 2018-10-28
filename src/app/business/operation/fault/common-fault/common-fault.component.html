@@ -18,8 +18,11 @@
         <tr *ngFor="let tb of tBody; let i = index">
           <td>{{i + 1}}</td>
           <td *ngFor="let p of prop">{{tb[p]}}</td>
-          <td><button data-toggle="modal" data-target="#sendInstruction"
-            class="btn btn-xs" (click)="send(tb['manholeId'])" *ngFor="let bg of btnGroup">{{bg}}</button></td>
+          <td *ngIf="btnGroup.length === 2">
+            <button data-toggle="modal" data-target="#sendInstruction" class="btn btn-xs" (click)="send(tb['manholeId'])" >{{btnGroup[0]}}</button>
+            <button data-toggle="modal" data-target="#eventMessage" class="btn btn-xs" (click)="send(tb['manholeId'])" >{{btnGroup[1]}}</button></td>
+          <td *ngIf="btnGroup.length === 1">
+            <button data-toggle="modal" data-target="#eventMessage" class="btn btn-xs">{{btnGroup[0]}}</button></td>
         </tr>
         </tbody>
       </table>
@@ -36,6 +39,18 @@
           </ul>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div #modal class="modal fade bs-example-modal-lg" id="eventMessage" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-header">
+      <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h6 style="font-size: 16px" class="modal-title">井详情</h6>
+    </div>
+    <div class="modal-content">
+      <div style="text-align: right;"><button data-toggle="modal" data-target="#eventMessage"
+                                              class="btn btn-md btn-danger">关闭</button></div>
     </div>
   </div>
 </div>

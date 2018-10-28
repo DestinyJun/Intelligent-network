@@ -58,7 +58,7 @@
               <i class="icon-eventonetwo"></i>
               <span style="margin-left: 0.5vw">全部事件</span>
           </div>
-          <div class="information-body-title" (click)="tabEventData('异常事件')" style="left: 6vw" [ngStyle]="{backgroundColor: eventTitleColor==='异常事件'?'#0f93ff':''}">
+          <div class="information-body-title" (click)="tabEventData('异常事件')" style="left: 9vw" [ngStyle]="{backgroundColor: eventTitleColor==='异常事件'?'#0f93ff':''}">
             <i class="icon-eventonetwo"></i>
             <span style="margin-left: 0.5vw">异常事件</span>
           </div>
@@ -75,8 +75,8 @@
               <tbody>
                 <tr *ngFor="let item of exceptionList;let i = index" (click)="exceptionListClick(item)">
                   <td><span>{{item.failureTime}}</span></td>
-                  <td title="查看详情"><span class="btn btn-info btn-sm" [ngStyle]="{'background': item.abnormaType === 1?'#9400D3': '#FA523F'}">{{item.abnormaType === 1?'管道': '竖井'}}</span></td>
-                  <td><span>{{item.gpsPosition}}</span></td>
+                  <td title="查看详情"><span data-toggle="modal" data-target="#eventMessage" class="btn btn-info btn-sm" [ngStyle]="{'background': item.abnormaType === 1?'#9400D3': '#FA523F'}">{{item.abnormaType === 1?'管道': '竖井'}}</span></td>
+                  <td ><span>{{item.gpsPosition}}</span></td>
                   <td><span>{{exceptionDes[i]}}</span></td>
                 </tr>
                <!-- <tr>
@@ -268,6 +268,18 @@
           </div>
         </div>
       </div >
+    </div>
+  </div>
+</div>
+<div #modal class="modal fade bs-example-modal-lg" id="eventMessage" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-header">
+      <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h6 style="font-size: 16px" class="modal-title">井详情</h6>
+    </div>
+    <div class="modal-content">
+      <div style="text-align: right;"><button data-toggle="modal" data-target="#eventMessage"
+                                              class="btn btn-md btn-danger">关闭</button></div>
     </div>
   </div>
 </div>

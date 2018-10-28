@@ -12,9 +12,9 @@ import {PageService} from '../../../../common/services/page.service';
 export class ProcessingComponent implements OnInit {
   fault: Fault;
   workUser: WorkUser;
-  tHead = ['编号ID', '故障时间', '水位', '水流量'];
+  tHead = ['编号ID', '故障时间', '水位', '水流量', '详情'];
   prop = ['id', 'failureTime', 'waterLevel', 'flow'];
-  btnGroup;
+  btnGroup = ['查看详情'];
   tBody: any;
   constructor(private faultService: FaultService, private route: ActivatedRoute,
               public page: PageService) {

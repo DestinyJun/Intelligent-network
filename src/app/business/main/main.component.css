@@ -543,3 +543,15 @@ fieldset[disabled] .btn-violet.focus {
 .btn-info{
   border-color: transparent;
 }
+.modal-content{
+  border-radius: 0;
+  background-color:#2b333d;
+  font-size: 16px;
+  padding: 10px 10px;
+}
+.modal-header{
+  background-color:#2b333d;
+  font-size: 18px;
+  color: white;
+  border-bottom: 1px dashed rgba(255,255,255,.6);
+}

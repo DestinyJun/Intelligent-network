@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {PageService} from '../../services/page.service';
+import {PageService} from '../../../../common/services/page.service';
 
 @Component({
   selector: 'app-common-fault',

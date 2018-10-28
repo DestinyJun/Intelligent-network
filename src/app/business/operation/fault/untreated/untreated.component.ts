@@ -14,9 +14,9 @@ export class UntreatedComponent implements OnInit {
   workUser: Array<WorkUser>;
   workProp: Array<string>[];
   workName: Array<string>[];
-  tHead = ['编号ID', '故障时间', '水位', '水流量', '发送检修指令'];
+  tHead = ['编号ID', '故障时间', '水位', '水流量', '操作'];
   prop = ['id', 'failureTime', 'waterLevel', 'flow'];
-  btnGroup = ['发送'];
+  btnGroup = ['发送检修指令', '查看详情'];
   tBody: any;
   constructor(private faultService: FaultService, private route: ActivatedRoute,
               public page: PageService) {

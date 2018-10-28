@@ -108,7 +108,13 @@ export class MainComponent implements OnInit {
   // 拿到异常井数据
   public getAbnormalData() {
     this.eventTitleColor = '异常事件';
-    this.exceptionList = [];
+    this.exceptionList = [{
+      abnormaType: 1,
+      failureTime: '2018-10-28 18:45:30',
+      gpsId: '106.656504,26.681777',
+      gpsPosition: '贵阳市白云区云城尚品一号井',
+      repairState: '0'
+    }];
   }
   // 切换事件数据
   public tabEventData(title) {
