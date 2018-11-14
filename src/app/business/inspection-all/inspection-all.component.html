@@ -1,0 +1,20 @@
+<div class="container-fluid" style="margin-left: 15px;">
+  <div class="row">
+    <div class="title">
+      <i style="margin-left: 15px;" class="glyphicon glyphicon-home"></i>
+      <p style="display: inline-block;padding:0 2% 0 5%;font-size: 15px">{{title}}</p>
+    </div>
+  </div>
+  <div class="row Body">
+    <div class="table">
+      <table>
+        <thead>
+        <tr>
+          <th># </th>
+          <th *ngFor="let th of tHead">{{th}}</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
