@@ -21,8 +21,8 @@ export class SiderComponent implements OnInit {
   ];
   navList2: NavList[] = [];
   navList3: NavList[] = [
-    new NavList('历史记录', '', 'glyphicon glyphicon-time', [], false, '0'),
-    new NavList('巡检点总汇', '', 'glyphicon glyphicon-th', [], false, '0'),
+    new NavList('历史记录', 'history', 'glyphicon glyphicon-time', [], false, '0'),
+    new NavList('巡检点总汇', 'inspection', 'glyphicon glyphicon-th', [], false, '0'),
     new NavList('个人信息', '', 'glyphicon glyphicon-user', [], false, '0'),
   ];
   constructor(private router: Router) {

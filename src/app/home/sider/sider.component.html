@@ -50,7 +50,7 @@
         <ul class="Mul">
           <li style="padding:10px;"><a class="Fnav" style="height: 30px;line-height: 30px;">
             <span class="Span" style="padding-left: 10px;">信息菜单</span></a></li>
-          <li *ngFor="let list of navList3; let listIndex = index" >
+          <li *ngFor="let list of navList3; let listIndex = index" [routerLink]="[list.routers]">
             <a [ngStyle]="{'border-left':list.open?'5px solid white':'5px solid transparent',
             'background-color':list.open? 'rgb(32,40,51,1)':''}"
                (click)="toggleList(3, listIndex)">

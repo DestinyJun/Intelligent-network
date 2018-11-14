@@ -12,7 +12,7 @@ import {SessionService} from './common/services/session.service';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
